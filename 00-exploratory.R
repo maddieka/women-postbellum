@@ -114,3 +114,7 @@ ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850
     geom_point() + geom_smooth() +
     labs(x = "Year Passed Married Women's Property Law (Property)", y = "LFP - Women", subtitle = "Smoothed with generalized additive mode smoothing (GAM)", color = "Year")
 
+hist(prop_laws$Earnings_HanesWolcott2013, breaks = 10)
+ggplot(prop_laws, aes(x = Earnings_HanesWolcott2013)) + geom_histogram()
+
+##### NEW DATA #####
