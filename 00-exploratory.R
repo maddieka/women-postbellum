@@ -2,6 +2,7 @@
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
+library(tidyr)
 
 ipums <- read.csv("Documents/Pitt/Data/ipums/usa_00005.csv")
 prop_laws <- read.csv("Documents/Pitt/Data/property_laws/dates_property_laws.csv")
@@ -24,12 +25,9 @@ lfp <- ipums %>% group_by(COUNTYICP, STATEICP, YEAR, SEX, LABFORCE) %>% summaris
 plot_data <- merge(x = lfp, y = union, by.x = c("COUNTYICP", "STATEICP"), by.y = c("county_icpsr", "state_icpsr"), all = TRUE)
 plot_data <- merge(x = plot_data, y = prop_laws, by.x = "state_ab", by.y = "Abbrv", all = TRUE)
 
-#plot_data$percent_soldiers <- plot_data$total.y / plot_data$male_pop_1860
-###### LFP of women on # soldiers by year ######
 ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850 & total.y < 25000), aes(x = total.y, y = percent, color = as.factor(YEAR))) + 
     geom_point() + geom_smooth(method = lm) +
     labs(x = "Total Soldiers", y = "LFP - Women", color = "Year")
-
 
 ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female"), aes(x = died, y = percent, color = as.factor(YEAR))) + 
     geom_point() + geom_smooth(method = lm) +
@@ -42,6 +40,17 @@ ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & disabwound 
 ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & whole < 20000), aes(x = whole, y = percent, color = as.factor(YEAR))) + 
     geom_point() + geom_smooth(method = lm)+
     labs(x = "Healthy Veterans", y = "LFP - Women", color = "Year")
+
+##### long version; facet above into one plot ####
+plot_data_long <- gather(plot_data, soldier_type, soldier_cnt, died, disabwound, total.y, whole, factor_key = TRUE)
+
+ggplot(data = plot_data_long %>% filter(LABFORCE == 2 & YEAR > 1850 & soldier_cnt< 25000),
+       aes(x = soldier_cnt, y = percent, color = as.factor(YEAR))) + 
+    geom_point(alpha = .2) +
+    geom_smooth(method=lm) +
+    facet_wrap(~ SEX + soldier_type, ncol = 4) +
+    labs(x = "Soldier Count", y = "Labor Force Participation", color = "Year")
+
 
 ##### differntial LFP by sex #####
 
@@ -73,6 +82,20 @@ plot <-
 
 plot + coord_cartesian(xlim = c(0,10000), ylim = c(1860, 1900)) + labs(x = "Total Soldiers", y = "Year Passed Married Women's Property Law (Earnings)", subtitle = "Smoothed with generalized additive mode smoothing (GAM); cropped xlim = c(0,10000), ylim = c(1860, 1900)")
 
+#### prop data long
+prop_data_long <- gather(plot_data_long, law_type, law_yr, Property_HanesWolcott2013, Earnings_HanesWolcott2013, factor_key = TRUE)
+
+ggplot(data = prop_data_long %>% filter(soldier_cnt < 25000 & soldier_type == "total.y"), aes(x = soldier_cnt, y = as.numeric(law_yr))) + 
+    geom_point(alpha = 0.2) + 
+    geom_smooth() +
+    facet_wrap(~ law_type) +
+    labs(x = "Total Soldiers", y = "Year Married Women's Property Law Passed", subtitle = "Smoothed with generalized additive mode smoothing (GAM)")
+
+ggplot(data = prop_data_long %>% filter(soldier_cnt < 25000 & soldier_type == "total.y"), aes(x = soldier_cnt, y = as.numeric(law_yr))) + 
+    geom_point(alpha = 0.2) + 
+    geom_smooth(method = glm) +
+    facet_wrap(~ law_type) +
+    labs(x = "Total Soldiers", y = "Year Married Women's Property Law Passed", subtitle = "glm")
 
 ###### LFP of women on timing of MWPL ######
 lfp_state <- ipums %>% group_by(STATEICP, STATEFIP, YEAR, SEX, LABFORCE) %>% summarise(count = n()) %>% mutate(total = sum(count), percent = count/total)
@@ -84,35 +107,51 @@ union_state <- union %>% group_by(state_ab) %>% summarise(died_state = sum(died,
 fips <- unique(read.csv("Documents/Pitt/Data/geography/ssa_fips_state_county2017.csv")[,c("state","fipsstate")])
 union_state <- merge(x = fips, y= union_state, by.x = "state", by.y = "state_ab", all.y = TRUE)
 
-plot_data <- merge(x = lfp_state, y = union_state, by.x = "STATEFIP", by.y = "fipsstate", all = TRUE)
-plot_data <- merge(x = plot_data, y = prop_laws, by.x = "state", by.y = "Abbrv", all = TRUE)
+plot_data_state <- merge(x = lfp_state, y = union_state, by.x = "STATEFIP", by.y = "fipsstate", all = TRUE)
+plot_data_state <- merge(x = plot_data, y = prop_laws, by.x = "state", by.y = "Abbrv", all = TRUE)
 
 
 ### EARNINGS
-ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Earnings_HanesWolcott2013, y = percent)) + 
+ggplot(data = plot_data_state %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Earnings_HanesWolcott2013, y = percent)) + 
     geom_point() + geom_smooth(method=lm) +
     labs(x = "Year Passed Married Women's Property Law (Earnings)", y = "LFP - Women", subtitle = "All years; lm")
 # interpretation: lots of laws pass 2-3 years after the civil war... a peak in women's LFP follows and then levels off over time...
-ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Earnings_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
+ggplot(data = plot_data_state %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Earnings_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
     geom_point() + geom_smooth(method=loess) +
     labs(x = "Year Passed Married Women's Property Law (Earnings)", y = "LFP - Women", subtitle = "loess", color = "Year")
 
-ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Earnings_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
+ggplot(data = plot_data_state %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Earnings_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
     geom_point() + geom_smooth() +
     labs(x = "Year Passed Married Women's Property Law (Earnings)", y = "LFP - Women", subtitle = "Smoothed with generalized additive mode smoothing (GAM)", color = "Year")
 
 ### PROPERTY - good news that the property laws don't show as big of a pattern!
-ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Property_HanesWolcott2013, y = percent)) + 
+ggplot(data = plot_data_state %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Property_HanesWolcott2013, y = percent)) + 
     geom_point() + geom_smooth(method=lm) +
     labs(x = "Year Passed Married Women's Property Law (Property)", y = "LFP - Women", subtitle = "All years; lm")
-# interpretation: lots of laws pass 2-3 years after the civil war... a peak in women's LFP follows and then levels off over time...
-ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Property_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
+
+ggplot(data = plot_data_state %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Property_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
     geom_point() + geom_smooth(method=loess) +
     labs(x = "Year Passed Married Women's Property Law (Property)", y = "LFP - Women", subtitle = "loess", color = "Year")
 
-ggplot(data = plot_data %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Property_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
+ggplot(data = plot_data_state %>% filter(LABFORCE == 2 & SEX == "Female" & YEAR > 1850), aes(x = Property_HanesWolcott2013, y = percent, color = as.factor(YEAR))) + 
     geom_point() + geom_smooth() +
     labs(x = "Year Passed Married Women's Property Law (Property)", y = "LFP - Women", subtitle = "Smoothed with generalized additive mode smoothing (GAM)", color = "Year")
+
+prop_data_long_state <- gather(plot_data_state, law_type, law_yr, Property_HanesWolcott2013, Earnings_HanesWolcott2013, factor_key = TRUE)
+ggplot(data = prop_data_long_state %>% filter(LABFORCE == 2 & YEAR > 1850), aes(x = law_yr, y = percent, color = as.factor(YEAR))) + 
+    geom_point(alpha = .2) + 
+    geom_smooth() +
+    facet_wrap(~ law_type + SEX, ) +
+    scale_color_brewer(palette = "RdPu") +
+    labs(x = "Year Passed Married Women's Property Law", y = "Labor Force Participation", subtitle = "Smoothed with generalized additive mode smoothing (GAM)", color = "Year", title = "State level")
+
+ggplot(data = prop_data_long %>% filter(LABFORCE == 2 & YEAR > 1850), aes(x = law_yr, y = percent, color = as.factor(YEAR))) + 
+    geom_point(alpha = .2) + 
+    geom_smooth() +
+    facet_wrap(~ law_type + SEX, ) +
+    scale_color_brewer(palette = "RdPu") +
+    labs(x = "Year Married Women's Property Law Passed", y = "Labor Force Participation", subtitle = "Smoothed with generalized additive mode smoothing (GAM)", color = "Year", title = "County level")
+
 
 hist(prop_laws$Earnings_HanesWolcott2013, breaks = 10)
 ggplot(prop_laws, aes(x = Earnings_HanesWolcott2013)) + geom_histogram()
