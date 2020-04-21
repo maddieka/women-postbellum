@@ -456,4 +456,31 @@ for (i in 1:59) {
 
 df_long <- gather(df, condition, value, NEW_DISTILLED, NEW_FERMENTED, NEW_WINE, NEW_TOTAL)
 
-ggplot(data = df_long, aes(x = as.numeric(YEAR), y = as.numeric(value), color = condition)) + geom_point() + geom_line()
+ggplot(data = df_long, aes(x = as.numeric(YEAR), y = as.numeric(value), color = condition)) + 
+    geom_point() + 
+    geom_line() +
+    geom_vline(xintercept = 1873) +
+    annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = 1.5, alpha = .2)
+
+# https://stuffnobodycaresabout.com/2017/04/25/alcohol-19th-century/
+decades <- seq(1800, 1880, 10)
+wine_foreign <- c(16471992,17175152,14764911,24206301,47782264,60055812,94747100,67099052,85062165)
+wine_american <- c(0,0,0,0,800000,1729920,9242210,23247670,130011165)
+foreign_distilled <- c(43151049,76322466,37152998,40839220,36005410,42100563,63020570,18803152,21214032)
+american_distilled <- c(65171564,175000000,533627080,710980600,602208920,473093950,706710780,731286719,782683339)
+malt <- c(25000000,75000000,100000000,150000000,185600000,302946980,701364170,1457619487,4067292622)
+pop <- c(3929214,7239881,9633881,12866020,17069453,23191876,31443321,38558371,50155783)
+
+aggs <- data.frame(decades, wine_foreign, wine_american, foreign_distilled, american_distilled, malt, pop)
+aggs$total <- aggs$wine_foreign + aggs$wine_american + aggs$foreign_distilled + aggs$american_distilled + aggs$malt
+
+ggplot(data = aggs, aes(x = decades, y = total_per_capita)) + geom_point() + geom_line() + labs(x = "1800 == decade ending in 1800", y = "gallons per capita")
+
+aggs_long <- gather(aggs, type, gallons, wine_foreign:malt, total)
+aggs_long$gallons_per_capita <- aggs_long$gallons / aggs$pop
+ggplot(data = aggs_long, aes(x = decades, y = gallons_per_capita, color = type)) + 
+    geom_point() + 
+    geom_line() +
+    geom_vline(xintercept = 1873) +
+    annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = 100, alpha = .2) +
+    labs(x = "1800 == decade ending in 1800", y = "Gallons per capita", title = "Need to show that increased consumption steeper in counties with high % of soldiers", color = "Alcohol type")
