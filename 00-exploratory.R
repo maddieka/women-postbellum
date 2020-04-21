@@ -14,18 +14,25 @@ options(scipen=999)
 
 #ipums <- read.csv("Documents/Pitt/Data/ipums/usa_00005.csv")
 ipums1 <- vroom::vroom(file = "Documents/Pitt/Data/ipums/usa_00006.csv", delim = ",") # 1860, 1870
+
 ipums60.70 <- ipums1 %>% 
+    filter(AGE > 10 & AGE < 70) %>%
     group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
                                                            workers = sum(LABFORCE == 2, na.rm = TRUE),
                                                            lfp = workers/count) %>% 
     ungroup()
 rm(ipums1)
 
+# write.csv(ipums60.70, "Documents/Pitt/Data/ipums/temp_ipums60-70.10age70.csv")
+# ipums <- read.csv("Documents/Pitt/Data/ipums/temp_ipums60-70.10age70.csv")[-1]
+
 ipums2 <- vroom::vroom(file = "Documents/Pitt/Data/ipums/usa_00007.csv", delim = ",") # 1880, 1900
+
 
 # test <- ipums2 %>% group_by(STATEICP, COUNTYICP, YEAR, SEX, LABFORCE) %>% summarise(count = n()) %>% ungroup()
 
 ipums80.00 <- ipums2 %>% 
+    filter(AGE > 10 & AGE < 70) %>%
     group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
                                                            workers = sum(LABFORCE == 2, na.rm = TRUE),
                                                            lfp = workers/count) %>% 
@@ -50,7 +57,7 @@ ipums$SEX[ipums$SEX == 2] <- "Female"
 length(unique(ipums$COUNTYICP))
 
 write.csv(ipums, "Documents/Pitt/Data/ipums/fullcnt18601880.csv")
-ipums <- read.csv("Documents/Pitt/Data/ipums/fullcnt18601880.csv")
+ipums <- read.csv("Documents/Pitt/Data/ipums/fullcnt18601880.csv")[-1]
 # total_pop <- data.frame(table(ipums$YEAR, ipums$COUNTYICP, ipums$SEX))
 # table(ipums$SEX, ipums$YEAR, ipums$LABFORCE)
 # 
@@ -131,7 +138,7 @@ plot_data_long <- gather(plot_data_long, law_type, law_yr, Property_HanesWolcott
 
 ggplot(data = plot_data_long %>% filter(SEX == "Female"), aes(x = soldier_pct, y = law_yr, size = count, color = lfp, weight = count)) + 
     geom_point(alpha = 0.2) + 
-    #geom_smooth(method=lm) +
+    geom_smooth(method=lm) +
     facet_wrap(~ law_type + soldier_type, ncol = 3) +
     scale_x_continuous(limits = c(0,1)) + 
     scale_y_continuous(limits = c(1840,1950)) +
@@ -371,9 +378,15 @@ lfp2state <- lm(formula = lfp  ~ factor(YEAR) + Earnings_HanesWolcott2013, data 
 stargazer(lfp2state)
 
 plot_data$percent_veteransX100 <- plot_data$percent_veterans*100
+plot_data$EarningsBefore1870 <- ifelse(test = plot_data$Earnings_HanesWolcott2013 < 1870, yes = 1, no = 0)
+plot_data$interaction <- plot_data$EarningsBefore1870*plot_data$percent_veteransX100
 
-lfp1basic <- lm(formula = lfp  ~ factor(YEAR) + percent_veteransX100 + factor(COUNTYICP), data = plot_data %>% filter(SEX == "Female"))
+lfp1basic <- lm(formula = lfp  ~ factor(YEAR) + percent_veteransX100  + factor(COUNTYICP), data = plot_data %>% filter(SEX == "Female"))
+summary(lfp1basic)
 stargazer(lfp1basic)
+
+
+stargazer(whole_population, working_age_pop)
 
 alcohol <- read.delim("Documents/Pitt/History/alcohol.txt")
 alcohol <- separate(data = alcohol,col =  Year.Spirits.Liquors.Wine, sep = " ", into = c("year", "spirits", "liquor", "wine"))
@@ -410,6 +423,37 @@ ggplot(data = dealers, aes(x = year, y = total_dealers_per_capita)) +
     labs(x = "Year", y = "Retail liquor dealers per capita") 
 
 
+gallons <- read.csv("Documents/Pitt/History/blocker_table4.csv")
+list <- strsplit(x = as.character(gallons$YEAR), split = " ")
 
+df <- data.frame(YEAR=character(),
+                 NEW_DISTILLED=character(),
+                 RORABAUGH_DISTILLED=character(),
+                 NEW_FERMENTED=character(),
+                 RORABAUGH_FERMENTED=character(),
+                 NEW_WINE=character(),
+                 RORABAUGH_WINE=character(),
+                 NEW_TOTAL=character(),
+                 RORABAUGH_TOTAL=character(),
+                 stringsAsFactors = FALSE
+                 )
+df[1,] <- c(list[[4]][1], list[[4]][2], list[[4]][3], list[[4]][4], list[[4]][5], NA, list[[4]][6], list[[4]][7],list[[4]][8])
 
+for (i in 1:59) {
+    if (length(list[[i]]) == 4){
+        df[nrow(df)+1, ] <- c(list[[i]][1], list[[i]][2], NA, list[[i]][3], NA, NA, NA, list[[i]][4], NA)
+        }
+    else if (length(list[[i]]) == 5){
+        df[nrow(df)+1, ] <- c(list[[i]][1], list[[i]][2], NA, list[[i]][3], NA, list[[i]][4], NA, list[[i]][5], NA)
+        }
+    else if (length(list[[i]]) == 7){
+        df[nrow(df)+1, ] <- c(list[[i]][1], list[[i]][2], list[[i]][3], list[[i]][4], NA, list[[i]][5], NA, list[[i]][6], list[[i]][7])
+        }
+    else if (length(list[[i]]) == 9){
+        df[nrow(df)+1, ] <- c(list[[i]][1], list[[i]][2], list[[i]][3], list[[i]][4], list[[i]][5], list[[i]][6], list[[i]][7], list[[i]][8], list[[i]][9])
+    }
+}
 
+df_long <- gather(df, condition, value, NEW_DISTILLED, NEW_FERMENTED, NEW_WINE, NEW_TOTAL)
+
+ggplot(data = df_long, aes(x = as.numeric(YEAR), y = as.numeric(value), color = condition)) + geom_point() + geom_line()
