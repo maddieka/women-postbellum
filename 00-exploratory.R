@@ -388,6 +388,7 @@ stargazer(lfp1basic)
 
 stargazer(whole_population, working_age_pop)
 
+# probably blocker, production (?) 
 alcohol <- read.delim("Documents/Pitt/History/alcohol.txt")
 alcohol <- separate(data = alcohol,col =  Year.Spirits.Liquors.Wine, sep = " ", into = c("year", "spirits", "liquor", "wine"))
 
@@ -404,6 +405,7 @@ ggplot(data = alcohol, aes(x = as.numeric(year), y = (gallons), color = type)) +
     geom_line() +
     annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = 1000000000, alpha = .2)
 
+# blocker 1994 dealers per capita
 dealers <- read.delim("Documents/Pitt/History/dealers.txt")
 dealers <- separate(data = dealers,col =  Year.liquorDealers.maltliquordealers.total.Dealerspercapita, sep = " ", into = c("year", "retail_liquor_dealers", "retail_malt_liquor_dealers", "total","total_dealers_per_capita"))
 
@@ -459,8 +461,9 @@ df_long <- gather(df, condition, value, NEW_DISTILLED, NEW_FERMENTED, NEW_WINE, 
 ggplot(data = df_long, aes(x = as.numeric(YEAR), y = as.numeric(value), color = condition)) + 
     geom_point() + 
     geom_line() +
-    geom_vline(xintercept = 1873) +
-    annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = 1.5, alpha = .2)
+    #geom_vline(xintercept = 1873) +
+    annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = 1.5, alpha = .2) +
+    labs(title = "Blocker (1994)", color = "", x = "Year", y = "Gallons consumed per capita")
 
 # https://stuffnobodycaresabout.com/2017/04/25/alcohol-19th-century/
 decades <- seq(1800, 1880, 10)
@@ -483,4 +486,5 @@ ggplot(data = aggs_long, aes(x = decades, y = gallons_per_capita, color = type))
     geom_line() +
     geom_vline(xintercept = 1873) +
     annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = 100, alpha = .2) +
-    labs(x = "1800 == decade ending in 1800", y = "Gallons per capita", title = "Need to show that increased consumption steeper in counties with high % of soldiers", color = "Alcohol type")
+    labs(x = "1800 == decade ending in 1800", y = "Gallons consumed per capita", title = "Dorchester (1884) - original data from ''official sources''", color = "")
+›
