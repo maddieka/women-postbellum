@@ -142,15 +142,33 @@ data2$proh_by_1900 <- ifelse(test = data2$proh_year < 1901, yes = 1, no = 0)
 data2$proh_by_1915 <- ifelse(test = data2$proh_year < 1916, yes = 1, no = 0)
 data2$proh_post_war <- ifelse(test = data2$proh_year > 1865, yes = 1, no = 0)
 
-lm65 <- lm(proh_by_1865 ~ pct_pop_soldierx100  + lfpFemalex100, data2)
-lm65. <- lm(proh_by_1865 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2)
-lm00 <- lm(proh_by_1900 ~ pct_pop_soldierx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
-lm00. <- lm(proh_by_1900 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
-lm10 <- lm(proh_by_1910 ~ pct_pop_soldierx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
-lm10. <- lm(proh_by_1910 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
-lm15 <- lm(proh_by_1915 ~ pct_pop_soldierx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
-lm15. <- lm(proh_by_1915 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
-stargazer(lm65, lm00, lm10, lm65., lm00., lm10.)
+# lm65 <- lm(proh_by_1865 ~ pct_pop_soldierx100  + lfpFemalex100, data2)
+# lm65. <- lm(proh_by_1865 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2)
+# lm00 <- lm(proh_by_1900 ~ pct_pop_soldierx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
+# lm00. <- lm(proh_by_1900 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
+# lm10 <- lm(proh_by_1910 ~ pct_pop_soldierx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
+# lm10. <- lm(proh_by_1910 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
+# lm15 <- lm(proh_by_1915 ~ pct_pop_soldierx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
+# lm15. <- lm(proh_by_1915 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
+# stargazer(lm65, lm00, lm10, lm65., lm00., lm10.)
+
+lm65 <- lm(proh_by_1865 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100, data2)
+lm10 <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100, data2 %>% filter(proh_year > 1865))
+lm10all <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100, data2)
+stargazer(lm65, lm10all, lm10)
+
+lm65lfp <- lm(proh_by_1865 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100, data2 %>% filter(YEAR == 1860))
+lm10lfp <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100, data2 %>% filter(proh_year > 1865 & YEAR == 1860))
+lm10all.lfp <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100, data2 %>% filter(YEAR == 1860))
+stargazer(lm65, lm65lfp, lm10all, lm10all.lfp, lm10, lm10lfp,
+          df = FALSE, 
+          column.labels = c("", "All data: 1831-1919", "Post-war only: 1866-1919"), column.separate = c(2,2,2))
+
+
+mean(data2$proh_by_1865, na.rm = TRUE) # outcome mean, 1865
+mean(data2$proh_by_1910, na.rm = TRUE) # outcome mean, 1910 all
+mean(data2$proh_by_1910[data2$proh_year > 1865], na.rm = TRUE) # outcome mean, 1910
+
 
 # data2$pct_pop_soldierx100Xproh_post_war <- data2$pct_pop_soldierx100*data2$proh_post_war
 # data2$lfpFemalex100Xproh_post_war <- data2$lfpFemalex100*data2$proh_post_war
@@ -167,7 +185,7 @@ summary(lm(lfpFemale ~ countTotal + YEAR + pct_pop_diedx100 + pct_pop_disabwound
 ggplot(data2 %>% filter(state_ab %in% union_states & pct_pop_soldierx100 < 100), aes(x = pct_pop_soldierx100, y = lfpFemalex100, alpha = countTotal)) + 
     geom_point() + geom_smooth(method = "lm") + facet_wrap(~YEAR) + geom_text(aes(label = name), nudge_x = 1)
 
-ggplot(data2, aes(x = proh_year)) + geom_density() + annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = .05, alpha = .2)
+ggplot(data2, aes(x = proh_year)) + geom_density() + annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = .05, alpha = .2) + scale_x_continuous(breaks = seq(1840, 1920, 5))
 ggplot(data2) + 
     geom_density(aes(x = pct_pop_died), color = "blue") + 
     geom_density(aes(x = pct_pop_soldiers), color = "black") +# pct_pop_soldiers is pretty much normally distributed
@@ -180,7 +198,7 @@ michigan <- merge(x = test, y = data2, by.x = c("STATEICP", "COUNTYICP"), by.y =
 michigan$had_local_union <- ifelse(test = is.na(michigan$chapter), yes = 0, no = 1)
 cnt_unions <- michigan %>% group_by(STATEICP, COUNTYICP) %>% summarise(cnt_unions = n_distinct(chapter, na.rm = TRUE))
 michigan <- merge(x = michigan, y = cnt_unions, by = c("STATEICP", "COUNTYICP"))
-michigan <- michigan %>% filter(STATEICP %in% c(23,21) & YEAR == 1870) %>% select(-chapter) %>% distinct()
+michigan <- michigan %>% filter(STATEICP %in% c(23,21) & YEAR == 1860) %>% select(-chapter) %>% distinct()
 
 summary(lm(had_local_union ~ pct_pop_disabwoundx100, michigan))
 summary(lm(cnt_unions ~ pct_pop_disabwoundx100, michigan))
@@ -205,10 +223,12 @@ lm1.6 <- lm(had_local_union ~ pct_pop_nondeadx100 + lfpFemalex100 + countFemale 
 stargazer(lm1.1, lm1.2, lm1.3, lm1.4, lm1.5, lm1.6)
 
 lm2.1 <- lm1
-lm2.2 <- lm(had_local_union ~ pct_pop_disabwoundx100 + lfpFemalex100, michigan)
-lm2.3 <- lm(had_local_union ~ pct_pop_disabwoundx100 + lfpFemalex100 + countFemale + countMale, michigan)
-lm2.4 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100 + countFemale + countMale, michigan)
-lm2.5 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_soldierx100 + lfpFemalex100 + countFemale + countMale, michigan)
-lm2.6 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_nondeadx100 + lfpFemalex100 + countFemale + countMale, michigan)
+# lm2.2 <- lm(had_local_union ~ pct_pop_disabwoundx100  + lfpFemalex100, michigan)
+lm2.3 <- lm(had_local_union ~ pct_pop_disabwoundx100  + countFemale + countMale, michigan)
+lm2.4 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100  + countFemale + countMale, michigan)
+lm2.5 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_soldierx100  + countFemale + countMale, michigan)
+lm2.6 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_nondeadx100 + countFemale + countMale, michigan)
 
-stargazer(lm2.1, lm2.2, lm2.3, lm2.4, lm2.5, lm2.6)
+stargazer(lm2.1, lm2.3, lm2.4, lm2.5, lm2.6, df = FALSE)
+
+ggplot(data = michigan, aes(x = pct_pop_disabwound, y = cnt_unions, size = pct_pop_soldiers)) + geom_point()
