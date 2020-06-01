@@ -41,8 +41,9 @@ data_long1860$pct_pop_soldiers <- data_long1860$total / data_long1860$countMale
 data_long1860$pct_pop_died <- data_long1860$died / data_long1860$countMale
 data_long1860$pct_pop_disabwound <- data_long1860$disabwound / data_long1860$countMale
 data_long1860$pct_pop_nondead <- data_long1860$nondead / data_long1860$countMale
+data_long1860$pct_pop_whole <- data_long1860$whole / data_long1860$countMale
 
-data_long1860 <- data_long1860 %>% select(county_icpsr, state_icpsr, pct_pop_soldiers, pct_pop_died, pct_pop_disabwound, pct_pop_nondead)
+data_long1860 <- data_long1860 %>% select(county_icpsr, state_icpsr, pct_pop_soldiers, pct_pop_died, pct_pop_disabwound, pct_pop_nondead, pct_pop_whole)
 
 data_long <- merge(data_long, data_long1860, by = c("county_icpsr", "state_icpsr"), all.x = TRUE)
 # data_state <-
@@ -119,6 +120,7 @@ data2$pct_pop_soldierx100 <- data2$pct_pop_soldiers*100
 data2$pct_pop_diedx100 <- data2$pct_pop_died*100
 data2$pct_pop_disabwoundx100 <- data2$pct_pop_disabwound*100
 data2$pct_pop_nondeadx100 <- data2$pct_pop_nondead*100
+data2$pct_pop_wholex100 <- data2$pct_pop_whole*100
 data2$countTotal <- data2$countFemale + data2$countMale
 data2$YEAR <- as.factor(data2$YEAR)
 data2$state_ab <- as.character(data2$state_ab)
@@ -137,6 +139,7 @@ summary(lm(proh_year ~ pct_pop_soldierx100, data2))
 summary(lm(proh_year ~ pct_pop_soldierx100 + pct_pop_diedx100 + pct_pop_disabwoundx100, data2))
 summary(lm(proh_year ~ pct_pop_soldierx100 + pct_pop_diedx100 + pct_pop_disabwoundx100 + countTotal, data2 %>% filter(proh_year > 1865)))
 
+data2$proh_by_1860 <- ifelse(test = data2$proh_year < 1861, yes = 1, no = 0)
 data2$proh_by_1865 <- ifelse(test = data2$proh_year < 1866, yes = 1, no = 0)
 data2$proh_by_1900 <- ifelse(test = data2$proh_year < 1901, yes = 1, no = 0)
 data2$proh_by_1915 <- ifelse(test = data2$proh_year < 1916, yes = 1, no = 0)
@@ -152,20 +155,21 @@ data2$proh_post_war <- ifelse(test = data2$proh_year > 1865, yes = 1, no = 0)
 # lm15. <- lm(proh_by_1915 ~ pct_pop_disabwoundx100  + lfpFemalex100, data2 %>% filter(proh_year > 1865))
 # stargazer(lm65, lm00, lm10, lm65., lm00., lm10.)
 
-lm65 <- lm(proh_by_1865 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100, data2)
+lm60 <- lm(proh_by_1860 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100, data2)
 lm10 <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100, data2 %>% filter(proh_year > 1865))
 lm10all <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100, data2)
-stargazer(lm65, lm10all, lm10)
+stargazer(lm60, lm10all, lm10)
 
-lm65lfp <- lm(proh_by_1865 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100, data2 %>% filter(YEAR == 1860))
+lm60lfp <- lm(proh_by_1860 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100, data2 %>% filter(YEAR == 1860))
 lm10lfp <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100, data2 %>% filter(proh_year > 1865 & YEAR == 1860))
 lm10all.lfp <- lm(proh_by_1910 ~ pct_pop_soldierx100  + pct_pop_disabwoundx100 + pct_pop_diedx100 + lfpFemalex100, data2 %>% filter(YEAR == 1860))
-stargazer(lm65, lm65lfp, lm10all, lm10all.lfp, lm10, lm10lfp,
+stargazer(lm60, lm60lfp, lm10all, lm10all.lfp, lm10, lm10lfp,
           df = FALSE, 
-          column.labels = c("", "All data: 1831-1919", "Post-war only: 1866-1919"), column.separate = c(2,2,2))
+          column.labels = c("", "All data: 1831-1919", "Post-war only: 1866-1919"), column.separate = c(2,2,2),
+          add.lines = list(c("Outcome Mean", "0.739", "0.739", "0.779","0.779", "0.147", "0.147")))
 
 
-mean(data2$proh_by_1865, na.rm = TRUE) # outcome mean, 1865
+mean(data2$proh_by_1860, na.rm = TRUE) # outcome mean, 1860
 mean(data2$proh_by_1910, na.rm = TRUE) # outcome mean, 1910 all
 mean(data2$proh_by_1910[data2$proh_year > 1865], na.rm = TRUE) # outcome mean, 1910
 
@@ -198,7 +202,7 @@ michigan <- merge(x = test, y = data2, by.x = c("STATEICP", "COUNTYICP"), by.y =
 michigan$had_local_union <- ifelse(test = is.na(michigan$chapter), yes = 0, no = 1)
 cnt_unions <- michigan %>% group_by(STATEICP, COUNTYICP) %>% summarise(cnt_unions = n_distinct(chapter, na.rm = TRUE))
 michigan <- merge(x = michigan, y = cnt_unions, by = c("STATEICP", "COUNTYICP"))
-michigan <- michigan %>% filter(STATEICP %in% c(23,21) & YEAR == 1860) %>% select(-chapter) %>% distinct()
+michigan <- michigan %>% filter(STATEICP %in% c(23) & YEAR == 1860) %>% select(-chapter) %>% distinct()
 
 summary(lm(had_local_union ~ pct_pop_disabwoundx100, michigan))
 summary(lm(cnt_unions ~ pct_pop_disabwoundx100, michigan))
@@ -227,8 +231,9 @@ lm2.1 <- lm1
 lm2.3 <- lm(had_local_union ~ pct_pop_disabwoundx100  + countFemale + countMale, michigan)
 lm2.4 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100  + countFemale + countMale, michigan)
 lm2.5 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_soldierx100  + countFemale + countMale, michigan)
-lm2.6 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_nondeadx100 + countFemale + countMale, michigan)
+lm2.6 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_wholex100 + countFemale + countMale, michigan)
 
 stargazer(lm2.1, lm2.3, lm2.4, lm2.5, lm2.6, df = FALSE)
 
 ggplot(data = michigan, aes(x = pct_pop_disabwound, y = cnt_unions, size = pct_pop_soldiers)) + geom_point()
+
