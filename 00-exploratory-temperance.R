@@ -196,44 +196,13 @@ ggplot(data2) +
     geom_density(aes(x = pct_pop_disabwound), color = "red") + 
     geom_density(aes(x = pct_pop_nondead), color = "orange")
 
-michigan <- read.csv("~/Documents/Pitt/Projects/women_civil_war/data/local_unions_wctu.csv")[,1:5]
-test <- merge(x = michigan, y = crosswalk, by.x = c("STATEICP", "county"), by.y = c("STATEICP", "County"), all.x = TRUE)
-michigan <- merge(x = test, y = data2, by.x = c("STATEICP", "COUNTYICP"), by.y = c("state_icpsr", "county_icpsr"), all = TRUE)
-michigan$had_local_union <- ifelse(test = is.na(michigan$chapter), yes = 0, no = 1)
-cnt_unions <- michigan %>% group_by(STATEICP, COUNTYICP) %>% summarise(cnt_unions = n_distinct(chapter, na.rm = TRUE))
-michigan <- merge(x = michigan, y = cnt_unions, by = c("STATEICP", "COUNTYICP"))
-michigan <- michigan %>% filter(STATEICP %in% c(23) & YEAR == 1860) %>% select(-chapter) %>% distinct()
+michigan <- read.csv("~/Documents/Pitt/Projects/women_civil_war/data/local_unions_wctu.csv")
+michigan <- michigan %>% group_by(year, county) %>% summarise(count_unions = n())
+crosswalk_michigan <- crosswalk %>% filter(State == "Michigan")
+test <- merge(x = michigan, y = crosswalk_michigan, by.x = "county", by.y = "County", all.x = TRUE)
+test$STATEICP <- 23
+data2_michigan <- data2 %>% filter(state_ab == "MI")
+michigan <- merge(x = test, y = data2_michigan, by.x = c("STATEICP", "COUNTYICP"), by.y = c("state_icpsr", "county_icpsr"), all = TRUE)
 
-summary(lm(had_local_union ~ pct_pop_disabwoundx100, michigan))
-summary(lm(cnt_unions ~ pct_pop_disabwoundx100, michigan))
-
-michigan$had_2local_union <- ifelse(test = michigan$cnt_unions > 1, yes = 1, no = 0)
-michigan$had_3local_union <- ifelse(test = michigan$cnt_unions > 2, yes = 1, no = 0)
-michigan$had_4local_union <- ifelse(test = michigan$cnt_unions > 3, yes = 1, no = 0)
-
-lm1 <- lm(had_local_union ~ pct_pop_disabwoundx100, michigan)
-lm2 <- lm(had_2local_union ~ pct_pop_disabwoundx100, michigan)
-lm3 <- lm(had_3local_union ~ pct_pop_disabwoundx100, michigan)
-lm4 <- lm(had_4local_union ~ pct_pop_disabwoundx100, michigan)
-stargazer(lm1, lm2, lm3, lm4)
-
-lm1.1 <- lm1
-lm1.2 <- lm(had_local_union ~ pct_pop_disabwoundx100 + lfpFemalex100, michigan)
-lm1.3 <- lm(had_local_union ~ pct_pop_disabwoundx100 + lfpFemalex100 + countFemale + countMale, michigan)
-lm1.4 <- lm(had_local_union ~ pct_pop_diedx100 + lfpFemalex100 + countFemale + countMale, michigan)
-lm1.5 <- lm(had_local_union ~ pct_pop_soldierx100 + lfpFemalex100 + countFemale + countMale, michigan)
-lm1.6 <- lm(had_local_union ~ pct_pop_nondeadx100 + lfpFemalex100 + countFemale + countMale, michigan)
-
-stargazer(lm1.1, lm1.2, lm1.3, lm1.4, lm1.5, lm1.6)
-
-lm2.1 <- lm1
-# lm2.2 <- lm(had_local_union ~ pct_pop_disabwoundx100  + lfpFemalex100, michigan)
-lm2.3 <- lm(had_local_union ~ pct_pop_disabwoundx100  + countFemale + countMale, michigan)
-lm2.4 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100  + countFemale + countMale, michigan)
-lm2.5 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_soldierx100  + countFemale + countMale, michigan)
-lm2.6 <- lm(had_local_union ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_wholex100 + countFemale + countMale, michigan)
-
-stargazer(lm2.1, lm2.3, lm2.4, lm2.5, lm2.6, df = FALSE)
-
-ggplot(data = michigan, aes(x = pct_pop_disabwound, y = cnt_unions, size = pct_pop_soldiers)) + geom_point()
-
+summary(lm(proh_by_1910 ~ count_unions + lfpFemale + countTotal, michigan %>% filter(year == 1895)))
+ggplot(data = michigan, aes(x = count_unions, y = proh_year)) + geom_point()
