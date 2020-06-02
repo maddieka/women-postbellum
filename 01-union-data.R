@@ -36,7 +36,7 @@ data <- data %>% filter(State %in% union_states & level == 1) # level == 1 for c
 # data_mi$has_wctu_1890 <- ifelse(test = data_mi$count_unions > 0, yes = 1, no = 0)
 # 
 # 
-# ggplot(data_mi, aes(x = mainbattle, y = count_unions, size = loss)) + geom_point()
+# ggplot(data_mi, aes(x = mainbattle, y = count_unions, size = loss, color = wounded_battle)) + geom_point()
 # summary(lm(count_unions ~ mainbattle + wmtot + urb860 + loss, data_mi))
 # 
 # ggplot(data_mi, aes(x = mainbattle, y = membership)) + geom_point()
