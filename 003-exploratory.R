@@ -25,23 +25,30 @@ data <- merge(y = data, x = crosswalk, by.y = c("county_icpsr", "state_icpsr"), 
 union_states <- c("Maine", "New Hampshire", "Vermont", "New York", "Massachusetts", "Rhode Island", "Connecticuit", "Pennsylvania", "New Jersey", "Ohio", "Indiana", "Illinois", "Iowa", "Wisconsin", "Minnesota", "Michigan") # only core states: exluces CA, WA, KS, and boundary states
 data <- data %>% filter(State %in% union_states & level == 1) # level == 1 for county, 2 for state, and 3 for whole country
 
-# CALCULATE SOLDIER PERCENTAGE/POPS HERE
+# calculate soldier population percentages
+data$disabwound <- data$disabled + data$wounded
+data$total_soldiers <- data$died + data$regout + data$disabled + data$wounded + data$deserted
+
+data$pct_pop_died <- data$died / data$wmtot
+data$pct_pop_disabwound <- data$disabwound / data$wmtot
+data$pct_pop_soldiers <- data$total_soldiers / data$wmtot
 
 # MOVE BELOW TO A DIFFERENT EXPLORATORY SCRIPT
-# michigan <- data %>% filter(State == "Michigan")
-# library(readxl)
-# michigan_wctu <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")
-# data_mi <- merge(x = michigan_wctu, y = michigan, by.x = c("state", "county"), by.y = c("State", "County"), all = TRUE)
-# data_mi$count_unions[is.na(data_mi$count_unions)] <- 0
-# data_mi$has_wctu_1890 <- ifelse(test = data_mi$count_unions > 0, yes = 1, no = 0)
-# 
-# 
-# ggplot(data_mi, aes(x = mainbattle, y = count_unions, size = loss, color = wounded_battle)) + geom_point()
-# summary(lm(count_unions ~ mainbattle + wmtot + urb860 + loss, data_mi))
-# 
-# ggplot(data_mi, aes(x = mainbattle, y = membership)) + geom_point()
-# summary(lm(membership ~ mainbattle + wmtot + urb860, data_mi))
+michigan <- data %>% filter(State == "Michigan")
+library(readxl)
+michigan_wctu <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")
+data_mi <- merge(x = michigan_wctu, y = michigan, by.x = c("state", "county"), by.y = c("State", "County"), all = TRUE)
+data_mi$count_unions[is.na(data_mi$count_unions)] <- 0
+data_mi$has_wctu_1890 <- ifelse(test = data_mi$count_unions > 0, yes = 1, no = 0)
+data_mi$pct_pop_wctu <- data_mi$membership / data_mi$wftot
 
+ggplot(data_mi, aes(x = mainbattle, y = count_unions, size = wmtot, color = wounded_battle)) + geom_point()
+summary(lm(count_unions ~ mainbattle + wmtot + urb860 + loss, data_mi))
+
+ggplot(data_mi, aes(x = mainbattle, y = membership, size = wmtot, color = wounded_battle)) + geom_point()
+summary(lm(membership ~ mainbattle + wmtot + urb860, data_mi))
+
+ggplot(data_mi %>% filter(pct_pop_wctu < 1), aes(x = pct_pop_soldiers, y = pct_pop_wctu)) + geom_point()
 
 
 
