@@ -143,6 +143,7 @@ data2$proh_by_1860 <- ifelse(test = data2$proh_year < 1861, yes = 1, no = 0)
 data2$proh_by_1865 <- ifelse(test = data2$proh_year < 1866, yes = 1, no = 0)
 data2$proh_by_1900 <- ifelse(test = data2$proh_year < 1901, yes = 1, no = 0)
 data2$proh_by_1915 <- ifelse(test = data2$proh_year < 1916, yes = 1, no = 0)
+data2$proh_pre_1920 <- ifelse(test = data2$proh_year < 1920, yes = 1, no = 0)
 data2$proh_post_war <- ifelse(test = data2$proh_year > 1865, yes = 1, no = 0)
 
 # lm65 <- lm(proh_by_1865 ~ pct_pop_soldierx100  + lfpFemalex100, data2)
@@ -173,36 +174,3 @@ mean(data2$proh_by_1860, na.rm = TRUE) # outcome mean, 1860
 mean(data2$proh_by_1910, na.rm = TRUE) # outcome mean, 1910 all
 mean(data2$proh_by_1910[data2$proh_year > 1865], na.rm = TRUE) # outcome mean, 1910
 
-
-# data2$pct_pop_soldierx100Xproh_post_war <- data2$pct_pop_soldierx100*data2$proh_post_war
-# data2$lfpFemalex100Xproh_post_war <- data2$lfpFemalex100*data2$proh_post_war
-# 
-# lm65.1 <- lm(proh_by_1865 ~ pct_pop_soldierx100  + pct_pop_soldierx100Xproh_post_war + lfpFemalex100 + lfpFemalex100Xproh_post_war + proh_post_war, data2)
-# lm00.1 <- lm(proh_by_1900 ~ pct_pop_soldierx100  + pct_pop_soldierx100Xproh_post_war + lfpFemalex100 + lfpFemalex100Xproh_post_war + proh_post_war, data2)
-# lm15.1 <- lm(proh_by_1915 ~ pct_pop_soldierx100  + pct_pop_soldierx100Xproh_post_war + lfpFemalex100 + lfpFemalex100Xproh_post_war + proh_post_war, data2)
-# stargazer(lm65.1, lm00.1, lm15.1)
-
-
-ggplot(data2 %>% filter(pct_pop_soldiers < 100), aes(x = pct_pop_soldiers, y = lfpFemale, size = countTotal)) + geom_point(alpha = .1) + geom_smooth(method = "lm") + facet_wrap(~YEAR)
-summary(lm(lfpFemale ~ countTotal + YEAR + pct_pop_diedx100 + pct_pop_disabwoundx100, data2))
-
-ggplot(data2 %>% filter(state_ab %in% union_states & pct_pop_soldierx100 < 100), aes(x = pct_pop_soldierx100, y = lfpFemalex100, alpha = countTotal)) + 
-    geom_point() + geom_smooth(method = "lm") + facet_wrap(~YEAR) + geom_text(aes(label = name), nudge_x = 1)
-
-ggplot(data2, aes(x = proh_year)) + geom_density() + annotate("rect", xmin = 1861, xmax = 1866, ymin = 0, ymax = .05, alpha = .2) + scale_x_continuous(breaks = seq(1840, 1920, 5))
-ggplot(data2) + 
-    geom_density(aes(x = pct_pop_died), color = "blue") + 
-    geom_density(aes(x = pct_pop_soldiers), color = "black") +# pct_pop_soldiers is pretty much normally distributed
-    geom_density(aes(x = pct_pop_disabwound), color = "red") + 
-    geom_density(aes(x = pct_pop_nondead), color = "orange")
-
-michigan <- read.csv("~/Documents/Pitt/Projects/women_civil_war/data/local_unions_wctu.csv")
-michigan <- michigan %>% group_by(year, county) %>% summarise(count_unions = n())
-crosswalk_michigan <- crosswalk %>% filter(State == "Michigan")
-test <- merge(x = michigan, y = crosswalk_michigan, by.x = "county", by.y = "County", all.x = TRUE)
-test$STATEICP <- 23
-data2_michigan <- data2 %>% filter(state_ab == "MI")
-michigan <- merge(x = test, y = data2_michigan, by.x = c("STATEICP", "COUNTYICP"), by.y = c("state_icpsr", "county_icpsr"), all = TRUE)
-
-summary(lm(proh_by_1910 ~ count_unions + lfpFemale + countTotal, michigan %>% filter(year == 1895)))
-ggplot(data = michigan, aes(x = count_unions, y = proh_year)) + geom_point()
