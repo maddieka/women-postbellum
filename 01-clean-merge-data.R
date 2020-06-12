@@ -31,36 +31,36 @@ data$mtot <- data$wmtot + data$fcmtot + data$smtot
 
 # add some other soldier groupings/definitions
 data$disabwound <- data$disabled + data$wounded
-data_mi$whole <- data_mi$total_soldiers - data_mi$disabwound - data_mi$died
+data$whole <- data$total_soldiers - data$disabwound - data$died
 data$total_soldiers <- data$died + data$regout + data$disabled + data$wounded + data$deserted
 
 # soldiers as pct of county male population in 1860
 data$pct_pop_died <- data$died / data$mtot
 data$pct_pop_disabwound <- data$disabwound / data$mtot
 data$pct_pop_soldiers <- data$total_soldiers / data$mtot
-data_mi$pct_pop_kmw <- data_mi$kmw / data_mi$wmtot # SOMETHING WRONG WITH KMW VARIABLE... # KMW WAY EXCEEDS POPULATION FOR SEVERAL COUNTIES
-data_mi$pct_pop_mainbattle <- data_mi$mainbattle / data_mi$wmtot
-data_mi$pct_pop_whole <- data_mi$whole / data_mi$wmtot
-data_mi$pct_pop_disabled <- data_mi$disabled / data_mi$wmtot
-data_mi$pct_pop_wounded <- data_mi$wounded / data_mi$wmtot
-data_mi$pct_pop_deserted <- data_mi$deserted / data_mi$wmtot
+data$pct_pop_kmw <- data$kmw / data$wmtot # SOMETHING WRONG WITH KMW VARIABLE... # KMW WAY EXCEEDS POPULATION FOR SEVERAL COUNTIES
+data$pct_pop_mainbattle <- data$mainbattle / data$wmtot
+data$pct_pop_whole <- data$whole / data$wmtot
+data$pct_pop_disabled <- data$disabled / data$wmtot
+data$pct_pop_wounded <- data$wounded / data$wmtot
+data$pct_pop_deserted <- data$deserted / data$wmtot
 
 
 # soldier population percentages x100 for regressions
-data_mi$pct_pop_diedx100 <- data_mi$pct_pop_died*100
-data_mi$pct_pop_disabwoundx100 <- data_mi$pct_pop_disabwound*100
-data_mi$pct_pop_soldiersx100 <- data_mi$pct_pop_soldiers*100
-data_mi$pct_pop_wholex100 <- data_mi$pct_pop_whole*100
-data_mi$pct_pop_disabledx100 <- data_mi$pct_pop_disabled*100
-data_mi$pct_pop_woundedx100 <- data_mi$pct_pop_wounded*100
-data_mi$pct_pop_desertedx100 <- data_mi$pct_pop_deserted*100
+data$pct_pop_diedx100 <- data$pct_pop_died*100
+data$pct_pop_disabwoundx100 <- data$pct_pop_disabwound*100
+data$pct_pop_soldiersx100 <- data$pct_pop_soldiers*100
+data$pct_pop_wholex100 <- data$pct_pop_whole*100
+data$pct_pop_disabledx100 <- data$pct_pop_disabled*100
+data$pct_pop_woundedx100 <- data$pct_pop_wounded*100
+data$pct_pop_desertedx100 <- data$pct_pop_deserted*100
 
 # discretize mainbattlenum (average number of major battles fought by soldiers from that county)
-data_mi$mainbattlenum_discrete <- NA
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum < 1] <- "[0, 1)"
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum >= 1 & data_mi$mainbattlenum <= 1.5] <- "[1, 1.5)"
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum >= 1.5 & data_mi$mainbattlenum < 2] <- "[1.5, 2)"
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum >= 2] <- "[2, 2.28]"
+data$mainbattlenum_discrete <- NA
+data$mainbattlenum_discrete[data$mainbattlenum < 1] <- "[0, 1)"
+data$mainbattlenum_discrete[data$mainbattlenum >= 1 & data$mainbattlenum <= 1.5] <- "[1, 1.5)"
+data$mainbattlenum_discrete[data$mainbattlenum >= 1.5 & data$mainbattlenum < 2] <- "[1.5, 2)"
+data$mainbattlenum_discrete[data$mainbattlenum >= 2] <- "[2, 2.28]"
 
 
 
