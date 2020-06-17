@@ -15,8 +15,8 @@ michigan <- data %>% filter(State == "Michigan") # I only have WCTU data for Mic
 michigan_wctu <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")
 data_mi <- merge(x = michigan_wctu, y = michigan, by.x = c("state", "county"), by.y = c("State", "County"), all = TRUE)
 data_mi$count_unions[is.na(data_mi$count_unions)] <- 0
+data_mi$estimated_membership[is.na(data_mi$estimated_membership)] <- 0
 data_mi$has_wctu_1890 <- ifelse(test = data_mi$count_unions > 0, yes = 1, no = 0)
-data_mi$pct_pop_wctu <- data_mi$estimated_membership / data_mi$wftot # there's a few weird population counts... e.g. Oceana County in Michigan... est 120 wctu members, but a total of 9 white women???
 
 ipums <- read.csv("Documents/Pitt/Data/ipums/fullcnt18601880.csv")[-c(1,7,8)] # confirmed... some of these counties had huge population growth over these decades. Not good enough to use female count in 1860 as denominator for percent women in wctu in 1880s
 ipums_wide <- spread(ipums, SEX, count)
@@ -29,33 +29,6 @@ lfp <- ipums %>% filter(YEAR==1860 & SEX == "Female") %>% select(STATEICP, COUNT
 names(lfp) <- c("STATEICP", "COUNTYICP", "lfpFemale1860")
 
 data_mi <- merge(x = data_mi, y = lfp, by = c("STATEICP", "COUNTYICP"), all.x = TRUE)
-
-data_mi$lfpFemale1860x100 <- data_mi$lfpFemale1860*100
-data_mi$pct_pop_wctu <- data_mi$estimated_membership / data_mi$FemaleCount1880 # 1880 pop should be better than 1860, but i'm still 10 years off
-data_mi$mainbattlenum_discrete <- NA
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum < 1] <- "[0, 1)"
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum >= 1 & data_mi$mainbattlenum <= 1.5] <- "[1, 1.5)"
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum >= 1.5 & data_mi$mainbattlenum < 2] <- "[1.5, 2)"
-data_mi$mainbattlenum_discrete[data_mi$mainbattlenum >= 2] <- "[2, 2.28]"
-
-
-data_mi$pct_pop_kmw <- data_mi$kmw / data_mi$wmtot # SOMETHING WRONG WITH KMW VARIABLE... # KMW WAY EXCEEDS POPULATION FOR SEVERAL COUNTIES
-data_mi$pct_soldiers_kmw <- data_mi$kmw / data_mi$total_soldiers
-data_mi$whole <- data_mi$total_soldiers - data_mi$disabwound - data_mi$died
-data_mi$pct_pop_mainbattle <- data_mi$mainbattle / data_mi$wmtot
-data_mi$pct_soldiers_mainbattle <- data_mi$mainbattle / data_mi$total_soldiers
-data_mi$pct_pop_diedx100 <- data_mi$pct_pop_died*100
-data_mi$pct_pop_disabwoundx100 <- data_mi$pct_pop_disabwound*100
-data_mi$pct_pop_soldiersx100 <- data_mi$pct_pop_soldiers*100
-data_mi$pct_pop_whole <- data_mi$whole / data_mi$wmtot
-data_mi$pct_pop_wholex100 <- data_mi$pct_pop_whole*100
-data_mi$pct_pop_disabled <- data_mi$disabled / data_mi$wmtot
-data_mi$pct_pop_wounded <- data_mi$wounded / data_mi$wmtot
-data_mi$pct_pop_deserted <- data_mi$deserted / data_mi$wmtot
-
-data_mi$pct_pop_disabledx100 <- data_mi$pct_pop_disabled*100
-data_mi$pct_pop_woundedx100 <- data_mi$pct_pop_wounded*100
-data_mi$pct_pop_desertedx100 <- data_mi$pct_pop_deserted*100
 
 cnt_unions_plot1 <- ggplot(data_mi, aes(x = total_soldiers, y = count_unions, size = totpop, color = mainbattlenum_discrete)) + geom_point() + scale_color_viridis(discrete=TRUE) #+ geom_abline(intercept = 0, slope = 1)
 cnt_unions_lm1 <- lm(count_unions ~ disabwound + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
@@ -74,16 +47,18 @@ ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/plot1.png", plot
 stargazer(cnt_unions_lm1, cnt_unions_lm2, cnt_unions_lm3, membership_lm1, membership_lm2, membership_lm3, df = FALSE)
 
 
-fit <- lm(pct_pop_wctu ~ pct_pop_soldiersx100 + pct_pop_disabwoundx100 + pct_pop_diedx100 + mainbattlenum + totpop + urb860, data_mi)
+fit <- lm(pct_pop_wctu ~ pct_pop_soldiersx100 + mainbattlenum , data_mi)
+summary(fit)
+plot4 <- 
 ggplot(data_mi, aes(x = pct_pop_soldiersx100, y = pct_pop_wctu)) + 
     geom_smooth(data = fortify(fit), aes(x = pct_pop_soldiersx100, y = .fitted), method = "lm") +
     geom_point(aes(color = mainbattlenum_discrete)) + scale_color_viridis(discrete = TRUE) +
     coord_cartesian(xlim =c(0,50), ylim = c(0,0.05))
+ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/wctu_on_soldiers.png", plot4, width = 6, height = 4)
 ggplot(data_mi, aes(x = pct_pop_soldiersx100, y = pct_pop_wctu)) + 
     geom_smooth(method = "lm") +
     geom_point(aes(color = mainbattlenum_discrete)) + scale_color_viridis(discrete = TRUE) +
     coord_cartesian(xlim =c(0,50), ylim = c(0,0.05))
-summary(fit)
 #+labs(x = "% male pop in Union Army", y = "% female pop in WCTU", size = "% male pop in major", color = "Mean # major battles fought")
 
 has_wctu_1890_lm1 <- lm(has_wctu_1890 ~ pct_pop_disabwoundx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
@@ -157,3 +132,48 @@ ggplot(policies %>% filter(suffrage_type == "school"), aes(x = Property_HanesWol
     labs(x = "Year married women's property law passed", y = "Year women's suffrage for school elections passed")
 
 # all other policy combos are flat.
+# policies$year[is.na(policies$year)] <- 1919
+# policies$suffrage_before_fed <- ifelse(policies$year < 1919, yes = 1, no = 0)
+# union_state <- mapdata %>% group_by(State) %>% summarise(died = sum(died, na.rm = TRUE),
+#                                                          disabled = sum(disabled, na.rm = TRUE),
+#                                                          wounded = sum(wounded, na.rm = TRUE),
+#                                                          deserted = sum(deserted, na.rm = TRUE),
+#                                                          wmtot = sum(wmtot, na.rm = TRUE))
+# # soldiers as pct of county male population in 1860
+# union_state$pct_pop_died <- union_state$died / union_state$wmtot
+# union_state$pct_pop_disabled <- union_state$disabled / union_state$wmtot
+# union_state$pct_pop_wounded <- union_state$wounded / union_state$wmtot
+# union_state$pct_pop_deserted <- union_state$deserted / union_state$wmtot
+# # soldier population percentages x100 for regressions
+# union_state$pct_pop_diedx100 <- union_state$pct_pop_died*100
+# union_state$pct_pop_disabledx100 <- union_state$pct_pop_disabled*100
+# union_state$pct_pop_woundedx100 <- union_state$pct_pop_wounded*100
+# union_state$pct_pop_desertedx100 <- union_state$pct_pop_deserted*100
+# 
+# state_data <- merge(x = union_state, y = policies, by = "State", all = TRUE)
+# 
+# summary(lm(suffrage_before_fed ~ pct_pop_disabledx100, state_data %>% filter(suffrage_type == "full")))
+
+# map
+states <- map_data("county")
+
+mapdata_mi = unique(data_mi)
+mapdata_mi$region <- tolower(mapdata_mi$state)
+mapdata_mi$subregion <- tolower(mapdata_mi$county)
+counties_mi <- inner_join(states, mapdata_mi, by = c("region","subregion"))
+
+mapdata = unique(data)
+mapdata$region <- tolower(mapdata$state)
+counties <- inner_join(states, mapdata, by = "region")
+
+
+ggplot() + 
+    geom_polygon(data = counties_mi, aes(x = long, y = lat, group = group, fill = pct_pop_wctu), color = "black") +
+    scale_fill_viridis() + 
+    theme_void()
+
+ggplot() + 
+    geom_polygon(data = counties, aes(x = long, y = lat, group = group, fill = pct_pop_soldiers), color = "black") +
+    scale_fill_viridis() + 
+    theme_void()
+
