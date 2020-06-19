@@ -4,39 +4,28 @@ library(tidyr)
 library(gridExtra)
 library(stargazer)
 library(readxl)
-
 library(mapproj)
+library(USAboundaries)
+library(sf)
+
 # load data
 source("~/git/women-postbellum/01-clean-merge-data.R")
 
-# map
-counties <- map_data("county")
-mapdata = unique(data)
-mapdata$region <- tolower(mapdata$State)
-mapdata$subregion <- tolower(mapdata$County)
-counties <- inner_join(counties, mapdata, by = c("region","subregion"))
+# get shapefile from correct time period
+union_sf <- us_counties(map_date = "1865-01-01", states = union_states, resolution = 'high')
+plot(st_geometry(union_sf))
+ggplot(union_sf) + geom_sf()
 
-states <- map_data("state")
-states <- states %>% filter(region %in% tolower(union_states))
+union_states <- us_states(map_date = "1865-01-01", states = union_states, resolution = 'high')
 
-summary(counties$pct_pop_kmw)
-counties$kmw_discrete <- ifelse(counties$kmw > counties$wmtot, yes = "kmw > wmtot", no = "kmw < wmtot")
+# merge with data
+union_sf$name <- toupper(union_sf$name)
+test <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by.y = c("name", "State"), all.x = TRUE)
 
 ggplot() + 
-    geom_polygon(data = counties, aes(x = long, y = lat, group = group, fill = kmw_discrete), color = "grey", size = .2) +
-    geom_polygon(data = states, aes(x = long, y = lat, group = group), fill = NA, color = "black") +
-    scale_fill_viridis(discrete = TRUE, option = "cividis") + 
-    coord_map()
-ggsave("~/Desktop/kmw.png")
-
-ggplot(data, aes(x = pct_pop_kmw)) + geom_histogram()
-
-ggplot() + 
-    geom_polygon(data = counties, aes(x = long, y = lat, group = group, fill = mainbattlenum), color = "grey", size = .2) +
-    geom_polygon(data = states, aes(x = long, y = lat, group = group), fill = NA, color = "black") +
-    scale_fill_viridis(option = "cividis") + 
-    coord_map()
-ggsave("~/Desktop/mainbattlenum.png")
+    geom_sf(data = test, aes(fill = mainbattlenum_discrete), color = "black", size = .2) + scale_fill_viridis(discrete = TRUE) + 
+    geom_sf(data = union_states, fill = NA, color = "black") +
+    theme_void() 
 
 # looking for connection bw WCTU and suffrage
 wctu_state <- read.csv("~/Documents/Pitt/Projects/women_civil_war/data/nationaldues_1889.csv")
