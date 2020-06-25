@@ -18,34 +18,45 @@ data_mi$count_unions[is.na(data_mi$count_unions)] <- 0
 data_mi$estimated_membership[is.na(data_mi$estimated_membership)] <- 0
 data_mi$has_wctu_1890 <- ifelse(test = data_mi$count_unions > 0, yes = 1, no = 0)
 
-ipums <- read.csv("Documents/Pitt/Data/ipums/fullcnt18601880.csv")[-c(1,7,8)] # confirmed... some of these counties had huge population growth over these decades. Not good enough to use female count in 1860 as denominator for percent women in wctu in 1880s
-ipums_wide <- spread(ipums, SEX, count)
-ipums_wider <- spread(ipums_wide[-5], YEAR, Female)
-names(ipums_wider) <- c("STATEICP", "COUNTYICP",  "FemaleCount1860", "FemaleCount1870", "FemaleCount1880")
-data_mi <- merge(x = data_mi, y = ipums_wider, by = c("STATEICP", "COUNTYICP"), all.x = TRUE)
+summary(data_mi$estimated_membership)
+data_mi$membership_quantile <- ntile(data_mi$estimated_membership, 6)
+data_long <- gather(data_mi, year, Female_lfp, `1860_Female_lfp`, `1870_Female_lfp`, `1880_Female_lfp`, factor_key = TRUE)
+data_long$year <- gsub(pattern = "_Female_lfp", replacement = "", x = data_long$year)
 
-ipums <- read.csv("Documents/Pitt/Data/ipums/fullcnt18601880.csv")[-1]
-lfp <- ipums %>% filter(YEAR==1860 & SEX == "Female") %>% select(STATEICP, COUNTYICP, lfp)
-names(lfp) <- c("STATEICP", "COUNTYICP", "lfpFemale1860")
+ggplot(data = data_long, aes(x = year, y = Female_lfp, fill = as.factor(membership_quantile))) + 
+    geom_boxplot() + 
+    labs(x = "Census Year", y = "Female LFP", fill = "Quantile WCTU membership") + 
+    scale_fill_brewer(palette="Accent") 
+ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/boxplot_lfp_WCTU_quantile.png", width = 8, height = 5)
 
-data_mi <- merge(x = data_mi, y = lfp, by = c("STATEICP", "COUNTYICP"), all.x = TRUE)
+data_long$pct_pop_wctu <- data_long$estimated_membership / data_long$`1880_Female_count`
+data_long$pct_wctu_quantile <- ntile(data_long$pct_pop_wctu, 5)
+ggplot(data = data_long, aes(x = year, y = Female_lfp, fill = as.factor(pct_wctu_quantile))) + 
+    geom_boxplot() + 
+    labs(x = "Census Year", y = "Female LFP", fill = "Quantile % Pop WCTU") + 
+    scale_fill_brewer(palette="Accent") 
+ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/boxplot_lfp_pctWCTU_quantile.png", width = 8, height = 5)
 
-cnt_unions_plot1 <- ggplot(data_mi, aes(x = total_soldiers, y = count_unions, size = totpop, color = mainbattlenum_discrete)) + geom_point() + scale_color_viridis(discrete=TRUE) #+ geom_abline(intercept = 0, slope = 1)
+
+data_mi$lfpFemale1860x100 <- data_mi$`1860_Female_lfp`*100
+
+cnt_unions_plot1 <- ggplot(data_mi %>% filter(!is.na(mainbattlenum_discrete)), aes(x = total_soldiers, y = count_unions, size = totpop, color = mainbattlenum_discrete)) + geom_point() + scale_color_viridis(discrete=TRUE) #+ geom_abline(intercept = 0, slope = 1)
 cnt_unions_lm1 <- lm(count_unions ~ disabwound + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
 cnt_unions_lm2 <- lm(count_unions ~ disabwound + died + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
 cnt_unions_lm3 <- lm(count_unions ~ disabwound + died + whole + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
 summary(cnt_unions_lm1)
 
-membership_plot1 <- ggplot(data_mi, aes(x = total_soldiers, y = estimated_membership, size = totpop, color = mainbattlenum_discrete)) + geom_point() + scale_color_viridis(discrete=TRUE) + geom_abline(intercept = 0, slope = 1) #+ geom_smooth(method = "lm", se = FALSE)
+membership_plot1 <- ggplot(data_mi %>% filter(!is.na(mainbattlenum_discrete)), aes(x = total_soldiers, y = estimated_membership, size = totpop, color = mainbattlenum_discrete)) + geom_point() + scale_color_viridis(discrete=TRUE) #+ geom_abline(intercept = 0, slope = 1) #+ geom_smooth(method = "lm", se = FALSE)
 membership_lm1 <- lm(estimated_membership ~ disabwound + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
 membership_lm2 <- lm(estimated_membership ~ disabwound + died + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
 membership_lm3 <- lm(estimated_membership ~ disabwound + died + whole + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
 summary(membership_lm1)
 
 plot1 <- grid.arrange(cnt_unions_plot1, membership_plot1, ncol = 2)
-ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/plot1.png", plot1)
+ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/wctu_on_soldiers.png", plot1, width = 10, height = 6)
 stargazer(cnt_unions_lm1, cnt_unions_lm2, cnt_unions_lm3, membership_lm1, membership_lm2, membership_lm3, df = FALSE)
 
+data_mi$pct_pop_wctu <- data_mi$estimated_membership / data_mi$`1880_Female_count`
 
 fit <- lm(pct_pop_wctu ~ pct_pop_soldiersx100 + mainbattlenum , data_mi)
 summary(fit)
@@ -54,32 +65,43 @@ ggplot(data_mi, aes(x = pct_pop_soldiersx100, y = pct_pop_wctu)) +
     geom_smooth(data = fortify(fit), aes(x = pct_pop_soldiersx100, y = .fitted), method = "lm") +
     geom_point(aes(color = mainbattlenum_discrete)) + scale_color_viridis(discrete = TRUE) +
     coord_cartesian(xlim =c(0,50), ylim = c(0,0.05))
-ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/wctu_on_soldiers.png", plot4, width = 6, height = 4)
+#ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/wctu_on_soldiers.png", plot4, width = 6, height = 4)
 ggplot(data_mi, aes(x = pct_pop_soldiersx100, y = pct_pop_wctu)) + 
     geom_smooth(method = "lm") +
     geom_point(aes(color = mainbattlenum_discrete)) + scale_color_viridis(discrete = TRUE) +
     coord_cartesian(xlim =c(0,50), ylim = c(0,0.05))
 #+labs(x = "% male pop in Union Army", y = "% female pop in WCTU", size = "% male pop in major", color = "Mean # major battles fought")
 
-has_wctu_1890_lm1 <- lm(has_wctu_1890 ~ pct_pop_disabwoundx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
-has_wctu_1890_lm2 <- lm(has_wctu_1890 ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
-has_wctu_1890_lm3 <- lm(has_wctu_1890 ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_wholex100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
-summary(cnt_unions_lm1)
+# has_wctu_1890_lm1 <- lm(has_wctu_1890 ~ pct_pop_disabwoundx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
+# has_wctu_1890_lm2 <- lm(has_wctu_1890 ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
+# has_wctu_1890_lm3 <- lm(has_wctu_1890 ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_wholex100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
+# summary(cnt_unions_lm1)
+# 
+# pct_pop_wctu_lm1 <- lm(pct_pop_wctu ~ pct_pop_disabwoundx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
+# pct_pop_wctu_lm2 <- lm(pct_pop_wctu ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
+# pct_pop_wctu_lm3 <- lm(pct_pop_wctu ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_wholex100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
+# 
+# stargazer(has_wctu_1890_lm1, has_wctu_1890_lm2, has_wctu_1890_lm3, pct_pop_wctu_lm1, pct_pop_wctu_lm2, pct_pop_wctu_lm3, df = FALSE)
 
-pct_pop_wctu_lm1 <- lm(pct_pop_wctu ~ pct_pop_disabwoundx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
-pct_pop_wctu_lm2 <- lm(pct_pop_wctu ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
-pct_pop_wctu_lm3 <- lm(pct_pop_wctu ~ pct_pop_disabwoundx100 + pct_pop_diedx100 + pct_pop_wholex100 + totpop + urb860 + mainbattlenum_discrete + lfpFemale1860x100, data_mi)
-
-stargazer(has_wctu_1890_lm1, has_wctu_1890_lm2, has_wctu_1890_lm3, pct_pop_wctu_lm1, pct_pop_wctu_lm2, pct_pop_wctu_lm3, df = FALSE)
-
-has_wctu_1890_lm.1 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + totpop, data_mi)
-has_wctu_1890_lm.2 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + totpop, data_mi)
-has_wctu_1890_lm.3 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + totpop, data_mi)
-has_wctu_1890_lm.4 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + totpop, data_mi)
-has_wctu_1890_lm.5 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + pct_pop_diedx100 + totpop, data_mi)
+# DISCRETE
+has_wctu_1890_lm.1 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + mainbattlenum_discrete + totpop, data_mi)
+has_wctu_1890_lm.2 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + mainbattlenum_discrete + totpop, data_mi)
+has_wctu_1890_lm.3 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + mainbattlenum_discrete + totpop, data_mi)
+has_wctu_1890_lm.4 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + mainbattlenum_discrete + totpop, data_mi)
+has_wctu_1890_lm.5 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + pct_pop_diedx100 + mainbattlenum_discrete + totpop, data_mi)
+has_wctu_1890_lm.6 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + pct_pop_regoutx100 + mainbattlenum_discrete + totpop, data_mi)
 mean(data_mi$has_wctu_1890)
-stargazer(has_wctu_1890_lm.1, has_wctu_1890_lm.2, has_wctu_1890_lm.3, has_wctu_1890_lm.4, has_wctu_1890_lm.5, df = FALSE, add.lines = list(c("Outcome Mean", rep(0.83, 5))))
+stargazer(has_wctu_1890_lm.1, has_wctu_1890_lm.2, has_wctu_1890_lm.3, has_wctu_1890_lm.4, has_wctu_1890_lm.5, has_wctu_1890_lm.6, df = FALSE, add.lines = list(c("Outcome Mean", rep(0.79, 5))))
 
+# CONTINUOUS
+has_wctu_1890_lm.1 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + mainbattlenum + totpop, data_mi)
+has_wctu_1890_lm.2 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + mainbattlenum + totpop, data_mi)
+has_wctu_1890_lm.3 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + mainbattlenum + totpop, data_mi)
+has_wctu_1890_lm.4 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + mainbattlenum + totpop, data_mi)
+has_wctu_1890_lm.5 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + pct_pop_diedx100 + mainbattlenum + totpop, data_mi)
+has_wctu_1890_lm.6 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx100 + pct_pop_desertedx100 + pct_pop_soldiersx100 + pct_pop_regoutx100 + mainbattlenum + totpop, data_mi)
+mean(data_mi$has_wctu_1890)
+stargazer(has_wctu_1890_lm.1, has_wctu_1890_lm.2, has_wctu_1890_lm.3, has_wctu_1890_lm.4, has_wctu_1890_lm.5, has_wctu_1890_lm.6, df = FALSE, add.lines = list(c("Outcome Mean", rep(0.79, 6))))
 
 # POLICY OUTCOME CORRELATIONS
 prop_laws <- read.csv("Documents/Pitt/Data/property_laws/dates_property_laws.csv")

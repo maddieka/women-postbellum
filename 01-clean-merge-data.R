@@ -46,6 +46,7 @@ data$pct_pop_whole <- data$whole / data$wmtot
 data$pct_pop_disabled <- data$disabled / data$wmtot
 data$pct_pop_wounded <- data$wounded / data$wmtot
 data$pct_pop_deserted <- data$deserted / data$wmtot
+data$pct_pop_regout <- data$regout / data$wmtot
 
 # soldier population percentages x100 for regressions
 data$pct_pop_diedx100 <- data$pct_pop_died*100
@@ -55,6 +56,7 @@ data$pct_pop_wholex100 <- data$pct_pop_whole*100
 data$pct_pop_disabledx100 <- data$pct_pop_disabled*100
 data$pct_pop_woundedx100 <- data$pct_pop_wounded*100
 data$pct_pop_desertedx100 <- data$pct_pop_deserted*100
+data$pct_pop_regoutx100 <- data$pct_pop_regout*100
 
 # discretize mainbattlenum (average number of major battles fought by soldiers from that county)
 #plot(density(data$mainbattlenum))

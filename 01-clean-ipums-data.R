@@ -10,37 +10,53 @@ options(scipen=999) # prevent R from storing small numbers in scientific notatio
 
 ### LINES 13-43 TAKE A LONG TIME TO RUN: THE OUTPUT IS SAVED AND LOADED IN ON LINE 44 TO SAVE TIME. TO MAKE CHANGES TO THE ORIGINAL STRUCTURE OF ipums_long, UNCOMMENT AND RUN AGAIN.
 
-# ipums1 <- vroom::vroom(file = "Documents/Pitt/Data/ipums/usa_00006.csv", delim = ",") # 1860, 1870
-# 
-# ipums60.70 <- 
-#     ipums1 %>% # begin with raw ipums data for 1860 and 1870
-#     filter(AGE > 10 & AGE < 70) %>% # EXPLAIN WHY OR CHANGE
-#     group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
-#                                                            workers = sum(LABFORCE == 2, na.rm = TRUE),
-#                                                            lfp = workers/count) %>% 
-#     ungroup()
-# 
-# rm(ipums1)
-# 
-# ipums2 <- vroom::vroom(file = "Documents/Pitt/Data/ipums/usa_00007.csv", delim = ",") # 1880, 1900
-# 
-# ipums80.00 <- ipums2 %>% 
-#     filter(AGE > 10 & AGE < 70) %>% # EXPLAIN WHY OR CHANGE
-#     group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
-#                                                            workers = sum(LABFORCE == 2, na.rm = TRUE),
-#                                                            lfp = workers/count) %>% 
-#     ungroup()
-# rm(ipums2)
-# 
-# ipums80.00 <- ipums80.00 %>% filter(YEAR == 1880) # EXPLAIN WHY OR CHANGE
-# ipums_long <- rbind(ipums60.70, ipums80.00)
-# rm(list = c("ipums60.70", "ipums80.00"))
-# 
-# # create wide format
-# ipums_long$SEX[ipums$SEX == 1] <- "Male"
-# ipums_long$SEX[ipums$SEX == 2] <- "Female"
-# 
-# write.csv(ipums_long, "Documents/Pitt/Data/ipums/fullcnt18601880.csv")
+ipums <- vroom::vroom(file = "~/Documents/Pitt/Data/ipums/usa_00010.csv", delim = ",") # 1850
+
+ipums50 <-
+    ipums %>% # begin with raw ipums data for 1860 and 1870
+    filter(AGE > 10) %>% # EXPLAIN WHY OR CHANGE
+    group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
+                                                           workers = sum(LABFORCE == 2, na.rm = TRUE),
+                                                           lfp = workers/count) %>%
+    ungroup()
+
+rm(ipums)
+
+write.csv(ipums50, "Documents/Pitt/Data/ipums/temp.csv") # store ipums50 in case R crashes, again...  
+
+ipums1 <- vroom::vroom(file = "~/Documents/Pitt/Data/ipums/usa_00006.csv", delim = ",") # 1860, 1870
+
+ipums60.70 <-
+    ipums1 %>% # begin with raw ipums data for 1860 and 1870
+    filter(AGE > 10) %>% # EXPLAIN WHY OR CHANGE
+    group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
+                                                           workers = sum(LABFORCE == 2, na.rm = TRUE),
+                                                           lfp = workers/count) %>%
+    ungroup()
+
+rm(ipums1)
+
+write.csv(rbind(ipums50, ipums60.70), "Documents/Pitt/Data/ipums/temp.csv") # store ipums50, 60, and 70 in case R crashes, again...  
+
+ipums2 <- vroom::vroom(file = "~/Documents/Pitt/Data/ipums/usa_00007.csv", delim = ",") # 1880, 1900
+
+ipums80.00 <- ipums2 %>%
+    filter(AGE > 10 & AGE < 70) %>% # EXPLAIN WHY OR CHANGE
+    group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
+                                                           workers = sum(LABFORCE == 2, na.rm = TRUE),
+                                                           lfp = workers/count) %>%
+    ungroup()
+rm(ipums2)
+
+ipums80.00 <- ipums80.00 #%>% filter(YEAR == 1880) # EXPLAIN WHY OR CHANGE
+ipums_long <- rbind(ipums60.70, ipums80.00)
+rm(list = c("ipums60.70", "ipums80.00"))
+
+# create wide format
+ipums_long$SEX[ipums$SEX == 1] <- "Male"
+ipums_long$SEX[ipums$SEX == 2] <- "Female"
+
+write.csv(ipums_long, "Documents/Pitt/Data/ipums/fullcnt18601880.csv")
 ipums_long <- read.csv("Documents/Pitt/Data/ipums/fullcnt18601880.csv")[-1]
 
 
