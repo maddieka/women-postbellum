@@ -8,7 +8,7 @@ library(vroom) # import large csv
 
 options(scipen=999) # prevent R from storing small numbers in scientific notation (for small LFPs, etc.)
 
-### LINES 13-43 TAKE A LONG TIME TO RUN: THE OUTPUT IS SAVED AND LOADED IN ON LINE 44 TO SAVE TIME. TO MAKE CHANGES TO THE ORIGINAL STRUCTURE OF ipums_long, UNCOMMENT AND RUN AGAIN.
+### LINES 13-65 TAKE A LONG TIME TO RUN: THE OUTPUT IS SAVED AND LOADED IN ON LINE 44 TO SAVE TIME. TO MAKE CHANGES TO THE ORIGINAL STRUCTURE OF ipums_long, UNCOMMENT AND RUN AGAIN.
 # 1850
 # ipums <- vroom::vroom(file = "~/Documents/Pitt/Data/ipums/usa_00010.csv", delim = ",") # 1850
 # 
@@ -55,21 +55,24 @@ options(scipen=999) # prevent R from storing small numbers in scientific notatio
 # rm(ipums80, temp)
 
 # 1900 (1890 unavailable)
-ipums3 <- vroom::vroom(file = "~/Documents/Pitt/Data/ipums/usa_00013.csv", delim = ",") # 1900
-ipums3$LABFORCE <- ifelse(test = ipums3$MOUNEMP > 0, yes = 2, no = 1)
-ipums00 <- ipums3 %>%
-    filter(AGE > 10) %>%
-    group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
-                                                           workers = sum(LABFORCE == 2, na.rm = TRUE),
-                                                           lfp = workers/count) %>%
-    ungroup()
+# ipums3 <- vroom::vroom(file = "~/Documents/Pitt/Data/ipums/usa_00013.csv", delim = ",") # 1900
+# ipums3$LABFORCE <- ifelse(test = ipums3$MOUNEMP > 0, yes = 2, no = 1)
+# ipums00 <- ipums3 %>%
+#     filter(AGE > 10) %>%
+#     group_by(STATEICP, COUNTYICP, YEAR, SEX) %>% summarise(count = n(),
+#                                                            workers = sum(LABFORCE == 2, na.rm = TRUE),
+#                                                            lfp = workers/count) %>%
+#     ungroup()
+# 
+# # combine 1850-1900
+# temp <- read.csv("~/Documents/Pitt/Data/ipums/temp.csv")[-1]
+# ipums_long <- rbind(temp, ipums00)
+# 
+# rm(ipums00, ipums3, temp)
+# write.csv(ipums_long, "~/Documents/Pitt/Data/ipums/fullcnt1850-1900.csv", row.names = FALSE)
 
-# combine 1850-1900
-temp <- read.csv("~/Documents/Pitt/Data/ipums/temp.csv")[-1]
-ipums_long <- rbind(temp, ipums00)
-
-rm(ipums00, ipums3, temp)
 # create wide format
+ipums_long <- read.csv("~/Documents/Pitt/Data/ipums/fullcnt1850-1900.csv")
 ipums_long$SEX[ipums_long$SEX == 1] <- "Male"
 ipums_long$SEX[ipums_long$SEX == 2] <- "Female"
 

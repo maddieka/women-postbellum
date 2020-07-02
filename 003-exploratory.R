@@ -103,6 +103,7 @@ has_wctu_1890_lm.6 <- lm(has_wctu_1890 ~ pct_pop_disabledx100 + pct_pop_woundedx
 mean(data_mi$has_wctu_1890)
 stargazer(has_wctu_1890_lm.1, has_wctu_1890_lm.2, has_wctu_1890_lm.3, has_wctu_1890_lm.4, has_wctu_1890_lm.5, has_wctu_1890_lm.6, df = FALSE, add.lines = list(c("Outcome Mean", rep(0.79, 6))))
 
+
 # POLICY OUTCOME CORRELATIONS
 prop_laws <- read.csv("Documents/Pitt/Data/property_laws/dates_property_laws.csv")
 prohibition <- read.table("~/Documents/Pitt/Projects/women_civil_war/data/ICPSR_08343/DS0001/08343-0001-Data.tsv", header = TRUE, sep = "\t")

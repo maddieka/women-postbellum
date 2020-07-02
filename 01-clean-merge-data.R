@@ -24,13 +24,14 @@ data <- merge(x = union, y = icpsr1860, by.x = c("county_icpsr", "state_icpsr"),
 data <- merge(y = data, x = crosswalk, by.y = c("county_icpsr", "state_icpsr"), by.x = c("COUNTYICP", "STATEICP"), all.y = TRUE)
 
 # merge ipums data so that county-level LFPs are included
-data <- merge(x = data, y = ipums_wide, by = c("COUNTYICP", "STATEICP"), all.y = TRUE)
+data <- merge(x = data, y = ipums_wider, by = c("COUNTYICP", "STATEICP"), all.y = TRUE)
 
 # exclude non-core union states
 union_states <- c("Maine", "New Hampshire", "Vermont", "New York", "Massachusetts", "Rhode Island", "Connecticut", "Pennsylvania", "New Jersey", "Ohio", "Indiana", "Illinois", "Iowa", "Wisconsin", "Minnesota", "Michigan") # only core states: exluces CA, WA, KS, and boundary states
 data <- data %>% filter(State %in% union_states)
 
 # add some other county-characteristic groupings/definitions
+data$log_totpop <- log(data$totpop + 1)
 
 # add some other soldier groupings/definitions
 data$disabwound <- data$disabled + data$wounded
