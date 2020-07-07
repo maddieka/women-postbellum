@@ -32,6 +32,8 @@ data <- data %>% filter(State %in% union_states)
 
 # add some other county-characteristic groupings/definitions
 data$log_totpop <- log(data$totpop + 1)
+data$pct_urb860 <- data$urb860 / data$totpop
+data$pct_urb825 <- data$urb25 / data$totpop
 
 # add some other soldier groupings/definitions
 data$disabwound <- data$disabled + data$wounded
