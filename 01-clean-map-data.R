@@ -32,21 +32,31 @@ data$name <- gsub(" ", "", data$name)
 full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by.y = c("name", "State"), all.x = TRUE)
 #ggplot(full_data_sf) + geom_sf(aes(fill = mainbattlenum_discrete)) #+ geom_sf_text(aes(label = name)) 
 
+# additional spatial variables to include
+full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
+
 # SUBSET TO MICHIGAN FOR WCTU MERGE
 mi_data_sf <- full_data_sf %>% filter(state_terr == "Michigan")
 #plot(st_geometry(mi_data_sf))
 
 
-michigan_wctu <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")
+michigan_wctu <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:4]
 michigan_wctu$name <- gsub(" ", "", toupper(michigan_wctu$county)) # create capitalized version of county names for merge; remove spaces
+michigan_wctu <- michigan_wctu %>% pivot_wider(names_from = year, values_from = count_unions, names_prefix = "count_unions")
 
 mi_data_sf <- merge(x = mi_data_sf, y = michigan_wctu, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
 
-mi_data_sf$count_unions[is.na(mi_data_sf$county)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
-mi_data_sf$estimated_membership[is.na(mi_data_sf$county)] <- 0 # same as above
-mi_data_sf$quantile <- ntile(x = mi_data_sf$count_unions, n = 4)
-mi_data_sf$has_wctu_1890 <- ifelse(test = mi_data_sf$count_unions > 0, yes = 1, no = 0)
+mi_data_sf$count_unions1890[is.na(mi_data_sf$count_unions1890)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
+mi_data_sf$count_unions1883[is.na(mi_data_sf$count_unions1883)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
+#mi_data_sf$estimated_membership[is.na(mi_data_sf$county)] <- 0 # same as above
+#mi_data_sf$quantile <- ntile(x = mi_data_sf$count_unions, n = 4)
+
+
+mi_data_sf$has_wctu_1890 <- ifelse(test = mi_data_sf$count_unions1890 > 0, yes = 1, no = 0)
+mi_data_sf$has_wctu_1883 <- ifelse(test = mi_data_sf$count_unions1883 > 0, yes = 1, no = 0)
+
 #data_mi$pct_pop_wctu <- data_mi$estimated_membership / data_mi$Female_count_1880
 
 
+ggplot(mi_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1883))) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has local WCTU by 1890")
 ggplot(mi_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1890))) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has local WCTU by 1890")
