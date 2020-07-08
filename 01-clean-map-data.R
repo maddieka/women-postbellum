@@ -35,28 +35,33 @@ full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by
 # additional spatial variables to include
 full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
 
-# SUBSET TO MICHIGAN FOR WCTU MERGE
-mi_data_sf <- full_data_sf %>% filter(state_terr == "Michigan")
-#plot(st_geometry(mi_data_sf))
+# SUBSET TO STATES WITH WCTU DATA FOR WCTU MERGE
+wctu_states <- c("Ohio", "Indiana")
+wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
+#plot(st_geometry(wctu_data_sf))
 
+# USE THIS CHUNK IF YOU WANT TO USE COUNT_UNIONS AS THE OUTCOME VARIABLE
+# wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:4]
+# wctu_data$name <- gsub(" ", "", toupper(wctu_data$county)) # create capitalized version of county names for merge; remove spaces
+# wctu_data <- wctu_data %>% pivot_wider(names_from = year, values_from = count_unions, names_prefix = "count_unions")
 
-michigan_wctu <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:4]
-michigan_wctu$name <- gsub(" ", "", toupper(michigan_wctu$county)) # create capitalized version of county names for merge; remove spaces
-michigan_wctu <- michigan_wctu %>% pivot_wider(names_from = year, values_from = count_unions, names_prefix = "count_unions")
+# USE THIS CHUNK IF YOU WANT TO USE YES/NO WCTU UNION IN A COUNTY FOR A GIVEN YEAR
+wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:3]
+wctu_data$name <- gsub(" ", "", toupper(wctu_data$county)) # create capitalized version of county names for merge; remove spaces
+wctu_data <- wctu_data %>% pivot_wider(names_from = year, values_from = county, names_prefix = "county_listed")
 
-mi_data_sf <- merge(x = mi_data_sf, y = michigan_wctu, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
+wctu_data_sf <- merge(x = wctu_data_sf, y = wctu_data, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
+ggplot(wctu_data_sf) + geom_sf(aes(fill = state_terr)) #+ geom_sf_text(aes(label = name)) 
 
-mi_data_sf$count_unions1890[is.na(mi_data_sf$count_unions1890)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
-mi_data_sf$count_unions1883[is.na(mi_data_sf$count_unions1883)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
-#mi_data_sf$estimated_membership[is.na(mi_data_sf$county)] <- 0 # same as above
-#mi_data_sf$quantile <- ntile(x = mi_data_sf$count_unions, n = 4)
+# I THINK THESE COMMENTED LINES ARE TRASH BUT SAVING JUST IN CASE...
+# wctu_data_sf$count_unions1890[is.na(wctu_data_sf$count_unions1890)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
+# wctu_data_sf$count_unions1883[is.na(wctu_data_sf$count_unions1883)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
+# wctu_data_sf$has_wctu_1890 <- ifelse(test = wctu_data_sf$count_unions1890 > 0, yes = 1, no = 0)
+# wctu_data_sf$has_wctu_1883 <- ifelse(test = wctu_data_sf$count_unions1883 > 0, yes = 1, no = 0)
 
+# if the county name IS listed in the wctu data for year 18xx (county_listed18xx is NOT NA), put a 1 for "true, has wctu union"
+wctu_data_sf$has_wctu_1875 <- as.numeric(!is.na(wctu_data_sf$county_listed1875)) 
+wctu_data_sf$has_wctu_1883 <- as.numeric(!is.na(wctu_data_sf$county_listed1883))
+wctu_data_sf$has_wctu_1890 <- as.numeric(!is.na(wctu_data_sf$county_listed1890))
 
-mi_data_sf$has_wctu_1890 <- ifelse(test = mi_data_sf$count_unions1890 > 0, yes = 1, no = 0)
-mi_data_sf$has_wctu_1883 <- ifelse(test = mi_data_sf$count_unions1883 > 0, yes = 1, no = 0)
-
-#data_mi$pct_pop_wctu <- data_mi$estimated_membership / data_mi$Female_count_1880
-
-
-ggplot(mi_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1883))) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has local WCTU by 1890")
-ggplot(mi_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1890))) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has local WCTU by 1890")
+ggplot(wctu_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1875))) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has local WCTU by 1875")
