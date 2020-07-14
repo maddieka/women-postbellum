@@ -37,7 +37,7 @@ full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by
 full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
 
 # SUBSET TO STATES WITH WCTU DATA FOR WCTU MERGE
-wctu_states <- c("Michigan")
+wctu_states <- c("Michigan", "Indiana")
 wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
 #plot(st_geometry(wctu_data_sf))
 
