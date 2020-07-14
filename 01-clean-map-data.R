@@ -7,6 +7,7 @@ library(mapproj)
 library(USAboundaries)
 library(sf)
 library(readxl)
+library(stringr)
 
 # load data
 source("~/git/women-postbellum/01-clean-merge-data.R")
@@ -36,7 +37,7 @@ full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by
 full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
 
 # SUBSET TO STATES WITH WCTU DATA FOR WCTU MERGE
-wctu_states <- c("Ohio", "Indiana")
+wctu_states <- c("Michigan")
 wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
 #plot(st_geometry(wctu_data_sf))
 
@@ -52,6 +53,7 @@ wctu_data <- wctu_data %>% pivot_wider(names_from = year, values_from = county, 
 
 wctu_data_sf <- merge(x = wctu_data_sf, y = wctu_data, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
 ggplot(wctu_data_sf) + geom_sf(aes(fill = state_terr)) #+ geom_sf_text(aes(label = name)) 
+wctu_data_sf <- wctu_data_sf %>% filter(state_terr %in% wctu_states)
 
 # I THINK THESE COMMENTED LINES ARE TRASH BUT SAVING JUST IN CASE...
 # wctu_data_sf$count_unions1890[is.na(wctu_data_sf$count_unions1890)] <- 0 # if county is NA (meaning the State WCTU convention didn't list that county's membership info, i.c. there aren't any WCTU unions in that county) then make count_unions == 0 for those counties
@@ -63,5 +65,8 @@ ggplot(wctu_data_sf) + geom_sf(aes(fill = state_terr)) #+ geom_sf_text(aes(label
 wctu_data_sf$has_wctu_1875 <- as.numeric(!is.na(wctu_data_sf$county_listed1875)) 
 wctu_data_sf$has_wctu_1883 <- as.numeric(!is.na(wctu_data_sf$county_listed1883))
 wctu_data_sf$has_wctu_1890 <- as.numeric(!is.na(wctu_data_sf$county_listed1890))
+wctu_data_sf$has_wctu_1896 <- as.numeric(!is.na(wctu_data_sf$county_listed1896))
+wctu_data_sf$has_wctu_1898 <- as.numeric(!is.na(wctu_data_sf$county_listed1898))
 
-ggplot(wctu_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1875))) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has local WCTU by 1875")
+#ggplot(wctu_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1898))) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has local WCTU by 1898")
+

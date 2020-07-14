@@ -11,9 +11,10 @@ union <- read_dta(file = "~/Documents/Pitt/Projects/women_civil_war/data/andy_ua
 # county crosswalk
 crosswalk <- read.csv("~/Documents/Pitt/Projects/women_civil_war/data/ICPSR_county_crosswalk.csv")[,1:5]
 # icpsr 1860 county characteristics -- NEED TO ADD MORE YEARS THAN JUST 1860
-variables <- c("state","county","name","totpop","urb860","urb25","wmtot","wftot","farmval","homemfg","mfgestab","mfgcap","mfglabm","mfglabf","level","fips","statefip")
+variables <- c("state","county","name","totpop","urb860","urb25","wmtot","wftot","farmval","homemfg","mfgestab","mfgcap","mfglabm","mfglabf","level","fips","statefip",
+               "equipval", "homemfg","farm39","farm1019" ,"farm2049", "farm5099", "farm100","farm500","farm1000", "mfgestab" ,"mfgcap","mfgout","realest","churches", "water","rail","fbwtot","mfglabf","quaker","quakacc","germref","germracc","shaker","shakacc")
 icpsr1860 <- read_dta(file = "~/Documents/Pitt/Projects/women_civil_war/data/ICPSR_02896/DS0009/02896-0009-Data.dta")[,variables]
-icpsr1860 <- icpsr1860 %>% filter(level == 1) # level == 1 for county, 2 for state, and 3 for whole country
+icpsr1860 <- icpsr1860[icpsr1860$level == 1,] # level == 1 for county, 2 for state, and 3 for whole country
 # ipums - already processed
 source("~/git/women-postbellum/01-clean-ipums-data.R")
 
@@ -33,7 +34,9 @@ data <- data %>% filter(State %in% union_states)
 # add some other county-characteristic groupings/definitions
 data$log_totpop <- log(data$totpop + 1)
 data$pct_urb860 <- data$urb860 / data$totpop
-data$pct_urb825 <- data$urb25 / data$totpop
+data$pct_urb860x100 <- (data$urb860 / data$totpop)*100
+data$pct_urb25 <- data$urb25 / data$totpop
+data$pct_urb25x100 <- (data$urb25 / data$totpop)*100
 
 # add some other soldier groupings/definitions
 data$disabwound <- data$disabled + data$wounded
