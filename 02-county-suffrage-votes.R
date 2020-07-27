@@ -9,6 +9,7 @@ library(USAboundaries)
 library(sf)
 library(pryr)
 library(rgeos)
+library(cowplot)
 
 # load data
 source("~/git/women-postbellum/01-clean-map-data.R")
@@ -39,9 +40,61 @@ vote_data_sf <- merge(x = simple_union_congress_sf, y = votes, by.x = c("STATENA
 vote_data_sf$vote_binary <- ifelse(test = vote_data_sf$vote == "Yea", yes = 1, no = 0)
 vote_data_sf <- vote_data_sf[!is.na(vote_data_sf$vote_binary),]
 
-# plot1 <- ggplot(vote_data_sf %>% filter(STATENAME %in% wctu_states)) + geom_sf(aes(fill = vote), size = .2) + theme_void() + labs(fill = "Vote for 19th Amendment")
-# plot2 <- ggplot(wctu_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1898)), size = .2) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has WCTU, 1898")
-# grid.arrange(plot1, plot2, nrow = 1)
+plot1 <- ggplot(vote_data_sf %>% filter(STATENAME %in% wctu_states)) + geom_sf(aes(fill = vote), size = .2) + theme_void() + labs(fill = "Vote for 19th Amendment")
+plot2 <- ggplot(wctu_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1898)), size = .2) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has WCTU, 1898")
+plot_grid(plot1, plot2, nrow = 1, align = "v")
+
+wctu_data2 <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/michigan_wctu_attempt2.xlsx")
+wctu_data2$name <- gsub(" ", "", toupper(wctu_data2$county)) # create capitalized version of county names for merge; remove spaces
+
+wctu_data_sf2 <- merge(x = union_sf, y = wctu_data2, by.x = c("state_terr", "name"), by.y = c("state", "name"), all.x = TRUE)
+wctu_data_sf2 <- wctu_data_sf2 %>% filter(state_terr %in% wctu_states)
+wctu_data_sf2$count_unions[is.na(wctu_data_sf2$count_unions)] <- 0
+
+
+ggplot() + 
+    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = count_unions), size = .2) + 
+    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+    # scale_fill_viridis_c() +
+    theme_void() + 
+    labs(fill = "Quantile WCTU unions") +
+    facet_wrap(~ year)
+
+# wctu_data_sf2$count_unions_discrete <- ntile(wctu_data_sf2$count_unions, 4)
+wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 0] <- "0"
+wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 1:5] <- "1-5"
+wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 6:10] <- "6-10"
+wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions > 10] <- "11+"
+
+wctu_data_sf2$count_unions_discrete <- factor(wctu_data_sf2$count_unions_discrete, levels = c("0", "1-5", "6-10", "11+"))
+
+ggplot() + 
+    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.factor(count_unions_discrete)), size = .2) + 
+    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+    scale_fill_brewer(palette = "RdPu") +
+    theme_void() + 
+    labs(fill = "Quantile WCTU unions") +
+    facet_wrap(~ year)
+
+
+ggplot() + 
+    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.numeric(estimated_membership)), size = .2) + 
+    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+    scale_fill_viridis() + 
+    theme_void() + 
+    labs(fill = "Count local WCTU unions") +
+    facet_wrap(~ year)
+plot_grid(plot1, plot3, nrow = 1, align = "v")
+
+wctu_data_sf2$membership_quantiles <- ntile(wctu_data_sf2$estimated_membership, 4)
+ggplot() + 
+    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.factor(membership_quantiles)), size = .2) + 
+    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+    scale_fill_brewer(palette = "RdPu") +
+    theme_void() + 
+    labs(fill = "Count local WCTU unions") +
+    facet_wrap(~ year)
+
 # 
 # ggplot() + 
 #     geom_sf(data = vote_data_sf, aes(fill = as.factor(vote_binary)), size = .5, color = "black", linetype = "solid") + 
