@@ -8,6 +8,7 @@ library(USAboundaries)
 library(sf)
 library(readxl)
 library(stringr)
+library(dplyr)
 
 # load data
 source("~/git/women-postbellum/01-clean-merge-data.R")
@@ -75,9 +76,15 @@ wctu_data$name <- gsub(pattern = "ISLEROYALE", replacement = "MARQUETTE", x = wc
 wctu_data$name <- gsub(pattern = "LUCE", replacement = "CHIPPEWA", x = wctu_data$name) # Luce County was split off from Chippewa County in 1887
 wctu_data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = wctu_data$name) # Menominee County was split off from Delta County in 1861 (named in 1863)
 
-test <- wctu_data %>% group_by(year, state, name) %>% summarise(count_unions = sum(count_unions, na.rm = TRUE),
-                                                                total_dues = sum(total_dues, na.rm = TRUE),
-                                                                estimated_membership = sum(estimated_membership, na.rm = TRUE))
+# Uncomment line if you get the following error: Error in fix.by(by.y, y) : 'by' must specify uniquely valid columns
+# detach(package:plyr)
+
+test <- wctu_data %>% 
+    group_by(year, state, name) %>% 
+    summarise(count_unions = sum(count_unions, na.rm = TRUE),
+              total_dues = sum(total_dues, na.rm = TRUE),
+              estimated_membership = sum(estimated_membership, na.rm = TRUE)) %>%
+    ungroup()
 
 wctu_data_sf <- merge(x = wctu_data_sf, y = test, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
 
