@@ -21,27 +21,6 @@ wctu_data_sf$year1895 <- ifelse(test = wctu_data_sf$year == 1895, yes = 1, no = 
 wctu_data_sf$year1896 <- ifelse(test = wctu_data_sf$year == 1896, yes = 1, no = 0)
 wctu_data_sf$year1898 <- ifelse(test = wctu_data_sf$year == 1898, yes = 1, no = 0)
 
-# wctu_data_sf$disab_x_year <- wctu_data_sf$pct_pop_disabledx100*wctu_data_sf$year
-# wctu_data_sf$disab_x_1882 <- wctu_data_sf$pct_pop_disabledx100*wctu_data_sf$year1882
-# wctu_data_sf$disab_x_1890 <- wctu_data_sf$pct_pop_disabledx100*wctu_data_sf$year1890
-# wctu_data_sf$disab_x_1895 <- wctu_data_sf$pct_pop_disabledx100*wctu_data_sf$year1895
-# wctu_data_sf$disab_x_1896 <- wctu_data_sf$pct_pop_disabledx100*wctu_data_sf$year1896
-# wctu_data_sf$disab_x_1898 <- wctu_data_sf$pct_pop_disabledx100*wctu_data_sf$year1898
-# 
-# wctu_data_sf$regout_x_1882 <- wctu_data_sf$pct_pop_regoutx100*wctu_data_sf$year1882
-# wctu_data_sf$regout_x_1890 <- wctu_data_sf$pct_pop_regoutx100*wctu_data_sf$year1890
-# wctu_data_sf$regout_x_1895 <- wctu_data_sf$pct_pop_regoutx100*wctu_data_sf$year1895
-# wctu_data_sf$regout_x_1896 <- wctu_data_sf$pct_pop_regoutx100*wctu_data_sf$year1896
-# wctu_data_sf$regout_x_1898 <- wctu_data_sf$pct_pop_regoutx100*wctu_data_sf$year1898
-# 
-# wctu_data_sf$disab_x_mbn <- wctu_data_sf$pct_pop_disabledx100*wctu_data_sf$mainbattlenum
-# wctu_data_sf$regout_x_mbn <- wctu_data_sf$pct_pop_regoutx100*wctu_data_sf$mainbattlenum
-
-# ggplot(wctu_data_sf) + geom_sf(aes(fill = mainbattlenum_discrete))
-# ggplot(wctu_data_sf) + geom_sf(aes(fill = pct_pop_disabledx100))
-# ggplot(wctu_data_sf) + geom_sf(aes(fill = pct_pop_soldiersx100))
-# ggplot(wctu_data_sf) + geom_sf(aes(fill = estimated_membership)) + facet_wrap(~ year)
-
 wctu_data_sf$year <- as.factor(wctu_data_sf$year)
 wctu_data_sf$has_union <- ifelse(wctu_data_sf$count_unions > 0, yes = 1, no = 0)
 wctu_data_sf$log_mbshp <- log(wctu_data_sf$estimated_membership + 1)
@@ -52,112 +31,174 @@ wctu_data_sf$log_mfgcap <- log(wctu_data_sf$mfgcap + 1)
 # wctu_data_sf$denom <- NA
 
 mean(wctu_data_sf$has_union[wctu_data_sf$year == 1882], na.rm = TRUE)
-ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union))) + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
+ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
 
-# ### MAIN TABLE - ONLY WITH LOGPOP
-# has_union.1 <- lm(has_union ~ pct_pop_disabledx100 + log_totpop + year, wctu_data_sf)
-# has_union.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + log_totpop + year, wctu_data_sf)
-# has_union.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + log_totpop + year, wctu_data_sf)
-# has_union.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + log_totpop + year, wctu_data_sf)
-# has_union.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + log_totpop + year, wctu_data_sf)
-# stargazer(has_union.1, has_union.2, has_union.3, has_union.4, has_union.5, 
-#           df = FALSE)
-
-### MAIN TABLE - only year FEs
-has_union.1 <- lm(has_union ~ pct_pop_disabledx100 + year, wctu_data_sf)
-has_union.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year, wctu_data_sf)
-has_union.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year, wctu_data_sf)
-has_union.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year, wctu_data_sf)
-has_union.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year, wctu_data_sf)
-stargazer(has_union.1, has_union.2, has_union.3, has_union.4, has_union.5, 
+# civil war vars + year FEs
+lm1.1 <- lm(has_union ~ pct_pop_disabledx100 + year, wctu_data_sf)
+lm1.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year, wctu_data_sf)
+lm1.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year, wctu_data_sf)
+lm1.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year, wctu_data_sf)
+lm1.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year, wctu_data_sf)
+stargazer(lm1.1, lm1.2, lm1.3, lm1.4, lm1.5,
           df = FALSE,
-          title = "year FEs (outcome mean 0.586 in 1882)")
+          title = "First table",
+          label = "table:uavars_yearFE",
+          covariate.labels = c("Percent disabled", "Percent exited regularly","Percent wounded","Percent died","Percent fought"),
+          dep.var.caption = c("County has at least one local WCTU"),
+          dep.var.labels = "Outcome mean in 1882, 0.59",
+          omit = c("year"),
+          omit.labels = c("Year FE")
+)
 
-### MAIN TABLE - year FEs with interaction terms
-has_union.1i <- lm(has_union ~ pct_pop_disabledx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-stargazer(has_union.1i, has_union.2i, has_union.3i, has_union.4i, has_union.5i, 
+# civil war vars + year and county FEs
+lm2.1 <- lm(has_union ~ pct_pop_disabledx100 + year + name, wctu_data_sf)
+lm2.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + name, wctu_data_sf)
+lm2.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + name, wctu_data_sf)
+lm2.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + name, wctu_data_sf)
+lm2.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + name, wctu_data_sf)
+stargazer(lm2.1, lm2.2, lm2.3, lm2.4, lm2.5,
           df = FALSE,
-          title = "year FEs, year x disabled interaction terms (outcome mean 0.586 in 1882)")
+          title = "I prefer the main table to this one because my dependent variable is binary and tends to only change once, so there's not much within-county variation in this data from which to gain information from County FEs.",
+          label = "table:uavars_yearFE_countyFE",
+          covariate.labels = c("Percent disabled", "Percent exited regularly","Percent wounded","Percent died","Percent fought"),
+          dep.var.caption = c("County has at least one local WCTU"),
+          dep.var.labels = "Outcome mean in 1882, 0.59",
+          omit = c("year", "name"),
+          omit.labels = c("Year FE", "County FE")
+)
 
-### MAIN TABLE - year FEs with interaction terms PLUS logtotpop
-has_union.1ip <- lm(has_union ~ pct_pop_disabledx100 + year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf)
-has_union.2ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf)
-has_union.3ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf)
-has_union.4ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf)
-has_union.5ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf)
-stargazer(has_union.1ip, has_union.2ip, has_union.3ip, has_union.4ip, has_union.5ip, 
+# main table plus INTERACTION effects; report year FE values
+lm1.1i <- lm(has_union ~ pct_pop_disabledx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+lm1.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+lm1.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+lm1.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+lm1.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+stargazer(lm1.1i, lm1.2i, lm1.3i, lm1.4i, lm1.5i,
           df = FALSE,
-          title = "year FEs, year x disabled interaction terms (outcome mean 0.586 in 1882)",
-          omit = c("year", "pct_pop_disabledx100*year"),
-          omit.labels = c("Year FE", "Year x Pct Pop Disabled"))
+          title = "First table plus interaction effects",
+          label = "table:uavars_yearFE_interaction",
+          covariate.labels = c("Percent disabled", "1890","1895","1896","1898", "Percent disabled X 1890", "Percent disabled X 1895", "Percent disabled X 1896", "Percent disabled X 1898"),
+          dep.var.caption = c("County has at least one local WCTU"),
+          dep.var.labels = "Outcome mean in 1882, 0.59",
+          omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100"),
+          add.lines = list(c("Union Army percentages", rep("Yes", 5)))
+)
+
+# political/economic controls table; include year FE, interaction terms; stagger log_totpop, economic stuff, and political stuff
 
 votes <- read_dta(file = "~/Documents/Pitt/Projects/women_civil_war/data/ICPSR_08611/DS0001/08611-0001-Data.dta")[,c(1:3,110,115)]
-names(votes) <- c("STATEICP","county_name","COUNTYICP","PresVoteTurnout1860","PctVoteRepublican1860")
+names(votes) <- c("STATEICP","county_name","COUNTYICP","PctVoteRepublican1860","PresVoteTurnout1860")
+votes[votes == max(votes$PctVoteRepublican1860)] <- NA # 999.9 is code for NA
 wctu_data_sf <- merge(x = wctu_data_sf, y = votes, by = c("STATEICP","COUNTYICP"), all.x = TRUE)
 
-
-# ### WITH POLITICAL AND ECONOMIC CONTROLS
-# has_union.6 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + log_totpop + year + log_farmval, wctu_data_sf)
-# has_union.7 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + log_totpop + year + log_mfgcap, wctu_data_sf)
-# has_union.8 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + log_totpop + year + PresVoteTurnout1860, wctu_data_sf)
-# has_union.9 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + log_totpop + year + PctVoteRepublican1860, wctu_data_sf)
-# # has_union.10 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + log_totpop + year + log_farmval + log_mfgcap + PresVoteTurnout1860 + PctVoteRepublican1860, wctu_data_sf)
-# stargazer(has_union.5, has_union.6, has_union.7, has_union.8, has_union.9, 
-#           df = FALSE)
-
-has_union.5.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf)
-has_union.6i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + log_totpop + log_farmval, wctu_data_sf)
-has_union.7i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + log_totpop + log_mfgcap, wctu_data_sf)
-has_union.8i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + log_totpop + PresVoteTurnout1860, wctu_data_sf)
-has_union.9i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + log_totpop + PctVoteRepublican1860, wctu_data_sf)
-has_union.10i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + log_totpop + PctVoteRepublican1860 + PresVoteTurnout1860 + log_mfgcap + log_farmval, wctu_data_sf)
-stargazer(has_union.5i, has_union.5.5i, has_union.6i, has_union.7i, has_union.8i, has_union.9i, has_union.10i,
+lm1.5ip <- lm1.5i # repeat last column of previous table
+lm1.6ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                       year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf)
+lm1.7ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                     year + pct_pop_disabledx100*year + log_totpop + log_farmval, wctu_data_sf)
+lm1.8ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                     year + pct_pop_disabledx100*year + log_totpop + log_mfgcap, wctu_data_sf)
+lm1.9ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                     year + pct_pop_disabledx100*year + log_totpop + PresVoteTurnout1860, wctu_data_sf)
+lm1.10ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                     year + pct_pop_disabledx100*year + log_totpop + PctVoteRepublican1860, wctu_data_sf)
+lm1.11ip <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                      year + pct_pop_disabledx100*year + log_totpop + PctVoteRepublican1860 + PresVoteTurnout1860 + log_mfgcap + log_farmval, wctu_data_sf)
+stargazer(lm1.5ip, lm1.6ip, lm1.7ip, lm1.8ip, lm1.9ip, lm1.10ip, #lm1.11ip,
           df = FALSE,
-          title = "year FEs, year x disabled interaction terms, and political/economic controls (outcome mean 0.586 in 1882)",
-          omit = c("year", "pct_pop_disabledx100*year"),
-          omit.labels = c("Year FE", "Year x Pct Pop Disabled"))
+          title = "Other controls",
+          label = "table:uavars_yearFE_interaction",
+          covariate.labels = c("Percent disabled", "log(Total population, 1860)", "log(Cash value of farms, 1860)", "log(Manufacturing capital, 1860)","Voter turnout, 1860 presidential election", "Percent Republican votes, 1860 presidential election"),
+          dep.var.caption = c("County has at least one local WCTU"),
+          dep.var.labels = "Outcome mean in 1882, 0.59",
+          omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100", "year", "pct_pop_disabledx100*year"),
+          add.lines = list(c("Union Army percentages", rep("Yes", 6)),
+                           c("Year FE", rep("Yes",6)),
+                           c("Year x Percent disabled", rep("Yes",6)))
+)
+
+### HAZARD MODEL -- need to put this in a loop for more than 5 years...
+# THIS JUST CORRECTS MY DATA...####
+wctu_correct_sf <- wctu_data_sf
+
+hazard_sf_1882 <- wctu_correct_sf %>% filter(year == 1882) # all of 1882
+counties_1882 <- hazard_sf_1882$name[hazard_sf_1882$has_union == 1] # these counties should be 1 for all future years, too
+table(wctu_correct_sf$has_union, wctu_correct_sf$year)
+wctu_correct_sf$has_union[wctu_correct_sf$name %in% counties_1882] <- 1
+table(wctu_correct_sf$has_union, wctu_correct_sf$year)
+
+hazard_sf_1890 <- wctu_correct_sf %>% filter(year == 1890) # all of 1890
+counties_1890 <- hazard_sf_1890$name[hazard_sf_1890$has_union == 1] # these counties should be 1 for all future years, too
+wctu_correct_sf$has_union[wctu_correct_sf$year %in% c(1895, 1896, 1898) & wctu_correct_sf$name %in% counties_1890] <- 1
+table(wctu_correct_sf$has_union, wctu_correct_sf$year)
+
+hazard_sf_1895 <- wctu_correct_sf %>% filter(year == 1895) # all of 1895
+counties_1895 <- hazard_sf_1895$name[hazard_sf_1895$has_union == 1] # these counties should be 1 for all future years, too
+wctu_correct_sf$has_union[wctu_correct_sf$year %in% c(1896, 1898) & wctu_correct_sf$name %in% counties_1895] <- 1
+table(wctu_correct_sf$has_union, wctu_correct_sf$year)
+
+hazard_sf_1896 <- wctu_correct_sf %>% filter(year == 1896) # all of 1896
+counties_1896 <- hazard_sf_1896$name[hazard_sf_1896$has_union == 1] # these counties should be 1 for all future years, too
+wctu_correct_sf$has_union[wctu_correct_sf$year == 1898 & wctu_correct_sf$name %in% counties_1896] <- 1
+table(wctu_correct_sf$has_union, wctu_correct_sf$year)
+
+ggplot(wctu_correct_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
+
+# HAZARD MODEL DATA... ####
+hazard_sf_1882 <- wctu_data_sf %>% filter(year == 1882) # all of 1882
+counties_1882 <- hazard_sf_1882$name[hazard_sf_1882$has_union == 0] # counties that haven't adopted a union yet as of 1882
+
+# only bring counties forward that DIDN'T already have a union in 1882
+hazard_sf_1890 <- wctu_data_sf %>% filter(year == 1890 & name %in% counties_1882)
+hazard_sf_1895 <- wctu_data_sf %>% filter(year == 1895 & name %in% counties_1882)
+hazard_sf_1896 <- wctu_data_sf %>% filter(year == 1896 & name %in% counties_1882)
+hazard_sf_1898 <- wctu_data_sf %>% filter(year == 1898 & name %in% counties_1882)
+
+# do the same for 1890
+counties_1890 <- hazard_sf_1890$name[hazard_sf_1890$has_union == 0]  # counties that haven't adopted a union yet as of 1890
+hazard_sf_1895 <- hazard_sf_1895 %>% filter(year == 1895 & name %in% counties_1890)
+hazard_sf_1896 <- hazard_sf_1896 %>% filter(year == 1896 & name %in% counties_1890)
+hazard_sf_1898 <- hazard_sf_1898 %>% filter(year == 1898 & name %in% counties_1890)
+
+# do the same for 1895
+counties_1895 <- hazard_sf_1895$name[hazard_sf_1895$has_union == 0]  # counties that haven't adopted a union yet as of 1895
+hazard_sf_1896 <- hazard_sf_1896 %>% filter(year == 1896 & name %in% counties_1895)
+hazard_sf_1898 <- hazard_sf_1898 %>% filter(year == 1898 & name %in% counties_1895)
+
+# do the same for 1896
+counties_1896 <- hazard_sf_1896$name[hazard_sf_1896$has_union == 0]  # counties that haven't adopted a union yet as of 1896
+hazard_sf_1898 <- hazard_sf_1898 %>% filter(year == 1898 & name %in% counties_1896)
+
+hazard_sf <- rbind(hazard_sf_1882, hazard_sf_1890, hazard_sf_1895, hazard_sf_1896, hazard_sf_1898)
+
+ggplot(hazard_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
+
+hazard_sf <- hazard_sf %>% filter(year %in% c(1882, 1890, 1895)) # no changes in 96 and 98
+hazard_sf$year <- factor(hazard_sf$year, levels = c(1882, 1890, 1895))
 
 
-### MAIN TABLE WITH INTERACTION TERMS
-has_union.1i <- lm(has_union ~ pct_pop_disabledx100 + log_totpop + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + log_totpop + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + log_totpop + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + log_totpop + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + log_totpop + year + pct_pop_disabledx100*year, wctu_data_sf)
-stargazer(has_union.1i, has_union.2i, has_union.3i, has_union.4i, has_union.5i, 
-          df = FALSE)
+# NEIGHBORS...####
 
-### MAIN TABLE WITH INTERACTION TERMS -- county FEs instead of logpop
-has_union.1i <- lm(has_union ~ pct_pop_disabledx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-stargazer(has_union.1i, has_union.2i, has_union.3i, has_union.4i, has_union.5i, 
-          df = FALSE)
-
-
-### MAIN TABLE WITH INTERACTION TERMS -- county FEs instead of logpop
-has_union.1i <- lm(has_union ~ pct_pop_disabledx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-has_union.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + as.factor(name) + year + pct_pop_disabledx100*year, wctu_data_sf)
-stargazer(has_union.1i, has_union.2i, has_union.3i, has_union.4i, has_union.5i, 
-          df = FALSE)
-
-
-# # I looked for effects between (mainbattlenum x regout x time FEs) and nothing was interesting or significant...
-wctu_data_sf$mbn_x_1882 <- wctu_data_sf$mainbattlenum*wctu_data_sf$year1882
-wctu_data_sf$mbn_x_1890 <- wctu_data_sf$mainbattlenum*wctu_data_sf$year1890
-wctu_data_sf$mbn_x_1895 <- wctu_data_sf$mainbattlenum*wctu_data_sf$year1895
-wctu_data_sf$mbn_x_1896 <- wctu_data_sf$mainbattlenum*wctu_data_sf$year1896
-wctu_data_sf$mbn_x_1898 <- wctu_data_sf$mainbattlenum*wctu_data_sf$year1898
-summary(lm(has_union ~ mainbattlenum + year + mbn_x_1882 + mbn_x_1890 + mbn_x_1895 + mbn_x_1896 + mbn_x_1898, wctu_data_sf))
-summary(lm(has_union ~ pct_pop_regoutx100 +mainbattlenum + year + regout_x_mbn, wctu_data_sf))
-
+# robustness! (include column 2 from economic/poltical controls table as baseline comparison; add (i) column 2 run without years 1896-1898, (i) "corrected" data, (ii) hazard model, and (iii) control for neighboring county)
+lm1.6ir <- lm1.6ip
+lm1.7ir <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                year + pct_pop_disabledx100*year + log_totpop, wctu_data_sf %>% filter(year %in% c(1882,1890,1895)))
+lm1.8ir <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                year + pct_pop_disabledx100*year + log_totpop, wctu_correct_sf %>% filter(year %in% c(1882,1890,1895)))
+lm1.9ir <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 +
+                year + pct_pop_disabledx100*year + log_totpop, hazard_sf %>% filter(year %in% c(1882,1890,1895)))
+stargazer(lm1.6ir, lm1.7ir, lm1.8ir, lm1.9ir,
+          df = FALSE,
+          title = "Other controls",
+          label = "table:uavars_yearFE_interaction",
+          #column.labels = c("\\multirow{2}{All years}{1882-1898}","\\multirow{2}{Restricted years}{1882-1895}", "\\multirow{2}{Corrected data}{1882-1895}", "\\multirow{2}{Hazard model}{1882-1895}"),
+          column.labels = c("1882-1898", "1882-1895"), column.separate = c(1,3),
+          covariate.labels = c("Percent disabled", "log(Total population, 1860)"),
+          dep.var.caption = c("County has at least one local WCTU"),
+          dep.var.labels = "Outcome mean in 1882, 0.59",
+          omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100", "year", "pct_pop_disabledx100*year"),
+          add.lines = list(c("Union Army percentages", rep("Yes", 4)),
+                           c("Year FE", rep("Yes",4)),
+                           c("Year x Percent disabled", rep("Yes",4)))
+)
 
