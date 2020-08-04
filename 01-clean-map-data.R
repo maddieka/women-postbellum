@@ -18,15 +18,15 @@ union_sf <- us_counties(map_date = "1865-01-01", states = union_states, resoluti
 union_states_sf <- us_states(map_date = "1865-01-01", states = union_states, resolution = 'high')
 
 # clean sf names
-sort(unique(union_sf$name)) 
+sort(unique(union_sf$name))
 union_sf$name <- gsub("(ext)", "", union_sf$name) # remove (ext) from Manitou
 union_sf$name <- gsub("[^[:alnum:]]", "", toupper(union_sf$name)) # remove punctuation and spaces, and capitalize for merge
-sort(unique(union_sf$name)) 
+sort(unique(union_sf$name))
 
 
 # clean data names
 sort(unique(data$County))
-data$name <- toupper(gsub("[^[:alnum:]]", "", data$name)) # capitalize for merge; remove spaces and all non-alphanumeric symbols
+data$name <- toupper(gsub("[^[:alnum:]]", "", data$County)) # capitalize for merge; remove spaces and all non-alphanumeric symbols
 data$name <- gsub(pattern = "MACKINACMICHILIM", replacement = "MACKINAC", x = data$name)
 data$name <- gsub(pattern = "VERNONBADAX", replacement = "VERNON", x = data$name)
 # data$name <- gsub(pattern = "ALGER", replacement = "SCHOOLCRAFT", x = data$name) # Alger County was split off from Schoolcraft County in 1885
@@ -43,7 +43,7 @@ sort(unique(data$name))
 
 # merge with data
 full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by.y = c("name", "State"), all.x = TRUE)
-#ggplot(full_data_sf) + geom_sf(aes(fill = mainbattlenum_discrete)) #+ geom_sf_text(aes(label = name)) 
+#ggplot(full_data_sf) + geom_sf(aes(fill = mainbattlenum_discrete)) #+ geom_sf_text(aes(label = name))
 
 # additional spatial variables to include
 full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
@@ -79,8 +79,8 @@ wctu_data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = wctu_da
 # Uncomment line if you get the following error: Error in fix.by(by.y, y) : 'by' must specify uniquely valid columns
 # detach(package:plyr)
 
-test <- wctu_data %>% 
-    group_by(year, state, name) %>% 
+test <- wctu_data %>%
+    group_by(year, state, name) %>%
     summarise(count_unions = sum(count_unions, na.rm = TRUE),
               total_dues = sum(total_dues, na.rm = TRUE),
               estimated_membership = sum(estimated_membership, na.rm = TRUE)) %>%
@@ -89,13 +89,13 @@ test <- wctu_data %>%
 wctu_data_sf <- merge(x = wctu_data_sf, y = test, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
 
 # mi_sf <- us_counties(map_date = "2000-01-01", states = "Michigan", resolution = 'high')
-# 
-# ggplot() + 
+#
+# ggplot() +
 #     geom_sf(data = mi_sf, color = "pink") +
 #     geom_sf_text(data = mi_sf, aes(label = name), size = 2, color = "pink") +
-#     geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA) + 
+#     geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA) +
 #     geom_sf_text(data = union_sf %>% filter(state_name == "Michigan"), aes(label = name), size = 3)
-#     
+#
 # wctu_data_sf$has_wctu_1882 <- as.numeric(!is.na(wctu_data_sf$county_listed1882))
 # wctu_data_sf$has_wctu_1890 <- as.numeric(!is.na(wctu_data_sf$county_listed1890))
 # wctu_data_sf$has_wctu_1895 <- as.numeric(!is.na(wctu_data_sf$county_listed1895))
