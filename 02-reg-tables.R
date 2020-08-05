@@ -9,6 +9,7 @@ library(gridExtra)
 library(stargazer)
 library(readxl)
 library(ggfortify)
+library(sandwich) # for robust standard errors
 options(scipen=999) # prevent scientific notation
 
 # load data
@@ -30,62 +31,108 @@ wctu_data_sf$log_mfgcap <- log(wctu_data_sf$mfgcap + 1)
 # wctu_data_sf$mbmshp_per10k <- NA
 # wctu_data_sf$denom <- NA
 
-mean(wctu_data_sf$has_union[wctu_data_sf$year == 1882], na.rm = TRUE)
-ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
+# mean(wctu_data_sf$has_union[wctu_data_sf$year == 1882], na.rm = TRUE)
+# ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
 
-# civil war vars + year FEs
-lm1.1 <- lm(has_union ~ pct_pop_disabledx100 + year, wctu_data_sf)
-lm1.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year, wctu_data_sf)
-lm1.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year, wctu_data_sf)
-lm1.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year, wctu_data_sf)
-lm1.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year, wctu_data_sf)
-stargazer(lm1.1, lm1.2, lm1.3, lm1.4, lm1.5,
-          df = FALSE,
-          title = "First table",
-          label = "table:uavars_yearFE",
-          covariate.labels = c("Percent disabled", "Percent exited regularly","Percent wounded","Percent died","Percent fought"),
-          dep.var.caption = c("County has at least one local WCTU"),
-          dep.var.labels = "Outcome mean in 1882, 0.59",
-          omit = c("year"),
-          omit.labels = c("Year FE")
-)
+# # civil war vars + year F.E.s
+# lm1.1 <- lm(has_union ~ pct_pop_disabledx100 + year, wctu_data_sf)
+# lm1.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year, wctu_data_sf)
+# lm1.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year, wctu_data_sf)
+# lm1.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year, wctu_data_sf)
+# lm1.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year, wctu_data_sf)
+# stargazer(lm1.1, lm1.2, lm1.3, lm1.4, lm1.5,
+#           df = FALSE,
+#           title = "First table",
+#           label = "table:uavars_yearFE",
+#           covariate.labels = c("Percent disabled", "Percent exited regularly","Percent wounded","Percent died","Percent fought"),
+#           dep.var.caption = c("County has at least one local WCTU"),
+#           dep.var.labels = "Outcome mean in 1882, 0.59",
+#           omit = c("year"),
+#           omit.labels = c("Year F.E.")
+# )
+#
+# # civil war vars + year and county FEs
+# lm2.1 <- lm(has_union ~ pct_pop_disabledx100 + year + name, wctu_data_sf)
+# lm2.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + name, wctu_data_sf)
+# lm2.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + name, wctu_data_sf)
+# lm2.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + name, wctu_data_sf)
+# lm2.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + name, wctu_data_sf)
+# stargazer(lm2.1, lm2.2, lm2.3, lm2.4, lm2.5,
+#           df = FALSE,
+#           title = "I prefer the main table to this one because my dependent variable is binary and tends to only change once, so there's not much within-county variation in this data from which to gain information from County FEs.",
+#           label = "table:uavars_yearFE_countyFE",
+#           covariate.labels = c("Percent disabled", "Percent exited regularly","Percent wounded","Percent died","Percent fought"),
+#           dep.var.caption = c("County has at least one local WCTU"),
+#           dep.var.labels = "Outcome mean in 1882, 0.59",
+#           omit = c("year", "name"),
+#           omit.labels = c("Year F.E.", "County F.E.")
+# )
+#
+# # main table plus INTERACTION effects; report year F.E. values
+# lm1.1i <- lm(has_union ~ pct_pop_disabledx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+# lm1.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+# lm1.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+# lm1.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+# lm1.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+# stargazer(lm1.1i, lm1.2i, lm1.3i, lm1.4i, lm1.5i,
+#           df = FALSE,
+#           title = "First table plus interaction effects",
+#           label = "table:uavars_yearFE_interaction",
+#           covariate.labels = c("Percent disabled", "1890","1895","1896","1898", "Percent disabled X 1890", "Percent disabled X 1895", "Percent disabled X 1896", "Percent disabled X 1898"),
+#           dep.var.caption = c("County has at least one local WCTU"),
+#           dep.var.labels = "Outcome mean in 1882, 0.59",
+#           omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100"),
+#           add.lines = list(c("Union Army percentages", rep("Yes", 5)))
+# )
 
-# civil war vars + year and county FEs
-lm2.1 <- lm(has_union ~ pct_pop_disabledx100 + year + name, wctu_data_sf)
-lm2.2 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + name, wctu_data_sf)
-lm2.3 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + name, wctu_data_sf)
-lm2.4 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + name, wctu_data_sf)
-lm2.5 <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + name, wctu_data_sf)
-stargazer(lm2.1, lm2.2, lm2.3, lm2.4, lm2.5,
-          df = FALSE,
-          title = "I prefer the main table to this one because my dependent variable is binary and tends to only change once, so there's not much within-county variation in this data from which to gain information from County FEs.",
-          label = "table:uavars_yearFE_countyFE",
-          covariate.labels = c("Percent disabled", "Percent exited regularly","Percent wounded","Percent died","Percent fought"),
-          dep.var.caption = c("County has at least one local WCTU"),
-          dep.var.labels = "Outcome mean in 1882, 0.59",
-          omit = c("year", "name"),
-          omit.labels = c("Year FE", "County FE")
-)
-
-# main table plus INTERACTION effects; report year FE values
-lm1.1i <- lm(has_union ~ pct_pop_disabledx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-lm1.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-lm1.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-lm1.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
-lm1.5i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year, wctu_data_sf)
+# interaction table plus COUNTY F.E.s
+lm1.1ic <- lm(has_union ~ pct_pop_disabledx100 + year + pct_pop_disabledx100*year + name, wctu_data_sf) # baseline model
+robust_se1ic <- sqrt(diag(vcovHC(lm1.1ic, type = "HC1"))) # calculate robust se
+lm1.2ic <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + pct_pop_disabledx100*year + name, wctu_data_sf)
+robust_se2ic <- sqrt(diag(vcovHC(lm1.2ic, type = "HC1")))
+lm1.3ic <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + pct_pop_disabledx100*year + name, wctu_data_sf)
+robust_se3ic <- sqrt(diag(vcovHC(lm1.3ic, type = "HC1")))
+lm1.4ic <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + pct_pop_disabledx100*year + name, wctu_data_sf)
+robust_se4ic <- sqrt(diag(vcovHC(lm1.4ic, type = "HC1")))
+lm1.5ic <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + pct_pop_disabledx100*year + name, wctu_data_sf)
+robust_se5ic <- sqrt(diag(vcovHC(lm1.5ic, type = "HC1")))
 stargazer(lm1.1i, lm1.2i, lm1.3i, lm1.4i, lm1.5i,
           df = FALSE,
+          se = list(robust_se1ic, robust_se2ic, robust_se3ic, robust_se4ic, robust_se5ic),
           title = "First table plus interaction effects",
           label = "table:uavars_yearFE_interaction",
-          covariate.labels = c("Percent disabled", "1890","1895","1896","1898", "Percent disabled X 1890", "Percent disabled X 1895", "Percent disabled X 1896", "Percent disabled X 1898"),
+          covariate.labels = c("Percent disabled", "Percent exited regularly","Percent wounded","Percent died","Percent fought"),
           dep.var.caption = c("County has at least one local WCTU"),
           dep.var.labels = "Outcome mean in 1882, 0.59",
-          omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100"),
-          add.lines = list(c("Union Army percentages", rep("Yes", 5)))
+          omit = c("year", "name", "pct_pop_disabledx100*year"),
+          # omit.labels = c("Year F.E.", "County F.E.")
+          # omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100", "year", "name"),
+          add.lines = list(#c("Union Army percentages", rep("Yes", 5)),
+                           c("Year F.E.", rep("Yes", 5)),
+                           c("County F.E.", rep("Yes", 5)),
+                           c("Year x Percent disabled", rep("Yes", 5)))
 )
 
-# political/economic controls table; include year FE, interaction terms; stagger log_totpop, economic stuff, and political stuff
+library(sjPlot)
+library(sjlabelled)
+library(sjmisc)
+plot_model(lm1.5ic,terms =  c("year [1890,1895,1896,1898]", "pct_pop_disabledx100:year [1890,1895,1896,1898]"))
+lm1.5ic$coefficients
 
+library(coefplot2)
+coefplot2(lm1.5ic, vertical = FALSE)
+
+library(broom)
+coef <- tidy(lm1.5ic, conf.int = TRUE)
+coef <- coef %>% filter(term %in% c("year1890","year1895","year1896","year1898","pct_pop_disabledx100:year1890", "pct_pop_disabledx100:year1895", "pct_pop_disabledx100:year1896", "pct_pop_disabledx100:year1898"))
+coef$year <- stringr::str_sub(gsub("[^0-9.-]", "", coef$term), start = -4, end = -1)
+coef$type <- ifelse(test = str_detect(coef$term, pattern = ":"), yes = "year x disabled", no = "year FE")
+ggplot(coef, aes(x = year, y =  estimate, color = type))+
+  geom_point()+
+  geom_pointrange(aes(ymin = conf.low, ymax = conf.high))+
+  labs(title = "Coefficients of a linear regression model") +
+  scale_color_brewer(palette = "Paired")
+# political/economic controls table; include year F.E., interaction terms; stagger log_totpop, economic stuff, and political stuff
 votes <- read_dta(file = "~/Documents/Pitt/Projects/women_civil_war/data/ICPSR_08611/DS0001/08611-0001-Data.dta")[,c(1:3,110,115)]
 names(votes) <- c("STATEICP","county_name","COUNTYICP","PctVoteRepublican1860","PresVoteTurnout1860")
 votes[votes == max(votes$PctVoteRepublican1860)] <- NA # 999.9 is code for NA
@@ -113,7 +160,7 @@ stargazer(lm1.5ip, lm1.6ip, lm1.7ip, lm1.8ip, lm1.9ip, lm1.10ip, #lm1.11ip,
           dep.var.labels = "Outcome mean in 1882, 0.59",
           omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100", "year", "pct_pop_disabledx100*year"),
           add.lines = list(c("Union Army percentages", rep("Yes", 6)),
-                           c("Year FE", rep("Yes",6)),
+                           c("Year F.E.", rep("Yes",6)),
                            c("Year x Percent disabled", rep("Yes",6)))
 )
 
@@ -198,7 +245,7 @@ stargazer(lm1.6ir, lm1.7ir, lm1.8ir, lm1.9ir,
           dep.var.labels = "Outcome mean in 1882, 0.59",
           omit = c("pct_pop_regoutx100", "pct_pop_woundedx100", "pct_pop_diedx100", "pct_pop_soldiersx100", "year", "pct_pop_disabledx100*year"),
           add.lines = list(c("Union Army percentages", rep("Yes", 4)),
-                           c("Year FE", rep("Yes",4)),
+                           c("Year F.E.", rep("Yes",4)),
                            c("Year x Percent disabled", rep("Yes",4)))
 )
 

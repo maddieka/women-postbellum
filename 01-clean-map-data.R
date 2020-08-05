@@ -80,8 +80,8 @@ wctu_data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = wctu_da
 # detach(package:plyr)
 
 test <- wctu_data %>%
-    group_by(year, state, name) %>%
-    summarise(count_unions = sum(count_unions, na.rm = TRUE),
+    dplyr::group_by(year, state, name) %>%
+    dplyr::summarise(count_unions = sum(count_unions, na.rm = TRUE),
               total_dues = sum(total_dues, na.rm = TRUE),
               estimated_membership = sum(estimated_membership, na.rm = TRUE)) %>%
     ungroup()

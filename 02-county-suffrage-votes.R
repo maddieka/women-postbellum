@@ -28,8 +28,7 @@ object_size(union_congress_sf_crs) # 15.2 MB
 simple_union_congress_sf <- rmapshaper::ms_simplify(input = as(union_congress_sf_crs, 'Spatial')) %>% st_as_sf()
 object_size(simple_union_congress_sf) # 2.43 MB
 
-#ggplot(simple_union_congress_sf) + geom_sf() + theme_void()
-
+# load congressional votes for the 19th amendment
 votes <- read.csv("~/Documents/Pitt/Projects/women_civil_war/data/suffrage/congress_votes_63-3_h238.csv")
 votes$district[votes$district == -1] <- NA
 state_crosswalk <- read.csv("~/Documents/Pitt/Data/geography/usps_state_abrv_crosswalk.csv")
@@ -40,86 +39,87 @@ vote_data_sf <- merge(x = simple_union_congress_sf, y = votes, by.x = c("STATENA
 vote_data_sf$vote_binary <- ifelse(test = vote_data_sf$vote == "Yea", yes = 1, no = 0)
 vote_data_sf <- vote_data_sf[!is.na(vote_data_sf$vote_binary),]
 
-plot1 <- ggplot(vote_data_sf %>% filter(STATENAME %in% wctu_states)) + geom_sf(aes(fill = vote), size = .2) + theme_void() + labs(fill = "Vote for 19th Amendment")
-plot2 <- ggplot(wctu_data_sf) + geom_sf(aes(fill = as.factor(has_wctu_1898)), size = .2) + scale_fill_viridis_d() + theme_void() + labs(fill = "Has WCTU, 1898")
-plot_grid(plot1, plot2, nrow = 1, align = "v")
-
-wctu_data2 <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/michigan_wctu_attempt2.xlsx")
-wctu_data2$name <- gsub(" ", "", toupper(wctu_data2$county)) # create capitalized version of county names for merge; remove spaces
-
-wctu_data_sf2 <- merge(x = union_sf, y = wctu_data2, by.x = c("state_terr", "name"), by.y = c("state", "name"), all.x = TRUE)
-wctu_data_sf2 <- wctu_data_sf2 %>% filter(state_terr %in% wctu_states)
-wctu_data_sf2$count_unions[is.na(wctu_data_sf2$count_unions)] <- 0
+# # I think this can be deleted... since wctu_data_sf is part of the map data file we loaded
+# wctu_data2 <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/michigan_wctu_attempt2.xlsx")
+# wctu_data2$name <- gsub(" ", "", toupper(wctu_data2$county)) # create capitalized version of county names for merge; remove spaces
+#
+# wctu_data_sf2 <- merge(x = union_sf, y = wctu_data2, by.x = c("state_terr", "name"), by.y = c("state", "name"), all.x = TRUE)
+# wctu_data_sf2 <- wctu_data_sf2 %>% filter(state_terr %in% wctu_states)
+# wctu_data_sf2$count_unions[is.na(wctu_data_sf2$count_unions)] <- 0
 
 
-ggplot() + 
-    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = count_unions), size = .2) + 
-    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
-    # scale_fill_viridis_c() +
-    theme_void() + 
-    labs(fill = "Quantile WCTU unions") +
-    facet_wrap(~ year)
+# ggplot() +
+#     geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = count_unions), size = .2) +
+#     geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+#     # scale_fill_viridis_c() +
+#     theme_void() +
+#     labs(fill = "Quantile WCTU unions") +
+#     facet_wrap(~ year)
+#
+# summary(wctu_data_sf2$count_unions)
+# # wctu_data_sf2$count_unions_discrete <- ntile(wctu_data_sf2$count_unions, 4)
+# wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 0] <- "0"
+# wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 1:3] <- "1-3"
+# wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 3.001:6] <- "4-6"
+# wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions > 6] <- "7+"
+#
+# wctu_data_sf2$count_unions_discrete <- factor(wctu_data_sf2$count_unions_discrete, levels = c("0", "1-3", "4-6", "7+"))
+#
+# # ggplot() +
+#     geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.factor(count_unions_discrete)), size = .2) +
+#     geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+#     scale_fill_brewer(palette = "RdPu") +
+#     theme_void() +
+#     labs(fill = "Quantile WCTU unions") +
+#     facet_wrap(~ year)
+#
+#
+# ggplot() +
+#     geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.numeric(estimated_membership)), size = .2) +
+#     geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+#     scale_fill_viridis() +
+#     theme_void() +
+#     labs(fill = "Count local WCTU unions") +
+#     facet_wrap(~ year)
+# plot_grid(plot1, plot3, nrow = 1, align = "v")
+#
+# wctu_data_sf2$membership_quantiles <- ntile(wctu_data_sf2$estimated_membership, 4)
+# ggplot() +
+#     geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.factor(membership_quantiles)), size = .2) +
+#     geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
+#     scale_fill_brewer(palette = "RdPu") +
+#     theme_void() +
+#     labs(fill = "Count local WCTU unions") +
+#     facet_wrap(~ year)
 
-# wctu_data_sf2$count_unions_discrete <- ntile(wctu_data_sf2$count_unions, 4)
-wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 0] <- "0"
-wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 1:5] <- "1-5"
-wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions %in% 6:10] <- "6-10"
-wctu_data_sf2$count_unions_discrete[wctu_data_sf2$count_unions > 10] <- "11+"
+#
+ggplot() +
+    geom_sf(data = vote_data_sf, aes(fill = as.factor(vote_binary)), size = .5, color = "black", linetype = "solid") +
+    geom_sf(data = full_data_sf, fill = NA, color = "black", size = .2, linetype = "dotted") +
+    labs(fill = "Vote", title = "Congressional Votes for the 19th Amendment", subtitle = "Votes by 1920 Congressional Districts (dotted) and 1865 counties (solid)") +
+    scale_fill_manual(values = c("#c6dbef", "#08519c"), labels = c("Nay or abstain", "Yea")) +
+    theme_void()
+ggsave("~/Documents/Pitt/Projects/women_civil_war/figures//suffrage_map-counties_over_cd.png", width = 10, height = 8)
 
-wctu_data_sf2$count_unions_discrete <- factor(wctu_data_sf2$count_unions_discrete, levels = c("0", "1-5", "6-10", "11+"))
-
-ggplot() + 
-    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.factor(count_unions_discrete)), size = .2) + 
-    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
-    scale_fill_brewer(palette = "RdPu") +
-    theme_void() + 
-    labs(fill = "Quantile WCTU unions") +
-    facet_wrap(~ year)
-
-
-ggplot() + 
-    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.numeric(estimated_membership)), size = .2) + 
-    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
-    scale_fill_viridis() + 
-    theme_void() + 
-    labs(fill = "Count local WCTU unions") +
-    facet_wrap(~ year)
-plot_grid(plot1, plot3, nrow = 1, align = "v")
-
-wctu_data_sf2$membership_quantiles <- ntile(wctu_data_sf2$estimated_membership, 4)
-ggplot() + 
-    geom_sf(data = wctu_data_sf2 %>% filter(!is.na(year)), aes(fill = as.factor(membership_quantiles)), size = .2) + 
-    geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA, color = "black", size = .2) +
-    scale_fill_brewer(palette = "RdPu") +
-    theme_void() + 
-    labs(fill = "Count local WCTU unions") +
-    facet_wrap(~ year)
-
-# 
-# ggplot() + 
-#     geom_sf(data = vote_data_sf, aes(fill = as.factor(vote_binary)), size = .5, color = "black", linetype = "solid") + 
-#     geom_sf(data = full_data_sf, fill = NA, color = "black", size = .3, linetype = "dotted") +
-#     labs(fill = "Vote", title = "Congressional Votes for the 19th Amendment", subtitle = "Votes by 1920 Congressional Districts (solid) and 1865 counties (dotted)") +
-#     scale_fill_brewer(palette = "Paired") +
-#     theme_void()
-# ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/suffrage_map-counties_over_cd.png", width = 10, height = 8)
-
-
+# for counties straddling two districts, assign a % vote for Yea between those districts based on county area contained in each:
 a1 <- st_interpolate_aw(x = st_make_valid(vote_data_sf)["vote_binary"], to = full_data_sf, extensive = FALSE)
-sum(a1$vote_binary, na.rm = TRUE) / sum(simple_union_congress_sf$vote_binary, na.rm = TRUE)
+# sum(a1$vote_binary, na.rm = TRUE) / sum(simple_union_congress_sf$vote_binary, na.rm = TRUE)
 summary(a1$vote_binary)
-# ggplot(a1) + geom_sf(aes(fill = vote_binary)) + theme_void()
-# ggplot() + 
-#     geom_sf(data = a1, aes(fill = vote_binary), color = "black", size = .2) +
-#     labs(fill = "Vote", title = "Congressional Votes for the 19th Amendment by County", subtitle = '1 if "Yea", 0 if "Nay" or not voting; Weighted average by proportion of split county in each congressional district') +
-#     #scale_fill_brewer(palette = "Paired") +
-#     theme_void()
-# ggsave("~/Documents/Pitt/Projects/women_civil_war/meeting_notes/suffrage_map-votes_by_county.png", width = 10, height = 8)
+ggplot(a1) + geom_sf(aes(fill = vote_binary)) + theme_void()
+ggplot() +
+    geom_sf(data = a1, aes(fill = vote_binary), color = "black", size = .2) +
+    geom_sf(data = union_states_sf, fill = NA, color = "black", size = .5) +
+    #geom_sf(data = vote_data_sf, fill = NA, color = "black", size = .3, linetype = "dotted") +
+    labs(fill = "Proportion", title = "Congressional Votes for the 19th Amendment by County", subtitle = "Mapped values reflect the proportion of a county's land area contained within congressional districts whose representatives voted 'Yea' in favor of the 19th Amendment.") +
+    scale_fill_distiller(type = "seq", palette = "Blues", trans = "reverse") +
+    theme_void()
+ggsave("~/Documents/Pitt/Projects/women_civil_war/figures//suffrage_map-votes_by_county.png", width = 10, height = 8)
 
+wctu_data_sf$has_union <- ifelse(wctu_data_sf$count_unions > 0, yes = 1, no = 0)
 test_sf <- st_join(a1, wctu_data_sf)
 test_sf <- st_join(test_sf, vote_data_sf)
 names(test_sf)
-test1 <- lm(vote_binary.x ~ has_wctu_1898, test_sf)
-test2 <- lm(vote_binary.x ~ has_wctu_1898 + party, test_sf)
-test3 <- lm(vote_binary.x ~ has_wctu_1898 + party + log_totpop, test_sf)
+test1 <- lm(vote_binary.x ~ has_union, test_sf)
+test2 <- lm(vote_binary.x ~ has_union + party, test_sf)
+test3 <- lm(vote_binary.x ~ has_union + party + log_totpop, test_sf)
 stargazer(test1, test2, test3, df = FALSE)
