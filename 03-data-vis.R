@@ -20,7 +20,7 @@ ggplot() +
     geom_sf(data = union_states_sf, fill = NA, color = "black", size = .5) +
     theme_void() +
     labs(fill = "Mean number of major battles fought")+ theme(legend.position="bottom")
-ggsave("~/Documents/Pitt/Projects/women_civil_war/figures//map_mainbattlenum_discrete.png", width = 8, height = 6)
+ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/map_mainbattlenum_discrete.png", width = 8, height = 6)
 
 # This would be a good map if 1860 totpop was available for every county pictured (e.g. Cameron, PA didn't exist in the 1860 Census, so UA data exists for it, but not totpop)
 # full_data_sf$round_pct_disabled <- round(full_data_sf$pct_pop_disabled, 2)
