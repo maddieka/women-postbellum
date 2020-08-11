@@ -32,8 +32,8 @@ wctu_data_sf$log_mfgcap <- log(wctu_data_sf$mfgcap + 1)
 # wctu_data_sf$denom <- NA
 
 mean(wctu_data_sf$has_union[wctu_data_sf$year == 1882], na.rm = TRUE)
-# ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
-
+ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
+ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/original_data.png", width = 8, height = 6)
 
 # Main table
 lm1.1i <- lm(has_union ~ pct_pop_disabledx100 + year + pct_pop_disabledx100*year, wctu_data_sf) # baseline model
@@ -203,6 +203,7 @@ hazard_sf$year <- factor(hazard_sf$year, levels = c(1882, 1890, 1895))
 
 
 # NEIGHBORS...####
+
 
 # robustness! (include column 2 from economic/poltical controls table as baseline comparison; add (i) column 2 run without years 1896-1898, (i) "corrected" data, (ii) hazard model, and (iii) control for neighboring county)
 lm1.6ir <- lm1.6ip
