@@ -31,6 +31,29 @@ wctu_data_sf$log_mfgcap <- log(wctu_data_sf$mfgcap + 1)
 # wctu_data_sf$mbmshp_per10k <- NA
 # wctu_data_sf$denom <- NA
 
+# summary stats table
+wctu_data$has_union <- ifelse(wctu_data$count_unions > 0, yes = 1, no = 0)
+
+wctu_data %>%
+  select(year, count_unions, estimated_membership, total_dues, has_union) %>%
+  group_by(year) %>%
+  mutate(id = 1:n()) %>%
+  ungroup() %>%
+  gather(temp, val, count_unions, total_dues, estimated_membership, has_union) %>%
+  unite(temp1, temp, year, sep = '_') %>%
+  spread(temp1, val) %>%
+  select(-id) %>%
+  as.data.frame() %>%
+  stargazer(summary.stat = c("n", "mean", "sd", "min", "median", "max"),
+            label = "tab:wctu_summary_stats",
+            title = "Summary Statistics for the Annual Treasurer's Reports of the Michigan WCTU",
+            covariate.labels = c("Count unions, 1882","1890","1895","1896","1898",
+                                 "Estimated membership, 1882","1890","1895","1896","1898",
+                                 "Has a union, 1882","1890","1895","1896","1898",
+                                 "Dues collected, 1882","1890","1895","1896","1898")
+            # type = "text"
+            )
+
 mean(wctu_data_sf$has_union[wctu_data_sf$year == 1882], na.rm = TRUE)
 ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union")
 ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/original_data.png", width = 8, height = 6)
