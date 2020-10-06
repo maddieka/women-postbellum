@@ -49,7 +49,7 @@ full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by
 full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
 
 # SUBSET TO STATES WITH WCTU DATA FOR WCTU MERGE
-wctu_states <- c("Pennsylvania","Michigan")
+wctu_states <- c("Pennsylvania","Michigan","Ohio","Indiana")
 wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
 #plot(st_geometry(wctu_data_sf))
 
@@ -61,12 +61,13 @@ wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
 # USE THIS CHUNK IF YOU WANT TO USE YES/NO WCTU UNION IN A COUNTY FOR A GIVEN YEAR
 wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:4]
 wctu_data$name <- gsub("[^[:alnum:]]", "", toupper(wctu_data$county)) # create capitalized version of county names for merge; remove spaces and all non-alphanumeric symbols
-sort(unique(wctu_data$name))
+wctu_data$count_unions[is.na(wctu_data$count_unions)] <- 0
+wctu_data$has_union <- ifelse(wctu_data$count_unions > 0, yes = 1, no = 0)
+
 table(wctu_data$state, wctu_data$year)
 
-wctu_data <- wctu_data %>% filter(year %in% c(1883, 1880)) # SELECT WHICH CROSS-SECTIONS YOU WANT
+wctu_data <- wctu_data %>% filter(year %in% c(1875, 1880, 1882)) # SELECT WHICH CROSS-SECTIONS YOU WANT
 
-wctu_data$has_union <- ifelse(wctu_data$count_unions > 0, yes = 1, no = 0)
 
 wctu_data$name <- gsub(pattern = "MACKINACMICHILIM", replacement = "MACKINAC", x = wctu_data$name)
 wctu_data$name <- gsub(pattern = "ALGER", replacement = "SCHOOLCRAFT", x = wctu_data$name) # Alger County was split off from Schoolcraft County in 1885
@@ -92,4 +93,3 @@ wctu_data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = wctu_da
 #
 # wctu_data_sf <- merge(x = wctu_data_sf, y = test, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
 wctu_data_sf <- merge(x = wctu_data_sf, y = wctu_data, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
-wctu_data_sf$has_union[is.na(wctu_data_sf$has_union)] <- 0
