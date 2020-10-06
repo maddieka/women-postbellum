@@ -16,12 +16,6 @@ options(scipen=999) # prevent scientific notation
 #source("~/git/women-postbellum/01-clean-merge-data.R")
 source("~/git/women-postbellum/01-clean-map-data.R")
 
-wctu_data_sf$year1882 <- ifelse(test = wctu_data_sf$year == 1882, yes = 1, no = 0)
-wctu_data_sf$year1890 <- ifelse(test = wctu_data_sf$year == 1890, yes = 1, no = 0)
-wctu_data_sf$year1895 <- ifelse(test = wctu_data_sf$year == 1895, yes = 1, no = 0)
-wctu_data_sf$year1896 <- ifelse(test = wctu_data_sf$year == 1896, yes = 1, no = 0)
-wctu_data_sf$year1898 <- ifelse(test = wctu_data_sf$year == 1898, yes = 1, no = 0)
-
 wctu_data_sf$year <- as.factor(wctu_data_sf$year)
 wctu_data_sf$log_mbshp <- log(wctu_data_sf$estimated_membership + 1)
 wctu_data_sf$Total_count_1860 <- wctu_data_sf$Female_count_1860 + wctu_data_sf$Male_count_1860
