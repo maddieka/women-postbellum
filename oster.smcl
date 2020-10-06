@@ -1,0 +1,1945 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/marnsbarger/git/women-postbellum/oster.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}31 Aug 2020, 14:03:09
+
+{com}. use "/Users/marnsbarger/Desktop/df.dta"
+
+. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       310
+{txt}{hline 13}{c +}{hline 34}   F(5, 304)       = {res}    12.69
+{txt}       Model {c |} {res} 7.35721229         5  1.47144246   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 35.2524651       304  .115962056   {txt}R-squared       ={res}    0.1727
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1591
+{txt}       Total {c |} {res} 42.6096774       309  .137895396   {txt}Root MSE        =   {res} .34053
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .1532861{col 32}{space 2} .0285232{col 43}{space 1}    5.37{col 52}{space 3}0.000{col 60}{space 4} .0971583{col 73}{space 3} .2094139
+{txt}{space 8}pctpopdied {c |}{col 20}{res}{space 2} 2.519397{col 32}{space 2} 1.885029{col 43}{space 1}    1.34{col 52}{space 3}0.182{col 60}{space 4}-1.189959{col 73}{space 3} 6.228752
+{txt}{space 4}pctpopsoldiers {c |}{col 20}{res}{space 2}-1.835661{col 32}{space 2}  1.97354{col 43}{space 1}   -0.93{col 52}{space 3}0.353{col 60}{space 4}-5.719188{col 73}{space 3} 2.047867
+{txt}{space 6}pctpopregout {c |}{col 20}{res}{space 2} 2.106535{col 32}{space 2} 2.210162{col 43}{space 1}    0.95{col 52}{space 3}0.341{col 60}{space 4}-2.242618{col 73}{space 3} 6.455688
+{txt}{space 5}pctpopwounded {c |}{col 20}{res}{space 2} 11.06762{col 32}{space 2} 15.49734{col 43}{space 1}    0.71{col 52}{space 3}0.476{col 60}{space 4}-19.42802{col 73}{space 3} 41.56326
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .5598858{col 32}{space 2} .0498839{col 43}{space 1}   11.22{col 52}{space 3}0.000{col 60}{space 4} .4617243{col 73}{space 3} .6580472
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.08610
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.14504{col 49}0.164
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.15329{col 49}0.173
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       310
+{txt}{hline 13}{c +}{hline 34}   F(6, 303)       = {res}    15.14
+{txt}       Model {c |} {res} 9.82561983         6  1.63760331   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 32.7840576       303   .10819821   {txt}R-squared       ={res}    0.2306
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2154
+{txt}       Total {c |} {res} 42.6096774       309  .137895396   {txt}Root MSE        =   {res} .32893
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .0786666{col 32}{space 2} .0316728{col 43}{space 1}    2.48{col 52}{space 3}0.014{col 60}{space 4} .0163401{col 73}{space 3} .1409931
+{txt}{space 8}pctpopdied {c |}{col 20}{res}{space 2} 4.470818{col 32}{space 2} 1.866106{col 43}{space 1}    2.40{col 52}{space 3}0.017{col 60}{space 4} .7986502{col 73}{space 3} 8.142986
+{txt}{space 4}pctpopsoldiers {c |}{col 20}{res}{space 2}-3.937441{col 32}{space 2} 1.956457{col 43}{space 1}   -2.01{col 52}{space 3}0.045{col 60}{space 4}-7.787404{col 73}{space 3} -.087478
+{txt}{space 6}pctpopregout {c |}{col 20}{res}{space 2} 4.838072{col 32}{space 2} 2.210164{col 43}{space 1}    2.19{col 52}{space 3}0.029{col 60}{space 4} .4888584{col 73}{space 3} 9.187285
+{txt}{space 5}pctpopwounded {c |}{col 20}{res}{space 2} 3.575211{col 32}{space 2} 15.05153{col 43}{space 1}    0.24{col 52}{space 3}0.812{col 60}{space 4}-26.04355{col 73}{space 3} 33.19397
+{txt}{space 9}logtotpop {c |}{col 20}{res}{space 2} .0744555{col 32}{space 2} .0155883{col 43}{space 1}    4.78{col 52}{space 3}0.000{col 60}{space 4} .0437805{col 73}{space 3} .1051304
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2}  .089852{col 32}{space 2} .1095716{col 43}{space 1}    0.82{col 52}{space 3}0.413{col 60}{space 4}-.1257657{col 73}{space 3} .3054697
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.05849
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.14504{col 49}0.164
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07867{col 49}0.231
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(9, 235)       = {res}     5.45
+{txt}       Model {c |} {res} 4.01206747         9  .445785275   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.2287489       235  .081824463   {txt}R-squared       ={res}    0.1726
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1409
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28605
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0803135{col 35}{space 2} .0465324{col 46}{space 1}    1.73{col 55}{space 3}0.086{col 63}{space 4}-.0113604{col 76}{space 3} .1719874
+{txt}{space 11}pctpopdied {c |}{col 23}{res}{space 2}-4.490219{col 35}{space 2} 3.444306{col 46}{space 1}   -1.30{col 55}{space 3}0.194{col 63}{space 4}-11.27588{col 76}{space 3} 2.295443
+{txt}{space 7}pctpopsoldiers {c |}{col 23}{res}{space 2}  .648468{col 35}{space 2} 2.440268{col 46}{space 1}    0.27{col 55}{space 3}0.791{col 63}{space 4}-4.159129{col 76}{space 3} 5.456065
+{txt}{space 9}pctpopregout {c |}{col 23}{res}{space 2}-.3444278{col 35}{space 2} 3.118229{col 46}{space 1}   -0.11{col 55}{space 3}0.912{col 63}{space 4}-6.487682{col 76}{space 3} 5.798826
+{txt}{space 8}pctpopwounded {c |}{col 23}{res}{space 2} 4.844394{col 35}{space 2} 20.85422{col 46}{space 1}    0.23{col 55}{space 3}0.817{col 63}{space 4}-36.24072{col 76}{space 3} 45.92951
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2668742{col 35}{space 2} .1933897{col 46}{space 1}   -1.38{col 55}{space 3}0.169{col 63}{space 4}-.6478732{col 76}{space 3} .1141249
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0611097{col 35}{space 2} .0193959{col 46}{space 1}    3.15{col 55}{space 3}0.002{col 63}{space 4} .0228976{col 76}{space 3} .0993218
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2}   .00168{col 35}{space 2} .0019139{col 46}{space 1}    0.88{col 55}{space 3}0.381{col 63}{space 4}-.0020906{col 76}{space 3} .0054506
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2} .0003138{col 35}{space 2} .0023537{col 46}{space 1}    0.13{col 55}{space 3}0.894{col 63}{space 4}-.0043232{col 76}{space 3} .0049508
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5900946{col 35}{space 2} .2099106{col 46}{space 1}    2.81{col 55}{space 3}0.005{col 63}{space 4} .1765476{col 76}{space 3} 1.003642
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.03385
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08031{col 49}0.173
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860 logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(10, 234)      = {res}     4.92
+{txt}       Model {c |} {res} 4.03447622        10  .403447622   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.2063401       234  .082078377   {txt}R-squared       ={res}    0.1736
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1383
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28649
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2}  .070829{col 35}{space 2} .0500147{col 46}{space 1}    1.42{col 55}{space 3}0.158{col 63}{space 4}-.0277076{col 76}{space 3} .1693656
+{txt}{space 11}pctpopdied {c |}{col 23}{res}{space 2}-4.395721{col 35}{space 2} 3.454384{col 46}{space 1}   -1.27{col 55}{space 3}0.204{col 63}{space 4}-11.20139{col 76}{space 3} 2.409945
+{txt}{space 7}pctpopsoldiers {c |}{col 23}{res}{space 2}  .816592{col 35}{space 2} 2.465141{col 46}{space 1}    0.33{col 55}{space 3}0.741{col 63}{space 4}-4.040114{col 76}{space 3} 5.673298
+{txt}{space 9}pctpopregout {c |}{col 23}{res}{space 2}-.4492803{col 35}{space 2} 3.129504{col 46}{space 1}   -0.14{col 55}{space 3}0.886{col 63}{space 4}-6.614883{col 76}{space 3} 5.716322
+{txt}{space 8}pctpopwounded {c |}{col 23}{res}{space 2} 1.509252{col 35}{space 2}  21.8401{col 46}{space 1}    0.07{col 55}{space 3}0.945{col 63}{space 4} -41.5191{col 76}{space 3}  44.5376
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2608521{col 35}{space 2} .1940321{col 46}{space 1}   -1.34{col 55}{space 3}0.180{col 63}{space 4}-.6431253{col 76}{space 3}  .121421
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0423383{col 35}{space 2} .0408412{col 46}{space 1}    1.04{col 55}{space 3}0.301{col 63}{space 4} -.038125{col 76}{space 3} .1228017
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0015226{col 35}{space 2} .0019404{col 46}{space 1}    0.78{col 55}{space 3}0.433{col 63}{space 4}-.0023003{col 76}{space 3} .0053454
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}  .000281{col 35}{space 2} .0023581{col 46}{space 1}    0.12{col 55}{space 3}0.905{col 63}{space 4}-.0043649{col 76}{space 3} .0049269
+{txt}{space 12}logtotpop {c |}{col 23}{res}{space 2} .0191738{col 35}{space 2} .0366955{col 46}{space 1}    0.52{col 55}{space 3}0.602{col 63}{space 4}-.0531221{col 76}{space 3} .0914696
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5040459{col 35}{space 2} .2670576{col 46}{space 1}    1.89{col 55}{space 3}0.060{col 63}{space 4}-.0220986{col 76}{space 3}  1.03019
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.02570
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07083{col 49}0.174
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860 logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(6, 238)       = {res}     7.91
+{txt}       Model {c |} {res} 3.86291805         6  .643819676   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.3778983       238  .081419741   {txt}R-squared       ={res}    0.1662
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1452
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28534
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0809833{col 35}{space 2} .0371087{col 46}{space 1}    2.18{col 55}{space 3}0.030{col 63}{space 4}   .00788{col 76}{space 3} .1540867
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2645601{col 35}{space 2} .1812466{col 46}{space 1}   -1.46{col 55}{space 3}0.146{col 63}{space 4}-.6216126{col 76}{space 3} .0924924
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0280971{col 35}{space 2} .0346811{col 46}{space 1}    0.81{col 55}{space 3}0.419{col 63}{space 4}-.0402241{col 76}{space 3} .0964182
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0001699{col 35}{space 2} .0016843{col 46}{space 1}    0.10{col 55}{space 3}0.920{col 63}{space 4}-.0031481{col 76}{space 3} .0034879
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0014773{col 35}{space 2} .0019162{col 46}{space 1}   -0.77{col 55}{space 3}0.441{col 63}{space 4}-.0052522{col 76}{space 3} .0022976
+{txt}{space 12}logtotpop {c |}{col 23}{res}{space 2} .0321594{col 35}{space 2} .0324377{col 46}{space 1}    0.99{col 55}{space 3}0.322{col 63}{space 4}-.0317424{col 76}{space 3} .0960612
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5801718{col 35}{space 2} .2532402{col 46}{space 1}    2.29{col 55}{space 3}0.023{col 63}{space 4} .0812932{col 76}{space 3}  1.07905
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.05397
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08098{col 49}0.166
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(5, 239)       = {res}     9.29
+{txt}       Model {c |} {res} 3.78288963         5  .756577925   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.4579267       239  .081413919   {txt}R-squared       ={res}    0.1628
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1453
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28533
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0962651{col 35}{space 2} .0337547{col 46}{space 1}    2.85{col 55}{space 3}0.005{col 63}{space 4} .0297705{col 76}{space 3} .1627598
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2} -.302598{col 35}{space 2} .1771329{col 46}{space 1}   -1.71{col 55}{space 3}0.089{col 63}{space 4}-.6515391{col 76}{space 3}  .046343
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0579556{col 35}{space 2} .0171967{col 46}{space 1}    3.37{col 55}{space 3}0.001{col 63}{space 4} .0240792{col 76}{space 3}  .091832
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0002437{col 35}{space 2} .0016826{col 46}{space 1}    0.14{col 55}{space 3}0.885{col 63}{space 4}-.0030709{col 76}{space 3} .0035582
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0016042{col 35}{space 2} .0019119{col 46}{space 1}   -0.84{col 55}{space 3}0.402{col 63}{space 4}-.0053705{col 76}{space 3}  .002162
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .7520556{col 35}{space 2}  .184582{col 46}{space 1}    4.07{col 55}{space 3}0.000{col 63}{space 4} .3884404{col 76}{space 3} 1.115671
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.07898
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.09627{col 49}0.163
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. use "/Users/marnsbarger/Desktop/df.dta"
+
+. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       310
+{txt}{hline 13}{c +}{hline 34}   F(5, 304)       = {res}    12.69
+{txt}       Model {c |} {res} 7.35721229         5  1.47144246   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 35.2524651       304  .115962056   {txt}R-squared       ={res}    0.1727
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1591
+{txt}       Total {c |} {res} 42.6096774       309  .137895396   {txt}Root MSE        =   {res} .34053
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .1532861{col 32}{space 2} .0285232{col 43}{space 1}    5.37{col 52}{space 3}0.000{col 60}{space 4} .0971583{col 73}{space 3} .2094139
+{txt}{space 8}pctpopdied {c |}{col 20}{res}{space 2} 2.519397{col 32}{space 2} 1.885029{col 43}{space 1}    1.34{col 52}{space 3}0.182{col 60}{space 4}-1.189959{col 73}{space 3} 6.228752
+{txt}{space 4}pctpopsoldiers {c |}{col 20}{res}{space 2}-1.835661{col 32}{space 2}  1.97354{col 43}{space 1}   -0.93{col 52}{space 3}0.353{col 60}{space 4}-5.719188{col 73}{space 3} 2.047867
+{txt}{space 6}pctpopregout {c |}{col 20}{res}{space 2} 2.106535{col 32}{space 2} 2.210162{col 43}{space 1}    0.95{col 52}{space 3}0.341{col 60}{space 4}-2.242618{col 73}{space 3} 6.455688
+{txt}{space 5}pctpopwounded {c |}{col 20}{res}{space 2} 11.06762{col 32}{space 2} 15.49734{col 43}{space 1}    0.71{col 52}{space 3}0.476{col 60}{space 4}-19.42802{col 73}{space 3} 41.56326
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .5598858{col 32}{space 2} .0498839{col 43}{space 1}   11.22{col 52}{space 3}0.000{col 60}{space 4} .4617243{col 73}{space 3} .6580472
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.08610
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.14504{col 49}0.164
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.15329{col 49}0.173
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(9, 235)       = {res}     5.45
+{txt}       Model {c |} {res} 4.01206747         9  .445785275   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.2287489       235  .081824463   {txt}R-squared       ={res}    0.1726
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1409
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28605
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0803135{col 35}{space 2} .0465324{col 46}{space 1}    1.73{col 55}{space 3}0.086{col 63}{space 4}-.0113604{col 76}{space 3} .1719874
+{txt}{space 11}pctpopdied {c |}{col 23}{res}{space 2}-4.490219{col 35}{space 2} 3.444306{col 46}{space 1}   -1.30{col 55}{space 3}0.194{col 63}{space 4}-11.27588{col 76}{space 3} 2.295443
+{txt}{space 7}pctpopsoldiers {c |}{col 23}{res}{space 2}  .648468{col 35}{space 2} 2.440268{col 46}{space 1}    0.27{col 55}{space 3}0.791{col 63}{space 4}-4.159129{col 76}{space 3} 5.456065
+{txt}{space 9}pctpopregout {c |}{col 23}{res}{space 2}-.3444278{col 35}{space 2} 3.118229{col 46}{space 1}   -0.11{col 55}{space 3}0.912{col 63}{space 4}-6.487682{col 76}{space 3} 5.798826
+{txt}{space 8}pctpopwounded {c |}{col 23}{res}{space 2} 4.844394{col 35}{space 2} 20.85422{col 46}{space 1}    0.23{col 55}{space 3}0.817{col 63}{space 4}-36.24072{col 76}{space 3} 45.92951
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2668742{col 35}{space 2} .1933897{col 46}{space 1}   -1.38{col 55}{space 3}0.169{col 63}{space 4}-.6478732{col 76}{space 3} .1141249
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0611097{col 35}{space 2} .0193959{col 46}{space 1}    3.15{col 55}{space 3}0.002{col 63}{space 4} .0228976{col 76}{space 3} .0993218
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2}   .00168{col 35}{space 2} .0019139{col 46}{space 1}    0.88{col 55}{space 3}0.381{col 63}{space 4}-.0020906{col 76}{space 3} .0054506
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2} .0003138{col 35}{space 2} .0023537{col 46}{space 1}    0.13{col 55}{space 3}0.894{col 63}{space 4}-.0043232{col 76}{space 3} .0049508
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5900946{col 35}{space 2} .2099106{col 46}{space 1}    2.81{col 55}{space 3}0.005{col 63}{space 4} .1765476{col 76}{space 3} 1.003642
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.03385
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08031{col 49}0.173
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(5, 239)       = {res}     9.29
+{txt}       Model {c |} {res} 3.78288963         5  .756577925   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.4579267       239  .081413919   {txt}R-squared       ={res}    0.1628
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1453
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28533
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0962651{col 35}{space 2} .0337547{col 46}{space 1}    2.85{col 55}{space 3}0.005{col 63}{space 4} .0297705{col 76}{space 3} .1627598
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2} -.302598{col 35}{space 2} .1771329{col 46}{space 1}   -1.71{col 55}{space 3}0.089{col 63}{space 4}-.6515391{col 76}{space 3}  .046343
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0579556{col 35}{space 2} .0171967{col 46}{space 1}    3.37{col 55}{space 3}0.001{col 63}{space 4} .0240792{col 76}{space 3}  .091832
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0002437{col 35}{space 2} .0016826{col 46}{space 1}    0.14{col 55}{space 3}0.885{col 63}{space 4}-.0030709{col 76}{space 3} .0035582
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0016042{col 35}{space 2} .0019119{col 46}{space 1}   -0.84{col 55}{space 3}0.402{col 63}{space 4}-.0053705{col 76}{space 3}  .002162
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .7520556{col 35}{space 2}  .184582{col 46}{space 1}    4.07{col 55}{space 3}0.000{col 63}{space 4} .3884404{col 76}{space 3} 1.115671
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.07898
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.09627{col 49}0.163
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860 logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(6, 238)       = {res}     7.91
+{txt}       Model {c |} {res} 3.86291805         6  .643819676   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.3778983       238  .081419741   {txt}R-squared       ={res}    0.1662
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1452
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28534
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0809833{col 35}{space 2} .0371087{col 46}{space 1}    2.18{col 55}{space 3}0.030{col 63}{space 4}   .00788{col 76}{space 3} .1540867
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2645601{col 35}{space 2} .1812466{col 46}{space 1}   -1.46{col 55}{space 3}0.146{col 63}{space 4}-.6216126{col 76}{space 3} .0924924
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0280971{col 35}{space 2} .0346811{col 46}{space 1}    0.81{col 55}{space 3}0.419{col 63}{space 4}-.0402241{col 76}{space 3} .0964182
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0001699{col 35}{space 2} .0016843{col 46}{space 1}    0.10{col 55}{space 3}0.920{col 63}{space 4}-.0031481{col 76}{space 3} .0034879
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0014773{col 35}{space 2} .0019162{col 46}{space 1}   -0.77{col 55}{space 3}0.441{col 63}{space 4}-.0052522{col 76}{space 3} .0022976
+{txt}{space 12}logtotpop {c |}{col 23}{res}{space 2} .0321594{col 35}{space 2} .0324377{col 46}{space 1}    0.99{col 55}{space 3}0.322{col 63}{space 4}-.0317424{col 76}{space 3} .0960612
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5801718{col 35}{space 2} .2532402{col 46}{space 1}    2.29{col 55}{space 3}0.023{col 63}{space 4} .0812932{col 76}{space 3}  1.07905
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.05397
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08098{col 49}0.166
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       305
+{txt}{hline 13}{c +}{hline 34}   F(2, 302)       = {res}    30.39
+{txt}       Model {c |} {res}  6.7767587         2  3.38837935   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 33.6691429       302  .111487228   {txt}R-squared       ={res}    0.1676
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1620
+{txt}       Total {c |} {res} 40.4459016       304  .133045729   {txt}Root MSE        =   {res}  .3339
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .1436692{col 32}{space 2} .0188153{col 43}{space 1}    7.64{col 52}{space 3}0.000{col 60}{space 4} .1066434{col 73}{space 3} .1806949
+{txt}{space 7}Malelfp1860 {c |}{col 20}{res}{space 2} -.310576{col 32}{space 2} .1381984{col 43}{space 1}   -2.25{col 52}{space 3}0.025{col 60}{space 4}-.5825297{col 73}{space 3}-.0386222
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .7935444{col 32}{space 2} .0942719{col 43}{space 1}    8.42{col 52}{space 3}0.000{col 60}{space 4} .6080313{col 73}{space 3} .9790574
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}   -0.37404
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.13991{col 49}0.154
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.14367{col 49}0.168
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. psacalc delta pctpopdisabledx100 logtotpop
+
+{err}Too many variables
+{txt}{search r(103), local:r(103);}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       305
+{txt}{hline 13}{c +}{hline 34}   F(3, 301)       = {res}    24.53
+{txt}       Model {c |} {res} 7.94566304         3  2.64855435   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 32.5002386       301  .107974215   {txt}R-squared       ={res}    0.1965
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1884
+{txt}       Total {c |} {res} 40.4459016       304  .133045729   {txt}Root MSE        =   {res} .32859
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .0784078{col 32}{space 2} .0271344{col 43}{space 1}    2.89{col 52}{space 3}0.004{col 60}{space 4} .0250106{col 73}{space 3} .1318051
+{txt}{space 7}Malelfp1860 {c |}{col 20}{res}{space 2}-.2174967{col 32}{space 2} .1389146{col 43}{space 1}   -1.57{col 52}{space 3}0.118{col 60}{space 4}-.4908635{col 73}{space 3} .0558702
+{txt}{space 9}logtotpop {c |}{col 20}{res}{space 2} .0472089{col 32}{space 2} .0143481{col 43}{space 1}    3.29{col 52}{space 3}0.001{col 60}{space 4} .0189736{col 73}{space 3} .0754442
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .4516786{col 32}{space 2} .1392943{col 43}{space 1}    3.24{col 52}{space 3}0.001{col 60}{space 4} .1775647{col 73}{space 3} .7257925
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.07368
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.13991{col 49}0.154
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07841{col 49}0.196
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. clear
+
+. use "/Users/marnsbarger/Desktop/df.dta"
+
+. reg hasunion pctpopdisabledx100 Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860 logtotpop i.year
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(10, 234)      = {res}     6.52
+{txt}       Model {c |} {res} 5.06291805        10  .506291805   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 18.1778983       234  .077683326   {txt}R-squared       ={res}    0.2178
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1844
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .27872
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0809833{col 35}{space 2} .0362472{col 46}{space 1}    2.23{col 55}{space 3}0.026{col 63}{space 4} .0095708{col 76}{space 3} .1523958
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2645601{col 35}{space 2}  .177039{col 46}{space 1}   -1.49{col 55}{space 3}0.136{col 63}{space 4}-.6133542{col 76}{space 3} .0842339
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0280971{col 35}{space 2}  .033876{col 46}{space 1}    0.83{col 55}{space 3}0.408{col 63}{space 4}-.0386438{col 76}{space 3}  .094838
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0001699{col 35}{space 2} .0016452{col 46}{space 1}    0.10{col 55}{space 3}0.918{col 63}{space 4}-.0030713{col 76}{space 3} .0034111
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0014773{col 35}{space 2} .0018717{col 46}{space 1}   -0.79{col 55}{space 3}0.431{col 63}{space 4}-.0051649{col 76}{space 3} .0022103
+{txt}{space 12}logtotpop {c |}{col 23}{res}{space 2} .0321594{col 35}{space 2} .0316847{col 46}{space 1}    1.01{col 55}{space 3}0.311{col 63}{space 4}-.0302643{col 76}{space 3} .0945832
+{txt}{space 21} {c |}
+{space 17}year {c |}
+{space 16}1890  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0563094{col 46}{space 1}    2.90{col 55}{space 3}0.004{col 63}{space 4} .0523271{col 76}{space 3} .2742035
+{txt}{space 16}1895  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0563094{col 46}{space 1}    3.26{col 55}{space 3}0.001{col 63}{space 4} .0727353{col 76}{space 3} .2946116
+{txt}{space 16}1896  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0563094{col 46}{space 1}    3.26{col 55}{space 3}0.001{col 63}{space 4} .0727353{col 76}{space 3} .2946116
+{txt}{space 16}1898  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0563094{col 46}{space 1}    2.90{col 55}{space 3}0.004{col 63}{space 4} .0523271{col 76}{space 3} .2742035
+{txt}{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2} .4413963{col 35}{space 2} .2499118{col 46}{space 1}    1.77{col 55}{space 3}0.079{col 63}{space 4}-.0509684{col 76}{space 3} .9337609
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.07730
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08098{col 49}0.218
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860  i.year
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(9, 235)       = {res}     7.13
+{txt}       Model {c |} {res} 4.98288963         9  .553654403   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 18.2579267       235  .077693305   {txt}R-squared       ={res}    0.2144
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1843
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .27874
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0962651{col 35}{space 2} .0329743{col 46}{space 1}    2.92{col 55}{space 3}0.004{col 63}{space 4}  .031302{col 76}{space 3} .1612282
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2} -.302598{col 35}{space 2} .1730381{col 46}{space 1}   -1.75{col 55}{space 3}0.082{col 63}{space 4}-.6435021{col 76}{space 3}  .038306
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0579556{col 35}{space 2} .0167991{col 46}{space 1}    3.45{col 55}{space 3}0.001{col 63}{space 4} .0248595{col 76}{space 3} .0910517
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0002437{col 35}{space 2} .0016437{col 46}{space 1}    0.15{col 55}{space 3}0.882{col 63}{space 4}-.0029945{col 76}{space 3} .0034819
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0016042{col 35}{space 2} .0018677{col 46}{space 1}   -0.86{col 55}{space 3}0.391{col 63}{space 4}-.0052837{col 76}{space 3} .0020753
+{txt}{space 21} {c |}
+{space 17}year {c |}
+{space 16}1890  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2}  .056313{col 46}{space 1}    2.90{col 55}{space 3}0.004{col 63}{space 4} .0523225{col 76}{space 3} .2742081
+{txt}{space 16}1895  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2}  .056313{col 46}{space 1}    3.26{col 55}{space 3}0.001{col 63}{space 4} .0727306{col 76}{space 3} .2946163
+{txt}{space 16}1896  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2}  .056313{col 46}{space 1}    3.26{col 55}{space 3}0.001{col 63}{space 4} .0727306{col 76}{space 3} .2946163
+{txt}{space 16}1898  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2}  .056313{col 46}{space 1}    2.90{col 55}{space 3}0.004{col 63}{space 4} .0523225{col 76}{space 3} .2742081
+{txt}{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2} .6132801{col 35}{space 2} .1837986{col 46}{space 1}    3.34{col 55}{space 3}0.001{col 63}{space 4} .2511766{col 76}{space 3} .9753836
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.11628
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.09627{col 49}0.214
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 i.year
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       305
+{txt}{hline 13}{c +}{hline 34}   F(6, 298)       = {res}    15.56
+{txt}       Model {c |} {res} 9.64888985         6  1.60814831   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 30.7970118       298  .103345677   {txt}R-squared       ={res}    0.2386
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2232
+{txt}       Total {c |} {res} 40.4459016       304  .133045729   {txt}Root MSE        =   {res} .32147
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .1436692{col 32}{space 2} .0181153{col 43}{space 1}    7.93{col 52}{space 3}0.000{col 60}{space 4} .1080191{col 73}{space 3} .1793193
+{txt}{space 7}Malelfp1860 {c |}{col 20}{res}{space 2} -.310576{col 32}{space 2} .1330567{col 43}{space 1}   -2.33{col 52}{space 3}0.020{col 60}{space 4}-.5724257{col 73}{space 3}-.0487262
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}1890  {c |}{col 20}{res}{space 2} .1967213{col 32}{space 2} .0582098{col 43}{space 1}    3.38{col 52}{space 3}0.001{col 60}{space 4} .0821669{col 73}{space 3} .3112757
+{txt}{space 13}1895  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2} .0582098{col 43}{space 1}    4.51{col 52}{space 3}0.000{col 60}{space 4} .1477407{col 73}{space 3} .3768495
+{txt}{space 13}1896  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2} .0582098{col 43}{space 1}    4.51{col 52}{space 3}0.000{col 60}{space 4} .1477407{col 73}{space 3} .3768495
+{txt}{space 13}1898  {c |}{col 20}{res}{space 2} .2131148{col 32}{space 2} .0582098{col 43}{space 1}    3.66{col 52}{space 3}0.000{col 60}{space 4} .0985604{col 73}{space 3} .3276691
+{txt}{space 18} {c |}
+{space 13}_cons {c |}{col 20}{res}{space 2} .6066591{col 32}{space 2} .0979467{col 43}{space 1}    6.19{col 52}{space 3}0.000{col 60}{space 4} .4139044{col 73}{space 3} .7994139
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}   -4.58701
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.13991{col 49}0.154
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.14367{col 49}0.239
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 i.year logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       305
+{txt}{hline 13}{c +}{hline 34}   F(7, 297)       = {res}    15.49
+{txt}       Model {c |} {res} 10.8177942         7  1.54539917   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 29.6281075       297  .099757938   {txt}R-squared       ={res}    0.2675
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2502
+{txt}       Total {c |} {res} 40.4459016       304  .133045729   {txt}Root MSE        =   {res} .31584
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .0784078{col 32}{space 2} .0260816{col 43}{space 1}    3.01{col 52}{space 3}0.003{col 60}{space 4} .0270796{col 73}{space 3}  .129736
+{txt}{space 7}Malelfp1860 {c |}{col 20}{res}{space 2}-.2174967{col 32}{space 2} .1335247{col 43}{space 1}   -1.63{col 52}{space 3}0.104{col 60}{space 4}-.4802712{col 73}{space 3} .0452778
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}1890  {c |}{col 20}{res}{space 2} .1967213{col 32}{space 2} .0571905{col 43}{space 1}    3.44{col 52}{space 3}0.001{col 60}{space 4} .0841714{col 73}{space 3} .3092713
+{txt}{space 13}1895  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2} .0571905{col 43}{space 1}    4.59{col 52}{space 3}0.000{col 60}{space 4} .1497451{col 73}{space 3}  .374845
+{txt}{space 13}1896  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2} .0571905{col 43}{space 1}    4.59{col 52}{space 3}0.000{col 60}{space 4} .1497451{col 73}{space 3}  .374845
+{txt}{space 13}1898  {c |}{col 20}{res}{space 2} .2131148{col 32}{space 2} .0571905{col 43}{space 1}    3.73{col 52}{space 3}0.000{col 60}{space 4} .1005648{col 73}{space 3} .3256647
+{txt}{space 18} {c |}
+{space 9}logtotpop {c |}{col 20}{res}{space 2} .0472089{col 32}{space 2} .0137914{col 43}{space 1}    3.42{col 52}{space 3}0.001{col 60}{space 4} .0200677{col 73}{space 3} .0743501
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .2647934{col 32}{space 2} .1386893{col 43}{space 1}    1.91{col 52}{space 3}0.057{col 60}{space 4} -.008145{col 73}{space 3} .5377317
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.11347
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.13991{col 49}0.154
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07841{col 49}0.267
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(9, 235)       = {res}     5.45
+{txt}       Model {c |} {res} 4.01206747         9  .445785275   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.2287489       235  .081824463   {txt}R-squared       ={res}    0.1726
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1409
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28605
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0803135{col 35}{space 2} .0465324{col 46}{space 1}    1.73{col 55}{space 3}0.086{col 63}{space 4}-.0113604{col 76}{space 3} .1719874
+{txt}{space 11}pctpopdied {c |}{col 23}{res}{space 2}-4.490219{col 35}{space 2} 3.444306{col 46}{space 1}   -1.30{col 55}{space 3}0.194{col 63}{space 4}-11.27588{col 76}{space 3} 2.295443
+{txt}{space 7}pctpopsoldiers {c |}{col 23}{res}{space 2}  .648468{col 35}{space 2} 2.440268{col 46}{space 1}    0.27{col 55}{space 3}0.791{col 63}{space 4}-4.159129{col 76}{space 3} 5.456065
+{txt}{space 9}pctpopregout {c |}{col 23}{res}{space 2}-.3444278{col 35}{space 2} 3.118229{col 46}{space 1}   -0.11{col 55}{space 3}0.912{col 63}{space 4}-6.487682{col 76}{space 3} 5.798826
+{txt}{space 8}pctpopwounded {c |}{col 23}{res}{space 2} 4.844394{col 35}{space 2} 20.85422{col 46}{space 1}    0.23{col 55}{space 3}0.817{col 63}{space 4}-36.24072{col 76}{space 3} 45.92951
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2668742{col 35}{space 2} .1933897{col 46}{space 1}   -1.38{col 55}{space 3}0.169{col 63}{space 4}-.6478732{col 76}{space 3} .1141249
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0611097{col 35}{space 2} .0193959{col 46}{space 1}    3.15{col 55}{space 3}0.002{col 63}{space 4} .0228976{col 76}{space 3} .0993218
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2}   .00168{col 35}{space 2} .0019139{col 46}{space 1}    0.88{col 55}{space 3}0.381{col 63}{space 4}-.0020906{col 76}{space 3} .0054506
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2} .0003138{col 35}{space 2} .0023537{col 46}{space 1}    0.13{col 55}{space 3}0.894{col 63}{space 4}-.0043232{col 76}{space 3} .0049508
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5900946{col 35}{space 2} .2099106{col 46}{space 1}    2.81{col 55}{space 3}0.005{col 63}{space 4} .1765476{col 76}{space 3} 1.003642
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.03385
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08031{col 49}0.173
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860 i.year
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(13, 231)      = {res}     5.14
+{txt}       Model {c |} {res} 5.21206747        13  .400928267   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 18.0287489       231  .078046532   {txt}R-squared       ={res}    0.2243
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1806
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .27937
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0803135{col 35}{space 2} .0454454{col 46}{space 1}    1.77{col 55}{space 3}0.079{col 63}{space 4}-.0092271{col 76}{space 3}  .169854
+{txt}{space 11}pctpopdied {c |}{col 23}{res}{space 2}-4.490219{col 35}{space 2} 3.363853{col 46}{space 1}   -1.33{col 55}{space 3}0.183{col 63}{space 4}-11.11797{col 76}{space 3} 2.137535
+{txt}{space 7}pctpopsoldiers {c |}{col 23}{res}{space 2}  .648468{col 35}{space 2} 2.383267{col 46}{space 1}    0.27{col 55}{space 3}0.786{col 63}{space 4}-4.047252{col 76}{space 3} 5.344188
+{txt}{space 9}pctpopregout {c |}{col 23}{res}{space 2}-.3444278{col 35}{space 2} 3.045392{col 46}{space 1}   -0.11{col 55}{space 3}0.910{col 63}{space 4}-6.344723{col 76}{space 3} 5.655867
+{txt}{space 8}pctpopwounded {c |}{col 23}{res}{space 2} 4.844394{col 35}{space 2}  20.3671{col 46}{space 1}    0.24{col 55}{space 3}0.812{col 63}{space 4}-35.28464{col 76}{space 3} 44.97342
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2668742{col 35}{space 2} .1888725{col 46}{space 1}   -1.41{col 55}{space 3}0.159{col 63}{space 4} -.639007{col 76}{space 3} .1052587
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0611097{col 35}{space 2} .0189428{col 46}{space 1}    3.23{col 55}{space 3}0.001{col 63}{space 4} .0237869{col 76}{space 3} .0984325
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2}   .00168{col 35}{space 2} .0018692{col 46}{space 1}    0.90{col 55}{space 3}0.370{col 63}{space 4}-.0020028{col 76}{space 3} .0053628
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2} .0003138{col 35}{space 2} .0022987{col 46}{space 1}    0.14{col 55}{space 3}0.892{col 63}{space 4}-.0042153{col 76}{space 3} .0048429
+{txt}{space 21} {c |}
+{space 17}year {c |}
+{space 16}1890  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0564409{col 46}{space 1}    2.89{col 55}{space 3}0.004{col 63}{space 4} .0520606{col 76}{space 3}   .27447
+{txt}{space 16}1895  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0564409{col 46}{space 1}    3.25{col 55}{space 3}0.001{col 63}{space 4} .0724688{col 76}{space 3} .2948782
+{txt}{space 16}1896  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0564409{col 46}{space 1}    3.25{col 55}{space 3}0.001{col 63}{space 4} .0724688{col 76}{space 3} .2948782
+{txt}{space 16}1898  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0564409{col 46}{space 1}    2.89{col 55}{space 3}0.004{col 63}{space 4} .0520606{col 76}{space 3}   .27447
+{txt}{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2} .4513191{col 35}{space 2}  .208092{col 46}{space 1}    2.17{col 55}{space 3}0.031{col 63}{space 4} .0413182{col 76}{space 3} .8613199
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.04756
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08031{col 49}0.224
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded Malelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860 i.year logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(14, 230)      = {res}     4.78
+{txt}       Model {c |} {res} 5.23447622        14  .373891158   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 18.0063401       230  .078288435   {txt}R-squared       ={res}    0.2252
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1781
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res}  .2798
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2}  .070829{col 35}{space 2} .0488463{col 46}{space 1}    1.45{col 55}{space 3}0.148{col 63}{space 4}-.0254144{col 76}{space 3} .1670724
+{txt}{space 11}pctpopdied {c |}{col 23}{res}{space 2}-4.395721{col 35}{space 2} 3.373689{col 46}{space 1}   -1.30{col 55}{space 3}0.194{col 63}{space 4}-11.04301{col 76}{space 3} 2.251565
+{txt}{space 7}pctpopsoldiers {c |}{col 23}{res}{space 2}  .816592{col 35}{space 2} 2.407555{col 46}{space 1}    0.34{col 55}{space 3}0.735{col 63}{space 4}-3.927089{col 76}{space 3} 5.560273
+{txt}{space 9}pctpopregout {c |}{col 23}{res}{space 2}-.4492803{col 35}{space 2} 3.056398{col 46}{space 1}   -0.15{col 55}{space 3}0.883{col 63}{space 4}-6.471398{col 76}{space 3} 5.572837
+{txt}{space 8}pctpopwounded {c |}{col 23}{res}{space 2} 1.509252{col 35}{space 2} 21.32991{col 46}{space 1}    0.07{col 55}{space 3}0.944{col 63}{space 4}-40.51775{col 76}{space 3} 43.53625
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2608521{col 35}{space 2} .1894995{col 46}{space 1}   -1.38{col 55}{space 3}0.170{col 63}{space 4} -.634229{col 76}{space 3} .1125248
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0423383{col 35}{space 2} .0398871{col 46}{space 1}    1.06{col 55}{space 3}0.290{col 63}{space 4}-.0362525{col 76}{space 3} .1209292
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0015226{col 35}{space 2} .0018951{col 46}{space 1}    0.80{col 55}{space 3}0.423{col 63}{space 4}-.0022113{col 76}{space 3} .0052565
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}  .000281{col 35}{space 2} .0023031{col 46}{space 1}    0.12{col 55}{space 3}0.903{col 63}{space 4}-.0042568{col 76}{space 3} .0048188
+{txt}{space 21} {c |}
+{space 17}year {c |}
+{space 16}1890  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0565283{col 46}{space 1}    2.89{col 55}{space 3}0.004{col 63}{space 4} .0518858{col 76}{space 3} .2746448
+{txt}{space 16}1895  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0565283{col 46}{space 1}    3.25{col 55}{space 3}0.001{col 63}{space 4}  .072294{col 76}{space 3} .2950529
+{txt}{space 16}1896  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0565283{col 46}{space 1}    3.25{col 55}{space 3}0.001{col 63}{space 4}  .072294{col 76}{space 3} .2950529
+{txt}{space 16}1898  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0565283{col 46}{space 1}    2.89{col 55}{space 3}0.004{col 63}{space 4} .0518858{col 76}{space 3} .2746448
+{txt}{space 21} {c |}
+{space 12}logtotpop {c |}{col 23}{res}{space 2} .0191738{col 35}{space 2} .0358383{col 46}{space 1}    0.54{col 55}{space 3}0.593{col 63}{space 4}-.0514396{col 76}{space 3} .0897872
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .3652704{col 35}{space 2}  .263258{col 46}{space 1}    1.39{col 55}{space 3}0.167{col 63}{space 4}-.1534352{col 76}{space 3} .8839761
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.03590
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07083{col 49}0.225
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. clear
+
+. use "/Users/marnsbarger/Desktop/df.dta"
+
+. reg hasunion pctpopdisabledx100 Malelfp1860 Femalelfp1860 i.year
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       305
+{txt}{hline 13}{c +}{hline 34}   F(7, 297)       = {res}    14.40
+{txt}       Model {c |} {res} 10.2490128         7  1.46414469   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 30.1968888       297  .101673026   {txt}R-squared       ={res}    0.2534
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2358
+{txt}       Total {c |} {res} 40.4459016       304  .133045729   {txt}Root MSE        =   {res} .31886
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .1369192{col 32}{space 2} .0181816{col 43}{space 1}    7.53{col 52}{space 3}0.000{col 60}{space 4} .1011381{col 73}{space 3} .1727004
+{txt}{space 7}Malelfp1860 {c |}{col 20}{res}{space 2}-.4173227{col 32}{space 2} .1390973{col 43}{space 1}   -3.00{col 52}{space 3}0.003{col 60}{space 4}-.6910639{col 73}{space 3}-.1435815
+{txt}{space 5}Femalelfp1860 {c |}{col 20}{res}{space 2} .4829033{col 32}{space 2} .1987664{col 43}{space 1}    2.43{col 52}{space 3}0.016{col 60}{space 4} .0917344{col 73}{space 3} .8740723
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}1890  {c |}{col 20}{res}{space 2} .1967213{col 32}{space 2} .0577368{col 43}{space 1}    3.41{col 52}{space 3}0.001{col 60}{space 4} .0830962{col 73}{space 3} .3103464
+{txt}{space 13}1895  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2} .0577368{col 43}{space 1}    4.54{col 52}{space 3}0.000{col 60}{space 4} .1486699{col 73}{space 3} .3759202
+{txt}{space 13}1896  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2} .0577368{col 43}{space 1}    4.54{col 52}{space 3}0.000{col 60}{space 4} .1486699{col 73}{space 3} .3759202
+{txt}{space 13}1898  {c |}{col 20}{res}{space 2} .2131148{col 32}{space 2} .0577368{col 43}{space 1}    3.69{col 52}{space 3}0.000{col 60}{space 4} .0994896{col 73}{space 3} .3267399
+{txt}{space 18} {c |}
+{space 13}_cons {c |}{col 20}{res}{space 2} .6350988{col 32}{space 2} .0978535{col 43}{space 1}    6.49{col 52}{space 3}0.000{col 60}{space 4} .4425247{col 73}{space 3} .8276728
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    2.28257
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.13991{col 49}0.154
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.13692{col 49}0.253
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 Femalelfp1860 i.year logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       305
+{txt}{hline 13}{c +}{hline 34}   F(8, 296)       = {res}    14.31
+{txt}       Model {c |} {res} 11.2814334         8  1.41017918   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 29.1644682       296  .098528609   {txt}R-squared       ={res}    0.2789
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2594
+{txt}       Total {c |} {res} 40.4459016       304  .133045729   {txt}Root MSE        =   {res} .31389
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .0761337{col 32}{space 2} .0259416{col 43}{space 1}    2.93{col 52}{space 3}0.004{col 60}{space 4} .0250803{col 73}{space 3} .1271871
+{txt}{space 7}Malelfp1860 {c |}{col 20}{res}{space 2}-.3169511{col 32}{space 2} .1403964{col 43}{space 1}   -2.26{col 52}{space 3}0.025{col 60}{space 4}-.5932527{col 73}{space 3}-.0406496
+{txt}{space 5}Femalelfp1860 {c |}{col 20}{res}{space 2} .4261538{col 32}{space 2} .1964525{col 43}{space 1}    2.17{col 52}{space 3}0.031{col 60}{space 4} .0395333{col 73}{space 3} .8127744
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}1890  {c |}{col 20}{res}{space 2} .1967213{col 32}{space 2}  .056837{col 43}{space 1}    3.46{col 52}{space 3}0.001{col 60}{space 4} .0848655{col 73}{space 3} .3085772
+{txt}{space 13}1895  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2}  .056837{col 43}{space 1}    4.61{col 52}{space 3}0.000{col 60}{space 4} .1504392{col 73}{space 3} .3741509
+{txt}{space 13}1896  {c |}{col 20}{res}{space 2} .2622951{col 32}{space 2}  .056837{col 43}{space 1}    4.61{col 52}{space 3}0.000{col 60}{space 4} .1504392{col 73}{space 3} .3741509
+{txt}{space 13}1898  {c |}{col 20}{res}{space 2} .2131148{col 32}{space 2}  .056837{col 43}{space 1}    3.75{col 52}{space 3}0.000{col 60}{space 4} .1012589{col 73}{space 3} .3249706
+{txt}{space 18} {c |}
+{space 9}logtotpop {c |}{col 20}{res}{space 2}  .044545{col 32}{space 2} .0137611{col 43}{space 1}    3.24{col 52}{space 3}0.001{col 60}{space 4} .0174631{col 73}{space 3} .0716269
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .3091816{col 32}{space 2} .1393428{col 43}{space 1}    2.22{col 52}{space 3}0.027{col 60}{space 4} .0349535{col 73}{space 3} .5834098
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.11648
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.13991{col 49}0.154
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07613{col 49}0.279
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 pctpopdied pctpopsoldiers pctpopregout pctpopwounded i.year
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       310
+{txt}{hline 13}{c +}{hline 34}   F(9, 300)       = {res}    10.03
+{txt}       Model {c |} {res} 9.85398648         9  1.09488739   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 32.7556909       300  .109185636   {txt}R-squared       ={res}    0.2313
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2082
+{txt}       Total {c |} {res} 42.6096774       309  .137895396   {txt}Root MSE        =   {res} .33043
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .1532861{col 32}{space 2} .0276772{col 43}{space 1}    5.54{col 52}{space 3}0.000{col 60}{space 4}   .09882{col 73}{space 3} .2077521
+{txt}{space 8}pctpopdied {c |}{col 20}{res}{space 2} 2.519397{col 32}{space 2} 1.829122{col 43}{space 1}    1.38{col 52}{space 3}0.169{col 60}{space 4}-1.080139{col 73}{space 3} 6.118932
+{txt}{space 4}pctpopsoldiers {c |}{col 20}{res}{space 2}-1.835661{col 32}{space 2} 1.915008{col 43}{space 1}   -0.96{col 52}{space 3}0.339{col 60}{space 4}-5.604211{col 73}{space 3}  1.93289
+{txt}{space 6}pctpopregout {c |}{col 20}{res}{space 2} 2.106535{col 32}{space 2} 2.144613{col 43}{space 1}    0.98{col 52}{space 3}0.327{col 60}{space 4}-2.113856{col 73}{space 3} 6.326926
+{txt}{space 5}pctpopwounded {c |}{col 20}{res}{space 2} 11.06762{col 32}{space 2} 15.03772{col 43}{space 1}    0.74{col 52}{space 3}0.462{col 60}{space 4}-18.52515{col 73}{space 3} 40.66039
+{txt}{space 18} {c |}
+{space 14}year {c |}
+{space 13}1890  {c |}{col 20}{res}{space 2} .1935484{col 32}{space 2} .0593474{col 43}{space 1}    3.26{col 52}{space 3}0.001{col 60}{space 4} .0767584{col 73}{space 3} .3103384
+{txt}{space 13}1895  {c |}{col 20}{res}{space 2} .2419355{col 32}{space 2} .0593474{col 43}{space 1}    4.08{col 52}{space 3}0.000{col 60}{space 4} .1251455{col 73}{space 3} .3587255
+{txt}{space 13}1896  {c |}{col 20}{res}{space 2} .2419355{col 32}{space 2} .0593474{col 43}{space 1}    4.08{col 52}{space 3}0.000{col 60}{space 4} .1251455{col 73}{space 3} .3587255
+{txt}{space 13}1898  {c |}{col 20}{res}{space 2} .1935484{col 32}{space 2} .0593474{col 43}{space 1}    3.26{col 52}{space 3}0.001{col 60}{space 4} .0767584{col 73}{space 3} .3103384
+{txt}{space 18} {c |}
+{space 13}_cons {c |}{col 20}{res}{space 2} .3856922{col 32}{space 2} .0612522{col 43}{space 1}    6.30{col 52}{space 3}0.000{col 60}{space 4} .2651538{col 73}{space 3} .5062306
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.14940
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.14504{col 49}0.164
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.15329{col 49}0.231
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 Femalelfp1860 i.year PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(9, 235)       = {res}     5.66
+{txt}       Model {c |} {res} 4.13882677         9  .459869641   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.1019896       235  .081285062   {txt}R-squared       ={res}    0.1781
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1466
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28511
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .1282452{col 35}{space 2} .0322613{col 46}{space 1}    3.98{col 55}{space 3}0.000{col 63}{space 4} .0646869{col 76}{space 3} .1918035
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.4397856{col 35}{space 2} .1834027{col 46}{space 1}   -2.40{col 55}{space 3}0.017{col 63}{space 4}-.8011092{col 76}{space 3}-.0784621
+{txt}{space 8}Femalelfp1860 {c |}{col 23}{res}{space 2} .1894917{col 35}{space 2}   .19025{col 46}{space 1}    1.00{col 55}{space 3}0.320{col 63}{space 4}-.1853218{col 76}{space 3} .5643052
+{txt}{space 21} {c |}
+{space 17}year {c |}
+{space 16}1890  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2}    .0576{col 46}{space 1}    2.83{col 55}{space 3}0.005{col 63}{space 4}  .049787{col 76}{space 3} .2767436
+{txt}{space 16}1895  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2}    .0576{col 46}{space 1}    3.19{col 55}{space 3}0.002{col 63}{space 4} .0701952{col 76}{space 3} .2971518
+{txt}{space 16}1896  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2}    .0576{col 46}{space 1}    3.19{col 55}{space 3}0.002{col 63}{space 4} .0701952{col 76}{space 3} .2971518
+{txt}{space 16}1898  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2}    .0576{col 46}{space 1}    2.83{col 55}{space 3}0.005{col 63}{space 4}  .049787{col 76}{space 3} .2767436
+{txt}{space 21} {c |}
+{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0005361{col 35}{space 2} .0016793{col 46}{space 1}    0.32{col 55}{space 3}0.750{col 63}{space 4}-.0027723{col 76}{space 3} .0038445
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0020094{col 35}{space 2} .0019095{col 46}{space 1}   -1.05{col 55}{space 3}0.294{col 63}{space 4}-.0057713{col 76}{space 3} .0017525
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2}  .831292{col 35}{space 2} .1797924{col 46}{space 1}    4.62{col 55}{space 3}0.000{col 63}{space 4} .4770812{col 76}{space 3} 1.185503
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.13521
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.12825{col 49}0.178
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 Femalelfp1860 i.year PresVoteTurnout1860 PctVoteRepublican1860 logtotpop
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(10, 234)      = {res}     6.49
+{txt}       Model {c |} {res} 5.04685251        10  .504685251   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 18.1939638       234  .077751982   {txt}R-squared       ={res}    0.2172
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1837
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .27884
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0740373{col 35}{space 2} .0353153{col 46}{space 1}    2.10{col 55}{space 3}0.037{col 63}{space 4} .0044608{col 76}{space 3} .1436138
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2868998{col 35}{space 2} .1848675{col 46}{space 1}   -1.55{col 55}{space 3}0.122{col 63}{space 4}-.6511172{col 76}{space 3} .0773177
+{txt}{space 8}Femalelfp1860 {c |}{col 23}{res}{space 2} .1295764{col 35}{space 2} .1868936{col 46}{space 1}    0.69{col 55}{space 3}0.489{col 63}{space 4}-.2386328{col 76}{space 3} .4977856
+{txt}{space 21} {c |}
+{space 17}year {c |}
+{space 16}1890  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0563343{col 46}{space 1}    2.90{col 55}{space 3}0.004{col 63}{space 4} .0522781{col 76}{space 3} .2742525
+{txt}{space 16}1895  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0563343{col 46}{space 1}    3.26{col 55}{space 3}0.001{col 63}{space 4} .0726863{col 76}{space 3} .2946606
+{txt}{space 16}1896  {c |}{col 23}{res}{space 2} .1836735{col 35}{space 2} .0563343{col 46}{space 1}    3.26{col 55}{space 3}0.001{col 63}{space 4} .0726863{col 76}{space 3} .2946606
+{txt}{space 16}1898  {c |}{col 23}{res}{space 2} .1632653{col 35}{space 2} .0563343{col 46}{space 1}    2.90{col 55}{space 3}0.004{col 63}{space 4} .0522781{col 76}{space 3} .2742525
+{txt}{space 21} {c |}
+{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0001679{col 35}{space 2} .0016459{col 46}{space 1}    0.10{col 55}{space 3}0.919{col 63}{space 4}-.0030748{col 76}{space 3} .0034106
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0014892{col 35}{space 2} .0018737{col 46}{space 1}   -0.79{col 55}{space 3}0.428{col 63}{space 4}-.0051807{col 76}{space 3} .0022024
+{txt}{space 12}logtotpop {c |}{col 23}{res}{space 2} .0539537{col 35}{space 2}  .015788{col 46}{space 1}    3.42{col 55}{space 3}0.001{col 63}{space 4} .0228489{col 76}{space 3} .0850585
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .3656311{col 35}{space 2} .2224584{col 46}{space 1}    1.64{col 55}{space 3}0.102{col 63}{space 4}-.0726462{col 76}{space 3} .8039085
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.07429
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07404{col 49}0.217
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctdisabledx100 logtotpop Malelfp1860 Femalelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+{err}variable {bf}pctdisabledx100{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. reg hasunion pctpopdisabledx100 logtotpop Malelfp1860 Femalelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(7, 237)       = {res}     6.82
+{txt}       Model {c |} {res} 3.89422428         7  .556317754   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  19.346592       237   .08163119   {txt}R-squared       ={res}    0.1676
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1430
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28571
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0804948{col 35}{space 2} .0371652{col 46}{space 1}    2.17{col 55}{space 3}0.031{col 63}{space 4} .0072786{col 76}{space 3} .1537111
+{txt}{space 12}logtotpop {c |}{col 23}{res}{space 2} .0324944{col 35}{space 2} .0324843{col 46}{space 1}    1.00{col 55}{space 3}0.318{col 63}{space 4}-.0315005{col 76}{space 3} .0964894
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2997577{col 35}{space 2} .1901736{col 46}{space 1}   -1.58{col 55}{space 3}0.116{col 63}{space 4}-.6744043{col 76}{space 3} .0748889
+{txt}{space 8}Femalelfp1860 {c |}{col 23}{res}{space 2} .1189083{col 35}{space 2} .1920105{col 46}{space 1}    0.62{col 55}{space 3}0.536{col 63}{space 4} -.259357{col 76}{space 3} .4971737
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0265244{col 35}{space 2} .0348188{col 46}{space 1}    0.76{col 55}{space 3}0.447{col 63}{space 4}-.0420695{col 76}{space 3} .0951184
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0001847{col 35}{space 2} .0016866{col 46}{space 1}    0.11{col 55}{space 3}0.913{col 63}{space 4}-.0031379{col 76}{space 3} .0035074
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0015322{col 35}{space 2} .0019207{col 46}{space 1}   -0.80{col 55}{space 3}0.426{col 63}{space 4}-.0053161{col 76}{space 3} .0022517
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5954428{col 35}{space 2} .2547651{col 46}{space 1}    2.34{col 55}{space 3}0.020{col 63}{space 4} .0935495{col 76}{space 3} 1.097336
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.05417
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08049{col 49}0.168
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctdisabledx100 logtotpop Malelfp1860 Femalelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+{err}variable {bf}pctdisabledx100{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. reg hasunion pctpopdisabledx100 logtotpop Malelfp1860 Femalelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(7, 237)       = {res}     6.82
+{txt}       Model {c |} {res} 3.89422428         7  .556317754   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  19.346592       237   .08163119   {txt}R-squared       ={res}    0.1676
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1430
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28571
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0804948{col 35}{space 2} .0371652{col 46}{space 1}    2.17{col 55}{space 3}0.031{col 63}{space 4} .0072786{col 76}{space 3} .1537111
+{txt}{space 12}logtotpop {c |}{col 23}{res}{space 2} .0324944{col 35}{space 2} .0324843{col 46}{space 1}    1.00{col 55}{space 3}0.318{col 63}{space 4}-.0315005{col 76}{space 3} .0964894
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.2997577{col 35}{space 2} .1901736{col 46}{space 1}   -1.58{col 55}{space 3}0.116{col 63}{space 4}-.6744043{col 76}{space 3} .0748889
+{txt}{space 8}Femalelfp1860 {c |}{col 23}{res}{space 2} .1189083{col 35}{space 2} .1920105{col 46}{space 1}    0.62{col 55}{space 3}0.536{col 63}{space 4} -.259357{col 76}{space 3} .4971737
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2} .0265244{col 35}{space 2} .0348188{col 46}{space 1}    0.76{col 55}{space 3}0.447{col 63}{space 4}-.0420695{col 76}{space 3} .0951184
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0001847{col 35}{space 2} .0016866{col 46}{space 1}    0.11{col 55}{space 3}0.913{col 63}{space 4}-.0031379{col 76}{space 3} .0035074
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0015322{col 35}{space 2} .0019207{col 46}{space 1}   -0.80{col 55}{space 3}0.426{col 63}{space 4}-.0053161{col 76}{space 3} .0022517
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .5954428{col 35}{space 2} .2547651{col 46}{space 1}    2.34{col 55}{space 3}0.020{col 63}{space 4} .0935495{col 76}{space 3} 1.097336
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.05417
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.08049{col 49}0.168
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 logtotpop Malelfp1860 Femalelfp1860 logmfgestab 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       285
+{txt}{hline 13}{c +}{hline 34}   F(5, 279)       = {res}    10.03
+{txt}       Model {c |} {res} 5.01934352         5   1.0038687   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 27.9139898       279  .100050143   {txt}R-squared       ={res}    0.1524
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1372
+{txt}       Total {c |} {res} 32.9333333       284  .115962441   {txt}Root MSE        =   {res} .31631
+
+{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          hasunion{col 20}{c |}      Coef.{col 32}   Std. Err.{col 44}      t{col 52}   P>|t|{col 60}     [95% Con{col 73}f. Interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+pctpopdisabledx100 {c |}{col 20}{res}{space 2} .0781918{col 32}{space 2}  .027306{col 43}{space 1}    2.86{col 52}{space 3}0.005{col 60}{space 4} .0244398{col 73}{space 3} .1319437
+{txt}{space 9}logtotpop {c |}{col 20}{res}{space 2} .0238725{col 32}{space 2} .0294574{col 43}{space 1}    0.81{col 52}{space 3}0.418{col 60}{space 4}-.0341143{col 73}{space 3} .0818594
+{txt}{space 7}Malelfp1860 {c |}{col 20}{res}{space 2}-.2465151{col 32}{space 2}  .165204{col 43}{space 1}   -1.49{col 52}{space 3}0.137{col 60}{space 4}-.5717197{col 73}{space 3} .0786895
+{txt}{space 5}Femalelfp1860 {c |}{col 20}{res}{space 2} .3245065{col 32}{space 2} .2020075{col 43}{space 1}    1.61{col 52}{space 3}0.109{col 60}{space 4}-.0731458{col 73}{space 3} .7221588
+{txt}{space 7}logmfgestab {c |}{col 20}{res}{space 2} .0169692{col 32}{space 2} .0320075{col 43}{space 1}    0.53{col 52}{space 3}0.596{col 60}{space 4}-.0460377{col 73}{space 3}  .079976
+{txt}{space 13}_cons {c |}{col 20}{res}{space 2} .5824503{col 32}{space 2} .2089422{col 43}{space 1}    2.79{col 52}{space 3}0.006{col 60}{space 4} .1711469{col 73}{space 3} .9937536
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.07036
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11968{col 49}0.117
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.07819{col 49}0.152
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. reg hasunion pctpopdisabledx100 Malelfp1860 Femalelfp1860 logmfgestab PresVoteTurnout1860 PctVoteRepublican1860
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       245
+{txt}{hline 13}{c +}{hline 34}   F(6, 238)       = {res}     7.78
+{txt}       Model {c |} {res} 3.81254241         6  .635423736   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 19.4282739       238  .081631403   {txt}R-squared       ={res}    0.1640
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1430
+{txt}       Total {c |} {res} 23.2408163       244  .095249247   {txt}Root MSE        =   {res} .28571
+
+{txt}{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             hasunion{col 23}{c |}      Coef.{col 35}   Std. Err.{col 47}      t{col 55}   P>|t|{col 63}     [95% Con{col 76}f. Interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pctpopdisabledx100 {c |}{col 23}{res}{space 2} .0959447{col 35}{space 2} .0338039{col 46}{space 1}    2.84{col 55}{space 3}0.005{col 63}{space 4} .0293517{col 76}{space 3} .1625378
+{txt}{space 10}Malelfp1860 {c |}{col 23}{res}{space 2}-.3372343{col 35}{space 2}  .186447{col 46}{space 1}   -1.81{col 55}{space 3}0.072{col 63}{space 4}-.7045314{col 76}{space 3} .0300627
+{txt}{space 8}Femalelfp1860 {c |}{col 23}{res}{space 2} .1157096{col 35}{space 2} .1919841{col 46}{space 1}    0.60{col 55}{space 3}0.547{col 63}{space 4}-.2624956{col 76}{space 3} .4939148
+{txt}{space 10}logmfgestab {c |}{col 23}{res}{space 2}  .056728{col 35}{space 2} .0173397{col 46}{space 1}    3.27{col 55}{space 3}0.001{col 63}{space 4} .0225691{col 76}{space 3} .0908868
+{txt}{space 2}PresVoteTurnout1860 {c |}{col 23}{res}{space 2} .0002588{col 35}{space 2}  .001685{col 46}{space 1}    0.15{col 55}{space 3}0.878{col 63}{space 4}-.0030606{col 76}{space 3} .0035782
+{txt}PctVoteRepublican1860 {c |}{col 23}{res}{space 2}-.0016589{col 35}{space 2} .0019166{col 46}{space 1}   -0.87{col 55}{space 3}0.388{col 63}{space 4}-.0054345{col 76}{space 3} .0021167
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} .7686583{col 35}{space 2} .1868699{col 46}{space 1}    4.11{col 55}{space 3}0.000{col 63}{space 4} .4005281{col 76}{space 3} 1.136789
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. psacalc delta pctpopdisabledx100
+{res}
+{txt}{col 18}{hline 4} Bound Estimate {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}delta{col 14}{c |}{col 18}{res}    0.07955
+{txt}{col 1}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Inputs from Regressions {hline 4}
+{col 14}{c |}{col 21}Coeff.{col 49}R-Squared
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}Uncontrolled{col 14}{c |}{col 18}{res}     0.11626{col 49}0.102
+{col 1}{txt}Controlled{col 14}{c |}{col 18}{res}     0.09594{col 49}0.164
+{col 1}{txt}{hline 13}{c +}{hline 64}
+
+{col 18}{hline 4} Other Inputs {hline 4}
+{col 1}{hline 13}{c +}{hline 64}
+{col 1}R_max{col 14}{c |}{col 18}1.000
+{col 1}Beta{col 14}{c |}{col 18} 0.000000
+{col 1}Unr. Controls{col 14}{c |}{col 18}
+{col 1}{hline 13}{c +}{hline 64}
+
+{com}. import delimited "~/Documents/Pitt/Experimental/AlistairLise/Aug25/Dal_Bo_2016a_data_raw.txt", encoding(ISO-8859-1)
+{res}{err}no; data in memory would be lost
+{txt}{search r(4), local:r(4);}
+
+{com}. 
+. clear
+
+. import delimited "~/Documents/Pitt/Experimental/AlistairLise/Aug25/Dal_Bo_2016a_data_raw.txt", encoding(ISO-8859-1)
+{res}{text}(19 vars, 157,170 obs)
+
+{com}. rename coop coopString
+{res}
+{com}. rename ocoop ocoopString
+{res}
+{com}. 
+. gen ocoop=ocoopString=="coop"
+
+. gen coop=coopString=="coop"
+
+. 
+. drop coopString ocoopString
+
+. 
+. preserve
+
+. 
+. drop if round > 1
+{txt}(106,712 observations deleted)
+
+{com}. drop if supergame>15
+{txt}(21,856 observations deleted)
+
+{com}. gen delta100=delta*100
+
+. compress delta100
+{txt}  (0 bytes saved)
+
+{com}. 
+. quietly generate p_ll = .
+
+. quietly generate p_pred = .
+
+. quietly generate p_ul = .
+
+. 
+. foreach i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 {c -(}
+{txt}  2{com}. 
+. quietly probit coop g l delta if supergame == `i', cluster(paper)
+{txt}  3{com}. 
+. qui margin, at(g= 0.5 l= 0.5 delta=0.9)
+{txt}  4{com}. * this generates items in e and r that you can check with "ereturns lists" and "returns list"
+. 
+. quietly replace p_pred=r(b)[1,1] if delta100==90 & supergame==`i'
+{txt}  5{com}. quietly replace p_ll = r(b)[1,1]-invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==90 & supergame==`i'
+{txt}  6{com}. quietly replace p_ul = r(b)[1,1]+invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==90 & supergame==`i'
+{txt}  7{com}. 
+. qui margin, at(g= 0.5 l= 0.5 delta=0)
+{txt}  8{com}. quietly replace p_pred=r(b)[1,1] if delta100==0 & supergame==`i'
+{txt}  9{com}. quietly replace p_ll = r(b)[1,1]-invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==0 & supergame==`i'
+{txt} 10{com}. quietly replace p_ul = r(b)[1,1]+invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==0 & supergame==`i'
+{txt} 11{com}. 
+. {c )-}
+{err}invalid syntax
+{txt}{search r(198), local:r(198);}
+
+{com}. keep if delta100==0 | delta100==90
+{txt}(18,920 observations deleted)
+
+{com}. 
+. sort delta100 supergame
+
+. 
+. collapse p_ll p_ul p_pred, by(delta100 supergame)
+
+. 
+. label var supergame "Supergame"
+
+. 
+. 
+. tw (rcap p_ll p_ul supergame if delta100==90) (scatter p_pred supergame if delta100==90, connect(l) msymbol(o) lpattern(solid))  (rcap p_ll p_ul supergame if delta == 0 )  (scatter p_pred supergame if delta100== 0, connect(l) msymbol(Oh) lpattern(dash)),  ytitle("Predicted Frequency of Cooperation") xtitle("Supergame") yscale(r(1)) xlabel(1 5 10 15) ylabel(0(0.2)1)  legend(order(2 4) label(2 "{c -(}&delta{c )-}=0.9") label(4 "{c -(}&delta{c )-}=0") ring(0) pos(11) size(small) rows(2))   note("Error bars provide 95% confidence intervals.", size(small))   graphregion(color(white)) bgcolor(white) scheme(s2mono) saving("./Exp", replace)
+{res}{txt}(note: file ./Exp not found)
+{res}{txt}(file ./Exp saved)
+
+{com}. 
+.   
+. clear
+
+. clear
+
+. clear matrix
+
+. set more off
+
+. 
+. import delimited "~/Documents/Pitt/Experimental/AlistairLise/Aug25/Dal_Bo_2016a_data_raw.txt", encoding(ISO-8859-1)
+{res}{text}(19 vars, 157,170 obs)
+
+{com}. 
+. rename coop coopString
+{res}
+{com}. rename ocoop ocoopString
+{res}
+{com}. 
+. gen ocoop=ocoopString=="coop"
+
+. gen coop=coopString=="coop"
+
+. 
+. drop coopString ocoopString
+
+. 
+. probit coop g l delta if supergame == 1 & round==1, cluster(paper)
+
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-1664.8954}  
+Iteration 1:{space 3}log pseudolikelihood = {res: -1589.905}  
+Iteration 2:{space 3}log pseudolikelihood = {res: -1589.814}  
+Iteration 3:{space 3}log pseudolikelihood = {res: -1589.814}  
+{res}
+{txt}Probit regression{col 49}Number of obs{col 67}= {res}     2,415
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}= {res}    140.99
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res} -1589.814{txt}{col 49}Pseudo R2{col 67}= {res}    0.0451
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:15} clusters in paper)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        coop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}g {c |}{col 14}{res}{space 2}-.2019784{col 26}{space 2} .0377069{col 37}{space 1}   -5.36{col 46}{space 3}0.000{col 54}{space 4}-.2758825{col 67}{space 3}-.1280743
+{txt}{space 11}l {c |}{col 14}{res}{space 2}-.1418648{col 26}{space 2} .0387127{col 37}{space 1}   -3.66{col 46}{space 3}0.000{col 54}{space 4}-.2177404{col 67}{space 3}-.0659893
+{txt}{space 7}delta {c |}{col 14}{res}{space 2} .4390886{col 26}{space 2} .1351824{col 37}{space 1}    3.25{col 46}{space 3}0.001{col 54}{space 4} .1741359{col 67}{space 3} .7040412
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0894813{col 26}{space 2} .1181572{col 37}{space 1}    0.76{col 46}{space 3}0.449{col 54}{space 4}-.1421027{col 67}{space 3} .3210652
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. mfx
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict)
+         = {res} .45445497
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res} -.080052      .01498   -5.34   0.000  -.109416 -.050688   1.11794
+       {txt}l {c |}  {res}-.0562266       .0154   -3.65   0.000  -.086412 -.026042   1.48504
+   {txt}delta {c |}  {res} .1740282      .05341    3.26   0.001   .069348  .278708   .529689
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. 
+. probit coop g l delta if supergame == 7 & round==1, cluster(paper)
+
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-1521.6091}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-1270.1643}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-1268.2408}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-1268.2381}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-1268.2381}  
+{res}
+{txt}Probit regression{col 49}Number of obs{col 67}= {res}     2,305
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}= {res}    111.32
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-1268.2381{txt}{col 49}Pseudo R2{col 67}= {res}    0.1665
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:15} clusters in paper)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        coop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}g {c |}{col 14}{res}{space 2}-.3321556{col 26}{space 2} .0798503{col 37}{space 1}   -4.16{col 46}{space 3}0.000{col 54}{space 4}-.4886593{col 67}{space 3}-.1756518
+{txt}{space 11}l {c |}{col 14}{res}{space 2}-.2294343{col 26}{space 2} .0961003{col 37}{space 1}   -2.39{col 46}{space 3}0.017{col 54}{space 4}-.4177874{col 67}{space 3}-.0410812
+{txt}{space 7}delta {c |}{col 14}{res}{space 2} 1.296034{col 26}{space 2} .2730176{col 37}{space 1}    4.75{col 46}{space 3}0.000{col 54}{space 4} .7609291{col 67}{space 3} 1.831138
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.3848865{col 26}{space 2} .2095765{col 37}{space 1}   -1.84{col 46}{space 3}0.066{col 54}{space 4}-.7956489{col 67}{space 3} .0258758
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. mfx
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict)
+         = {res} .34231558
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}  -.12202      .03109   -3.92   0.000  -.182957 -.061083   1.07851
+       {txt}l {c |}  {res}-.0842845      .03449   -2.44   0.015  -.151883 -.016686   1.48854
+   {txt}delta {c |}  {res} .4761085      .09704    4.91   0.000   .285905  .666312   .523514
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. 
+. probit coop g l delta if supergame == 1 & round==1, cluster(paper)
+
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-1664.8954}  
+Iteration 1:{space 3}log pseudolikelihood = {res: -1589.905}  
+Iteration 2:{space 3}log pseudolikelihood = {res: -1589.814}  
+Iteration 3:{space 3}log pseudolikelihood = {res: -1589.814}  
+{res}
+{txt}Probit regression{col 49}Number of obs{col 67}= {res}     2,415
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}= {res}    140.99
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res} -1589.814{txt}{col 49}Pseudo R2{col 67}= {res}    0.0451
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:15} clusters in paper)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        coop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}g {c |}{col 14}{res}{space 2}-.2019784{col 26}{space 2} .0377069{col 37}{space 1}   -5.36{col 46}{space 3}0.000{col 54}{space 4}-.2758825{col 67}{space 3}-.1280743
+{txt}{space 11}l {c |}{col 14}{res}{space 2}-.1418648{col 26}{space 2} .0387127{col 37}{space 1}   -3.66{col 46}{space 3}0.000{col 54}{space 4}-.2177404{col 67}{space 3}-.0659893
+{txt}{space 7}delta {c |}{col 14}{res}{space 2} .4390886{col 26}{space 2} .1351824{col 37}{space 1}    3.25{col 46}{space 3}0.001{col 54}{space 4} .1741359{col 67}{space 3} .7040412
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0894813{col 26}{space 2} .1181572{col 37}{space 1}    0.76{col 46}{space 3}0.449{col 54}{space 4}-.1421027{col 67}{space 3} .3210652
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. mfx
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict)
+         = {res} .45445497
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res} -.080052      .01498   -5.34   0.000  -.109416 -.050688   1.11794
+       {txt}l {c |}  {res}-.0562266       .0154   -3.65   0.000  -.086412 -.026042   1.48504
+   {txt}delta {c |}  {res} .1740282      .05341    3.26   0.001   .069348  .278708   .529689
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. 
+. *Table 5 Supergame 1 predictions (the probability at the top of the output)
+
+. probit coop g l delta if supergame == 1 & round==1, cluster(paper)
+
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-1664.8954}  
+Iteration 1:{space 3}log pseudolikelihood = {res: -1589.905}  
+Iteration 2:{space 3}log pseudolikelihood = {res: -1589.814}  
+Iteration 3:{space 3}log pseudolikelihood = {res: -1589.814}  
+{res}
+{txt}Probit regression{col 49}Number of obs{col 67}= {res}     2,415
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}= {res}    140.99
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res} -1589.814{txt}{col 49}Pseudo R2{col 67}= {res}    0.0451
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:15} clusters in paper)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        coop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}g {c |}{col 14}{res}{space 2}-.2019784{col 26}{space 2} .0377069{col 37}{space 1}   -5.36{col 46}{space 3}0.000{col 54}{space 4}-.2758825{col 67}{space 3}-.1280743
+{txt}{space 11}l {c |}{col 14}{res}{space 2}-.1418648{col 26}{space 2} .0387127{col 37}{space 1}   -3.66{col 46}{space 3}0.000{col 54}{space 4}-.2177404{col 67}{space 3}-.0659893
+{txt}{space 7}delta {c |}{col 14}{res}{space 2} .4390886{col 26}{space 2} .1351824{col 37}{space 1}    3.25{col 46}{space 3}0.001{col 54}{space 4} .1741359{col 67}{space 3} .7040412
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0894813{col 26}{space 2} .1181572{col 37}{space 1}    0.76{col 46}{space 3}0.449{col 54}{space 4}-.1421027{col 67}{space 3} .3210652
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.895)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .62192633
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.0767845       .0135   -5.69   0.000   -.10325 -.050319        .5
+       {txt}l {c |}  {res}-.0539316      .01483   -3.64   0.000   -.08299 -.024874        .5
+   {txt}delta {c |}  {res} .1669249      .05013    3.33   0.001   .068673  .265177      .895
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.5)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .55452569
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.0798239      .01488   -5.36   0.000  -.108994 -.050654        .5
+       {txt}l {c |}  {res}-.0560664      .01502   -3.73   0.000  -.085506 -.026627        .5
+   {txt}delta {c |}  {res} .1735323       .0541    3.21   0.001   .067501  .279563        .5
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.105)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .48550721
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.0805245      .01495   -5.39   0.000  -.109818 -.051231        .5
+       {txt}l {c |}  {res}-.0565585       .0156   -3.63   0.000  -.087125 -.025992        .5
+   {txt}delta {c |}  {res} .1750554      .05338    3.28   0.001   .070434  .279677      .105
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. 
+. probit coop g l delta if supergame == 7 & round==1, cluster(paper)
+
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-1521.6091}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-1270.1643}  
+Iteration 2:{space 3}log pseudolikelihood = {res:-1268.2408}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-1268.2381}  
+Iteration 4:{space 3}log pseudolikelihood = {res:-1268.2381}  
+{res}
+{txt}Probit regression{col 49}Number of obs{col 67}= {res}     2,305
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}= {res}    111.32
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-1268.2381{txt}{col 49}Pseudo R2{col 67}= {res}    0.1665
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:15} clusters in paper)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        coop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}g {c |}{col 14}{res}{space 2}-.3321556{col 26}{space 2} .0798503{col 37}{space 1}   -4.16{col 46}{space 3}0.000{col 54}{space 4}-.4886593{col 67}{space 3}-.1756518
+{txt}{space 11}l {c |}{col 14}{res}{space 2}-.2294343{col 26}{space 2} .0961003{col 37}{space 1}   -2.39{col 46}{space 3}0.017{col 54}{space 4}-.4177874{col 67}{space 3}-.0410812
+{txt}{space 7}delta {c |}{col 14}{res}{space 2} 1.296034{col 26}{space 2} .2730176{col 37}{space 1}    4.75{col 46}{space 3}0.000{col 54}{space 4} .7609291{col 67}{space 3} 1.831138
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.3848865{col 26}{space 2} .2095765{col 37}{space 1}   -1.84{col 46}{space 3}0.066{col 54}{space 4}-.7956489{col 67}{space 3} .0258758
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.895)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .68944179
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.1172741      .02472   -4.74   0.000  -.165731 -.068818        .5
+       {txt}l {c |}  {res}-.0810063      .03485   -2.32   0.020  -.149315 -.012697        .5
+   {txt}delta {c |}  {res} .4575905      .08445    5.42   0.000   .292075  .623106      .895
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.5)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .49295321
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.1324902      .03185   -4.16   0.000  -.194922 -.070058        .5
+       {txt}l {c |}  {res}-.0915168      .03839   -2.38   0.017  -.166763  -.01627        .5
+   {txt}delta {c |}  {res}  .516962      .10847    4.77   0.000   .304374   .72955        .5
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.105)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .29819537
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.1151721      .02575   -4.47   0.000   -.16564 -.064705        .5
+       {txt}l {c |}  {res}-.0795544      .03767   -2.11   0.035  -.153387 -.005722        .5
+   {txt}delta {c |}  {res} .4493888      .06009    7.48   0.000   .331624  .567154      .105
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. 
+. probit coop g l delta if supergame == 15 & round==1, cluster(paper)
+
+{res}{txt}Iteration 0:{space 3}log pseudolikelihood = {res:-713.08505}  
+Iteration 1:{space 3}log pseudolikelihood = {res:-598.77748}  
+Iteration 2:{space 3}log pseudolikelihood = {res:  -598.465}  
+Iteration 3:{space 3}log pseudolikelihood = {res:-598.46495}  
+{res}
+{txt}Probit regression{col 49}Number of obs{col 67}= {res}     1,030
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}= {res}    147.91
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log pseudolikelihood = {res}-598.46495{txt}{col 49}Pseudo R2{col 67}= {res}    0.1607
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:8} clusters in paper)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        coop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}g {c |}{col 14}{res}{space 2} -.391313{col 26}{space 2} .1173918{col 37}{space 1}   -3.33{col 46}{space 3}0.001{col 54}{space 4}-.6213967{col 67}{space 3}-.1612294
+{txt}{space 11}l {c |}{col 14}{res}{space 2}-.3609844{col 26}{space 2} .1873464{col 37}{space 1}   -1.93{col 46}{space 3}0.054{col 54}{space 4}-.7281767{col 67}{space 3} .0062078
+{txt}{space 7}delta {c |}{col 14}{res}{space 2} 2.185983{col 26}{space 2} .7336148{col 37}{space 1}    2.98{col 46}{space 3}0.003{col 54}{space 4} .7481241{col 67}{space 3} 3.623841
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.7103224{col 26}{space 2} .4964798{col 37}{space 1}   -1.43{col 46}{space 3}0.153{col 54}{space 4}-1.683405{col 67}{space 3} .2627602
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.895)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .80784522
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.1069257      .03341   -3.20   0.001  -.172413 -.041439        .5
+       {txt}l {c |}  {res}-.0986384      .05208   -1.89   0.058  -.200713  .003436        .5
+   {txt}delta {c |}  {res} .5973163      .11886    5.03   0.000   .364363  .830269      .895
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.5)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .50260113
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res} -.156108      .04689   -3.33   0.001  -.248019 -.064197        .5
+       {txt}l {c |}  {res}-.1440089      .07469   -1.93   0.054  -.290397  .002379        .5
+   {txt}delta {c |}  {res} .8720623      .29338    2.97   0.003    .29705  1.44707        .5
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. mfx, predict(p) at(g= 0.5, l= 0.5, delta=0.105)
+
+{txt}Marginal effects after probit
+      y  = Pr(coop) (predict, p)
+         = {res} .19573819
+{txt}{hline 9}{c TT}{hline 68}
+variable {c |}{col 17}dy/dx{col 26}Std. Err.{col 40}z{col 45}P>|z|{col 52}[    95% C.I.   ]{col 75}X
+{hline 9}{c +}{hline 68}
+       g {c |}  {res}-.1081364       .0406   -2.66   0.008  -.187715 -.028557        .5
+       {txt}l {c |}  {res}-.0997553      .06911   -1.44   0.149  -.235214  .035703        .5
+   {txt}delta {c |}  {res} .6040799      .03156   19.14   0.000   .542224  .665936      .105
+{txt}{hline 9}{c BT}{hline 68}
+
+{com}. 
+. preserve
+{err}already preserved
+{txt}{search r(621), local:r(621);}
+
+{com}. 
+. drop if round > 1
+{txt}(106,712 observations deleted)
+
+{com}. drop if supergame>15
+{txt}(21,856 observations deleted)
+
+{com}. gen delta100=delta*100
+
+. compress delta100
+{txt}  (0 bytes saved)
+
+{com}. 
+. quietly generate p_ll = .
+
+. quietly generate p_pred = .
+
+. quietly generate p_ul = .
+
+. foreach i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 {c -(}
+{txt}  2{com}. 
+. quietly probit coop g l delta if supergame == `i', cluster(paper)
+{txt}  3{com}. 
+. qui margin, at(g= 0.5 l= 0.5 delta=0.9)
+{txt}  4{com}. * this generates items in e and r that you can check with "ereturns lists" and "returns list"
+. 
+. quietly replace p_pred=r(b)[1,1] if delta100==90 & supergame==`i'
+{txt}  5{com}. quietly replace p_ll = r(b)[1,1]-invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==90 & supergame==`i'
+{txt}  6{com}. quietly replace p_ul = r(b)[1,1]+invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==90 & supergame==`i'
+{txt}  7{com}. 
+. qui margin, at(g= 0.5 l= 0.5 delta=0)
+{txt}  8{com}. quietly replace p_pred=r(b)[1,1] if delta100==0 & supergame==`i'
+{txt}  9{com}. quietly replace p_ll = r(b)[1,1]-invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==0 & supergame==`i'
+{txt} 10{com}. quietly replace p_ul = r(b)[1,1]+invnormal(0.975)*sqrt(r(V)[1,1]) if delta100==0 & supergame==`i'
+{txt} 11{com}. 
+. {c )-}
+{err}invalid syntax
+{txt}{search r(198), local:r(198);}
+
+{com}. 1:15
+{bf}{err}1{sf} is not a valid command name
+{txt}{search r(199), local:r(199);}
+
+{com}. gen SPE= g/(1+g)
+
+. gen delta_minus_SPE = delta - SPE
+
+. gen delta_minus_RD = delta - ((g+l)/(1+g+l))
+
+. 
+. encode coop, gen(cc) 
+{err}not possible with numeric variable
+{txt}{search r(107), local:r(107);}
+
+{com}. recode cc 2=0
+{err}variable {bf}cc{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. bysort paper round supergame delta_minus_SPE: egen m_coop = mean(cc)
+{err}cc not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. gen condit = 1 if round==1 & supergame==7
+{txt}(26,297 missing values generated)
+
+{com}. 
+. global panelA scatter m_coop delta_minus_SPE if condit==1 
+
+. global panelB scatter m_coop delta_minus_RD if round==1 & supergame==7 
+
+. global panelC scatter m_coop sizebad if round==1 & supergame==7
+
+. global panelD scatter sizebad delta_minus_RD if round==1 & supergame==7
+
+. 
+. encode paper, gen(pp)
+
+. tw ($panelA & pp==1, msymbol(O) mc(gray)) || ($panelA & pp==2, msymbol(Sh) mc(black)) || /*
+{err}variable {bf}m_coop{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. */ ($panelA & pp==3, msymbol(Sh) mc(gray)) || ($panelA & pp==4, msymbol(X) mc(gray)) /*
+
+. */ ($panelA & pp==5, msymbol(O) mc(gs12)) || ($panelA & pp==6, msymbol(Oh) mc(black)) /*
+
+. */ ($panelA & pp==7, msymbol(Dh) mc(gray)) || ($panelA & pp==8, msymbol(S) mc(black)) /*
+
+. */ ($panelA & pp==9, msymbol(D) mc(black)) || ($panelA & pp==10, msymbol(T) mc(black)) /*
+
+. */ ($panelA & pp==11, msymbol(Th) mc(gs12)) || ($panelA & pp==12, msymbol(x) mc(black)) /*
+
+. */ ($panelA & pp==13, msymbol(plus) mc(gs12)) || ($panelA & pp==14, msymbol(plus) mc(black)) /*
+
+. */ ($panelA & pp==15, msymbol(s) mc(gray)) ||, legend(order(1 "Andreoni and Miller (1993)" 2 "Aoyagi and Frechette (2009)"  3 "Blonski, Ockenfels, and Spagnolo (2011)" 4 "Bruttel and Kamecke (2012)" 5 "Cooper et al. (1996)" 6 "Dal Bo (2005)" 7 "Dal Bo and Frechette (2011a)" 8 "Dal Bo and Frechette (2015)" 9 "Dal Bo, Foster, Putterman (2010)" 10 "Dreber et al. (2008)" 11 "Duffy and Ochs (2009)" 12 "Frechette and Yuksel (2014)" 13 "Fudenberg, Rand, Dreber (2012)" 14 "Kagel and Schley (2013)" 15 "Sherstyuk, Tarui, Saijo (2013)") cols(1) size(tiny)  /*position(3)*/) /*
+
+. */ yti("Cooperation Rate") /*
+
+. */ xti("{c -(}&delta{c )-} - g/(1+g)") subti("SPE threshold") ti("Panel A", size(small) pos(11)) /*
+
+. */ ymtick(0(.2)1) ylabel(0(.2)1) xline(0, lc(black)) graphregion(color(white)) bgcolor(white) 
+
+. gr save panelA, replace 
+{err}graph Graph not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. /* scatter m_coop delta_minus_RD if round==1 & supergame==7 & strpos(paper,"Andreoni") */
+{bf}{err}/{sf} is not a valid command name
+{txt}{search r(199), local:r(199);}
+
+{com}. 
+. tw ($panelB & pp==1, msymbol(O) mc(gray)) || ($panelB & pp==2, msymbol(Sh) mc(black)) || /*
+{err}variable {bf}m_coop{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. */ ($panelB & pp==3, msymbol(Sh) mc(gray)) || ($panelB & pp==4, msymbol(X) mc(gray)) /*
+
+. */ ($panelB & pp==5, msymbol(O) mc(gs12)) || ($panelB & pp==6, msymbol(Oh) mc(black)) /*
+
+. */ ($panelB & pp==7, msymbol(Dh) mc(gray)) || ($panelB & pp==8, msymbol(S) mc(black)) /*
+
+. */ ($panelB & pp==9, msymbol(D) mc(black)) || ($panelB & pp==10, msymbol(T) mc(black)) /*
+
+. */ ($panelB & pp==11, msymbol(Th) mc(gs12)) || ($panelB & pp==12, msymbol(x) mc(black)) /*
+
+. */ ($panelB & pp==13, msymbol(plus) mc(gs12)) || ($panelB & pp==14, msymbol(plus) mc(black)) /*
+
+. */ ($panelB & pp==15, msymbol(s) mc(gray)) ||, legend(off) yti("Cooperation Rate") /*
+
+. */ xti("{c -(}&delta{c )-} - (g+l)/(1+g+l)") subti("RD threshold") ti("Panel B", size(small) pos(11)) /*
+
+. */ ymtick(0(.2)1) ylabel(0(.2)1) xline(0, lc(black)) graphregion(color(white)) bgcolor(white)  
+
+. gr save panelB, replace 
+{err}graph Graph not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. /* scatter m_coop sizebad if round==1 & supergame==7 */
+{bf}{err}/{sf} is not a valid command name
+{txt}{search r(199), local:r(199);}
+
+{com}. tw ($panelC & pp==1, msymbol(O) mc(gray)) || ($panelC & pp==2, msymbol(Sh) mc(black)) || /*
+{err}variable {bf}m_coop{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. */ ($panelC & pp==3, msymbol(Sh) mc(gray)) || ($panelC & pp==4, msymbol(X) mc(gray)) /*
+
+. */ ($panelC & pp==5, msymbol(O) mc(gs12)) || ($panelC & pp==6, msymbol(Oh) mc(black)) /*
+
+. */ ($panelC & pp==7, msymbol(Dh) mc(gray)) || ($panelC & pp==8, msymbol(S) mc(black)) /*
+
+. */ ($panelC & pp==9, msymbol(D) mc(black)) || ($panelC & pp==10, msymbol(T) mc(black)) /*
+
+. */ ($panelC & pp==11, msymbol(Th) mc(gs12)) || ($panelC & pp==12, msymbol(x) mc(black)) /*
+
+. */ ($panelC & pp==13, msymbol(plus) mc(gs12)) || ($panelC & pp==14, msymbol(plus) mc(black)) /*
+
+. */ ($panelC & pp==15, msymbol(s) mc(gray)) ||, yti("Cooperation Rate") /*
+
+. */ xti("Size basin of AD") subti("RD threshold") ti("Panel C", size(small)  pos(11)) /*
+
+. */ ymtick(0(.2)1) ylabel(0(.2)1) xline(0.5, lc(black)) graphregion(color(white)) bgcolor(white) /*scheme(s2mono)*/ 
+
+. gr save panelC, replace 
+{err}graph Graph not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. 
+. tw ($panelD & pp==1, msymbol(O) mc(gray)) || ($panelD & pp==2, msymbol(Sh) mc(black)) || /*
+{err}/ * is not a twoway plot type
+{txt}{search r(198), local:r(198);}
+
+{com}. */ ($panelD & pp==3, msymbol(Sh) mc(gray)) || ($panelD & pp==4, msymbol(X) mc(gray)) /*
+
+. */ ($panelD & pp==5, msymbol(O) mc(gs12)) || ($panelD & pp==6, msymbol(Oh) mc(black)) /*
+
+. */ ($panelD & pp==7, msymbol(Dh) mc(gray)) || ($panelD & pp==8, msymbol(S) mc(black)) /*
+
+. */ ($panelD & pp==9, msymbol(D) mc(black)) || ($panelD & pp==10, msymbol(T) mc(black)) /*
+
+. */ ($panelD & pp==11, msymbol(Th) mc(gs12)) || ($panelD & pp==12, msymbol(x) mc(black)) /*
+
+. */ ($panelD & pp==13, msymbol(plus) mc(gs12)) || ($panelD & pp==14, msymbol(plus) mc(black)) /*
+
+. */ ($panelD & pp==15, msymbol(s) mc(gray)) ||, legend(order(1 "Andreoni and Miller (1993)" 2 "Aoyagi and Frechette (2009)"  3 "Blonski, Ockenfels, and Spagnolo (2011)" 4 "Bruttel and Kamecke (2012)" 5 "Cooper et al. (1996)" 6 "Dal Bo (2005)" 7 "Dal Bo and Frechette (2011a)" 8 "Dal Bo and Frechette (2015)" 9 "Dal Bo, Foster, Putterman (2010)" 10 "Dreber et al. (2008)" 11 "Duffy and Ochs (2009)" 12 "Frechette and Yuksel (2014)" 13 "Fudenberg, Rand, Dreber (2012)" 14 "Kagel and Schley (2013)" 15 "Sherstyuk, Tarui, Saijo (2013)") cols(1) size(vsmall)  position(3)) /*
+
+. */ yti("Size Basin of AD") /*
+
+. */ xti("{c -(}&delta{c )-} - (g+l)/(1+g+l)") subti("RD threshold") ti("Panel A", size(small) pos(11)) /*
+
+. */ ymtick(0(.2)1) ylabel(0(.2)1) xline(0, lc(black)) graphregion(color(white)) bgcolor(white) 
+
+. graph export  panelD.eps, replace
+{err}no Graph window open
+{txt}{search r(601), local:r(601);}
+
+{com}. 
+. grc1leg "$exp/panelA" "$exp/panelB" "$exp/panelC", legendfrom("$exp/panelA") pos(5) ring(0) graphregion(color(white)) 
+{err}command {bf}grc1leg{sf} is unrecognized
+{txt}{search r(199), local:r(199);}
+
+{com}. gr export DalBoFigure4.eps, replace 
+{err}no Graph window open
+{txt}{search r(601), local:r(601);}
+
+{com}. 
+. clear
+
+. clear
+
+. clear matrix
+
+. set more off
+
+. 
+. import delimited "/Users/marnsbarger/Documents/Pitt/Experimental/AlistairLise/Aug25/Dal_Bo_2016a_data_raw.txt", encoding(ISO-8859-1)
+{res}{text}(19 vars, 157,170 obs)
+
+{com}. gen SPE= g/(1+g)
+
+. gen delta_minus_SPE = delta - SPE
+
+. gen delta_minus_RD = delta - ((g+l)/(1+g+l))
+
+. encode coop, gen(cc) 
+
+. 
+. bysort paper round supergame delta_minus_SPE: egen m_coop = mean(cc)
+
+. 
+. m_coop
+{err}command {bf}m_coop{sf} is unrecognized
+{txt}{search r(199), local:r(199);}
+
+{com}. print m_coop
+{err}{p 0 4 2}
+file m_coop
+not found
+{p_end}
+{txt}{search r(601), local:r(601);}
+
+{com}. 

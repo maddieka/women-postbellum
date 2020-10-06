@@ -22,6 +22,44 @@ ggplot() +
     labs(fill = "Mean number of major battles fought")+ theme(legend.position="bottom")
 ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/map_mainbattlenum_discrete.png", width = 8, height = 6)
 
+full_data_sf$disabled_discrete <- "1001-11024"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 1000] <- "751-1000"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 750] <- "501-750"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 500] <- "251-500"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 250] <- "201-250"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 200] <- "151-200"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 150] <- "101-150"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 100] <- "51-100"
+full_data_sf$disabled_discrete[full_data_sf$disabled <= 50] <- "1-50"
+full_data_sf$disabled_discrete[full_data_sf$disabled == 0] <- "0"
+full_data_sf$disabled_discrete[is.na(full_data_sf$disabled)] <- NA
+
+full_data_sf$disabled_discrete <- factor(full_data_sf$disabled_discrete, levels = c("0","1-50","51-100","101-150","151-200","201-250","251-500","501-750","751-1000","1001-11024"))
+
+
+# full_data_sf$disabled_discrete <- ntile(full_data_sf$disabled, 9)
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 1] <- "0-6"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 2] <- "7-30"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 3] <- "31-54"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 4] <- "55-76"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 5] <- "77-101"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 6] <- "102-141"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 7] <- "142-197"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 8] <- "198-328"
+# full_data_sf$disabled_discrete[full_data_sf$disabled_discrete == 9] <- "329-11024"
+# full_data_sf$disabled_discrete <- factor(x = full_data_sf$disabled_discrete, levels = c("0-6","7-30","31-54","55-76","77-101","102-141","142-197","198-328","329-11024"))
+
+ggplot() +
+    geom_sf(data = full_data_sf %>% filter(!is.na(disabled_discrete)), aes(fill = disabled_discrete), color = "black", size = .2) +
+    scale_fill_viridis(discrete = TRUE, option = "viridis") +
+    #scale_fill_brewer(type = "seq", palette = "YlGnBu") +
+    geom_sf(data = full_data_sf, fill = NA, color = "black", size = .2) +
+    geom_sf(data = union_states_sf, fill = NA, color = "black", size = .5) +
+    theme_void() +
+    labs(fill = "Number of disabled soldiers")#+ theme(legend.position="bottom")
+ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/map_numdisabled_discrete.png", width = 8, height = 4)
+
+
 # This would be a good map if 1860 totpop was available for every county pictured (e.g. Cameron, PA didn't exist in the 1860 Census, so UA data exists for it, but not totpop)
 # full_data_sf$round_pct_disabled <- round(full_data_sf$pct_pop_disabled, 2)
 # ggplot() +

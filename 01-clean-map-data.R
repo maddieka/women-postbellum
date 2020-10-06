@@ -49,7 +49,7 @@ full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by
 full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
 
 # SUBSET TO STATES WITH WCTU DATA FOR WCTU MERGE
-wctu_states <- c("Michigan")
+wctu_states <- c("Pennsylvania","Michigan")
 wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
 #plot(st_geometry(wctu_data_sf))
 
@@ -59,11 +59,15 @@ wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
 # wctu_data <- wctu_data %>% pivot_wider(names_from = year, values_from = count_unions, names_prefix = "count_unions")
 
 # USE THIS CHUNK IF YOU WANT TO USE YES/NO WCTU UNION IN A COUNTY FOR A GIVEN YEAR
-#wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:3]
-wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/michigan_wctu_attempt2.xlsx")
+wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:4]
 wctu_data$name <- gsub("[^[:alnum:]]", "", toupper(wctu_data$county)) # create capitalized version of county names for merge; remove spaces and all non-alphanumeric symbols
 sort(unique(wctu_data$name))
-wctu_data[is.na(wctu_data)] <- 0 # assume if the county is not listed in a particular year's report, the # unions and members == 0
+table(wctu_data$state, wctu_data$year)
+
+wctu_data <- wctu_data %>% filter(year %in% c(1883, 1880)) # SELECT WHICH CROSS-SECTIONS YOU WANT
+
+wctu_data$has_union <- ifelse(wctu_data$count_unions > 0, yes = 1, no = 0)
+
 wctu_data$name <- gsub(pattern = "MACKINACMICHILIM", replacement = "MACKINAC", x = wctu_data$name)
 wctu_data$name <- gsub(pattern = "ALGER", replacement = "SCHOOLCRAFT", x = wctu_data$name) # Alger County was split off from Schoolcraft County in 1885
 wctu_data$name <- gsub(pattern = "BARAGA", replacement = "HOUGHTON", x = wctu_data$name) # Baraga County was split off from Houghton County in 1875
@@ -76,29 +80,16 @@ wctu_data$name <- gsub(pattern = "ISLEROYALE", replacement = "MARQUETTE", x = wc
 wctu_data$name <- gsub(pattern = "LUCE", replacement = "CHIPPEWA", x = wctu_data$name) # Luce County was split off from Chippewa County in 1887
 wctu_data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = wctu_data$name) # Menominee County was split off from Delta County in 1861 (named in 1863)
 
-# Uncomment line if you get the following error: Error in fix.by(by.y, y) : 'by' must specify uniquely valid columns
-# detach(package:plyr)
-
-test <- wctu_data %>%
-    dplyr::group_by(year, state, name) %>%
-    dplyr::summarise(count_unions = sum(count_unions, na.rm = TRUE),
-              total_dues = sum(total_dues, na.rm = TRUE),
-              estimated_membership = sum(estimated_membership, na.rm = TRUE)) %>%
-    ungroup()
-
-wctu_data_sf <- merge(x = wctu_data_sf, y = test, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
-
-# mi_sf <- us_counties(map_date = "2000-01-01", states = "Michigan", resolution = 'high')
+# # Uncomment line if you get the following error: Error in fix.by(by.y, y) : 'by' must specify uniquely valid columns
+# # detach(package:plyr)
 #
-# ggplot() +
-#     geom_sf(data = mi_sf, color = "pink") +
-#     geom_sf_text(data = mi_sf, aes(label = name), size = 2, color = "pink") +
-#     geom_sf(data = union_sf %>% filter(state_name == "Michigan"), fill = NA) +
-#     geom_sf_text(data = union_sf %>% filter(state_name == "Michigan"), aes(label = name), size = 3)
+# test <- wctu_data %>%
+#     dplyr::group_by(year, state, name) %>%
+#     dplyr::summarise(count_unions = sum(count_unions, na.rm = TRUE),
+#               total_dues = sum(total_dues, na.rm = TRUE),
+#               estimated_membership = sum(estimated_membership, na.rm = TRUE)) %>%
+#     ungroup()
 #
-# wctu_data_sf$has_wctu_1882 <- as.numeric(!is.na(wctu_data_sf$county_listed1882))
-# wctu_data_sf$has_wctu_1890 <- as.numeric(!is.na(wctu_data_sf$county_listed1890))
-# wctu_data_sf$has_wctu_1895 <- as.numeric(!is.na(wctu_data_sf$county_listed1895))
-# wctu_data_sf$has_wctu_1896 <- as.numeric(!is.na(wctu_data_sf$county_listed1896))
-# wctu_data_sf$has_wctu_1898 <- as.numeric(!is.na(wctu_data_sf$county_listed1898))
-
+# wctu_data_sf <- merge(x = wctu_data_sf, y = test, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
+wctu_data_sf <- merge(x = wctu_data_sf, y = wctu_data, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
+wctu_data_sf$has_union[is.na(wctu_data_sf$has_union)] <- 0
