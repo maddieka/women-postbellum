@@ -25,8 +25,6 @@ wctu_data_sf$log_mfgcap <- log(wctu_data_sf$mfgcap + 1)
 # wctu_data_sf$denom <- NA
 
 # summary stats table
-wctu_data$has_union <- ifelse(wctu_data$count_unions > 0, yes = 1, no = 0)
-
 star <-
   wctu_data_sf %>%
   select(year, count_unions, estimated_membership,  pct_pop_wounded, pct_pop_regout, pct_pop_soldiers,pct_pop_died,pct_pop_disabled, has_union) %>%
