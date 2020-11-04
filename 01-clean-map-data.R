@@ -24,21 +24,25 @@ union_sf$name <- gsub("[^[:alnum:]]", "", toupper(union_sf$name)) # remove punct
 sort(unique(union_sf$name))
 
 
-# clean data names
+# Since I'm using an 1865 Shapefile, I need to change county names in the merged Union/Census/ICPSR data to reflect the 1865 county names (improve match rate with county shapefile)
+# All Ohio changes took place before 1851
+# All Pennsylvania changes took place 1861 or before
+# All Indiana changes took place 1861 or before
+# Michigan has several county name/boundary changes after 1865
 sort(unique(data$County))
 data$name <- toupper(gsub("[^[:alnum:]]", "", data$County)) # capitalize for merge; remove spaces and all non-alphanumeric symbols
 data$name <- gsub(pattern = "MACKINACMICHILIM", replacement = "MACKINAC", x = data$name)
 data$name <- gsub(pattern = "VERNONBADAX", replacement = "VERNON", x = data$name)
-# data$name <- gsub(pattern = "ALGER", replacement = "SCHOOLCRAFT", x = data$name) # Alger County was split off from Schoolcraft County in 1885
-# data$name <- gsub(pattern = "BARAGA", replacement = "HOUGHTON", x = data$name) # Baraga County was split off from Houghton County in 1875
-# data$name <- gsub(pattern = "ARENAC", replacement = "BAY", x = data$name) # Arenac County was split off from Bay County in 1883
-# data$name <- gsub(pattern = "CHARLEVOIX", replacement = "EMMET", x = data$name) # Charlevoix County was split off from Emmet County in 1869
-# data$name <- gsub(pattern = "DICKINSON", replacement = "MARQUETTE", x = data$name) # Dickinson County was split off from Marquette County in 1891
-# data$name <- gsub(pattern = "GOGEBIC", replacement = "ONTONAGON", x = data$name) # Gogebic County was split off from Ontonagon County in 1887
-# data$name <- gsub(pattern = "IRON", replacement = "MARQUETTE", x = data$name) # Iron County was split off from Marquette County in 1890
-# data$name <- gsub(pattern = "ISLEROYALE", replacement = "MARQUETTE", x = data$name) # Isle Royale County was split off from Keweenaw County in 1875 (later reincorporated in 1897)
-# data$name <- gsub(pattern = "LUCE", replacement = "CHIPPEWA", x = data$name) # Luce County was split off from Chippewa County in 1887
-# data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = data$name) # Menominee County was split off from Delta County in 1861 (named in 1863)
+data$name <- gsub(pattern = "ALGER", replacement = "SCHOOLCRAFT", x = data$name) # Alger County was split off from Schoolcraft County in 1885
+data$name <- gsub(pattern = "BARAGA", replacement = "HOUGHTON", x = data$name) # Baraga County was split off from Houghton County in 1875
+data$name <- gsub(pattern = "ARENAC", replacement = "BAY", x = data$name) # Arenac County was split off from Bay County in 1883
+data$name <- gsub(pattern = "CHARLEVOIX", replacement = "EMMET", x = data$name) # Charlevoix County was split off from Emmet County in 1869
+data$name <- gsub(pattern = "DICKINSON", replacement = "MARQUETTE", x = data$name) # Dickinson County was split off from Marquette County in 1891
+data$name <- gsub(pattern = "GOGEBIC", replacement = "ONTONAGON", x = data$name) # Gogebic County was split off from Ontonagon County in 1887
+data$name <- gsub(pattern = "IRON", replacement = "MARQUETTE", x = data$name) # Iron County was split off from Marquette County in 1890
+data$name <- gsub(pattern = "ISLEROYALE", replacement = "MARQUETTE", x = data$name) # Isle Royale County was split off from Keweenaw County in 1875 (later reincorporated in 1897)
+data$name <- gsub(pattern = "LUCE", replacement = "CHIPPEWA", x = data$name) # Luce County was split off from Chippewa County in 1887
+data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = data$name) # Menominee County was split off from Delta County in 1861 (named in 1863)
 sort(unique(data$name))
 
 # merge with data
@@ -48,27 +52,21 @@ full_data_sf <- merge(x = union_sf, y = data, by.x = c("name", "state_terr"), by
 # additional spatial variables to include
 full_data_sf$pop_per_sqmi860 <- full_data_sf$totpop / full_data_sf$area_sqmi
 
-# SUBSET TO STATES WITH WCTU DATA FOR WCTU MERGE
+# prep for merge with WCTU data
 wctu_states <- c("Pennsylvania","Michigan","Ohio","Indiana")
 wctu_data_sf <- full_data_sf %>% filter(state_terr %in% wctu_states)
 #plot(st_geometry(wctu_data_sf))
 
-# USE THIS CHUNK IF YOU WANT TO USE COUNT_UNIONS AS THE OUTCOME VARIABLE
-# wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:4]
-# wctu_data$name <- gsub(" ", "", toupper(wctu_data$county)) # create capitalized version of county names for merge; remove spaces
-# wctu_data <- wctu_data %>% pivot_wider(names_from = year, values_from = count_unions, names_prefix = "count_unions")
-
-# USE THIS CHUNK IF YOU WANT TO USE YES/NO WCTU UNION IN A COUNTY FOR A GIVEN YEAR
+#
 wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_county_level.xlsx")[,1:4]
 wctu_data$name <- gsub("[^[:alnum:]]", "", toupper(wctu_data$county)) # create capitalized version of county names for merge; remove spaces and all non-alphanumeric symbols
-wctu_data$count_unions[is.na(wctu_data$count_unions)] <- 0
+wctu_data$count_unions[is.na(wctu_data$count_unions)] <- 0 # if no membership data, assume zero unions in this county
 wctu_data$has_union <- ifelse(wctu_data$count_unions > 0, yes = 1, no = 0)
 
 table(wctu_data$state, wctu_data$year)
+wctu_data <- wctu_data %>% filter(year %in% c(1875, 1880, 1882)) # SELECT WHICH CROSS-SECTIONS YOU WANT (earliest year available for MI, PA, IN, and OH)
 
-wctu_data <- wctu_data %>% filter(year %in% c(1875, 1880, 1882)) # SELECT WHICH CROSS-SECTIONS YOU WANT
-
-
+# improve wctu and union data match rate by renaming Michigan counties for their names in 1865.
 wctu_data$name <- gsub(pattern = "MACKINACMICHILIM", replacement = "MACKINAC", x = wctu_data$name)
 wctu_data$name <- gsub(pattern = "ALGER", replacement = "SCHOOLCRAFT", x = wctu_data$name) # Alger County was split off from Schoolcraft County in 1885
 wctu_data$name <- gsub(pattern = "BARAGA", replacement = "HOUGHTON", x = wctu_data$name) # Baraga County was split off from Houghton County in 1875
@@ -93,3 +91,4 @@ wctu_data$name <- gsub(pattern = "MENOMINEE", replacement = "DELTA", x = wctu_da
 #
 # wctu_data_sf <- merge(x = wctu_data_sf, y = test, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
 wctu_data_sf <- merge(x = wctu_data_sf, y = wctu_data, by.x = c("state_terr", "name"), by.y = c("state", "name"), all = TRUE)
+wctu_data_sf$has_union[is.na(wctu_data_sf$has_union)] <- 0

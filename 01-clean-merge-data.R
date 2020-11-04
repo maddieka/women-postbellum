@@ -22,7 +22,7 @@ source("~/git/women-postbellum/01-clean-ipums-data.R")
 data <- merge(x = union, y = icpsr1860, by.x = c("county_icpsr", "state_icpsr"), by.y = c("county", "state"), all.x = TRUE)
 
 # merge union data with crosswalk
-data <- merge(y = data, x = crosswalk, by.y = c("county_icpsr", "state_icpsr"), by.x = c("COUNTYICP", "STATEICP"), all.y = TRUE)
+data <- merge(x = crosswalk, y = data, by.y = c("county_icpsr", "state_icpsr"), by.x = c("COUNTYICP", "STATEICP"), all.y = TRUE)
 
 # merge ipums data so that county-level LFPs are included
 data <- merge(x = data, y = ipums_wider, by = c("COUNTYICP", "STATEICP"), all.y = TRUE)
@@ -65,7 +65,6 @@ data$pct_pop_desertedx100 <- data$pct_pop_deserted*100
 data$pct_pop_regoutx100 <- data$pct_pop_regout*100
 
 # discretize mainbattlenum (average number of major battles fought by soldiers from that county)
-#plot(density(data$mainbattlenum))
 data$mainbattlenum_discrete <- NA
 data$mainbattlenum_discrete[data$mainbattlenum < 0.5] <- "[0, 0.5)"
 data$mainbattlenum_discrete[data$mainbattlenum >= 0.5 & data$mainbattlenum < 1] <- "[0.5, 1.0)"
