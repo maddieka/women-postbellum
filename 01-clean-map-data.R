@@ -34,4 +34,5 @@ ggplot(union_sf) + geom_sf(aes(fill = mainbattlenum_discrete)) #+ geom_sf_text(a
 # additional spatial variables to include
 union_sf$pop_per_sqmi860 <- union_sf$totpop / union_sf$area_sqmi
 
-
+# sample states only
+sample_sf <- union_sf %>% filter(state_terr %in% c("Michigan", "Indiana", "Pennsylvania", "Ohio"))

@@ -1,4 +1,4 @@
-# creating county-level data for union soldiers and county characteristics
+# creating county-level data for union soldiers, wctu, and county characteristics
 
 # load libraries and settings
 library(haven) # read_dta()
@@ -82,6 +82,8 @@ data$pct_urb860 <- data$urb860 / data$totpop
 data$pct_urb860x100 <- (data$urb860 / data$totpop)*100
 data$pct_urb25 <- data$urb25 / data$totpop
 data$pct_urb25x100 <- (data$urb25 / data$totpop)*100
+data$churches_per_capita <- data$churches / data$totpop
+data$pct_urb860x100 <- data$pct_urb860*100
 
 # add some other soldier groupings/definitions
 data$disabwound <- data$disabled + data$wounded

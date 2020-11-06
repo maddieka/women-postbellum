@@ -17,80 +17,58 @@ options(scipen=999) # prevent scientific notation
 source("~/git/women-postbellum/01-clean-map-data.R")
 
 wctu_data_sf$year <- as.factor(wctu_data_sf$year)
-wctu_data_sf$log_mbshp <- log(wctu_data_sf$estimated_membership + 1)
-wctu_data_sf$Total_count_1860 <- wctu_data_sf$Female_count_1860 + wctu_data_sf$Male_count_1860
 wctu_data_sf$log_farmval <- log(wctu_data_sf$farmval + 1)
 wctu_data_sf$log_mfgcap <- log(wctu_data_sf$mfgcap + 1)
+
 # wctu_data_sf$mbmshp_per10k <- NA
 # wctu_data_sf$denom <- NA
 
-# summary stats table
-star <-
-  wctu_data_sf %>%
-  select(year, count_unions, estimated_membership,  pct_pop_wounded, pct_pop_regout, pct_pop_soldiers,pct_pop_died,pct_pop_disabled, has_union) %>%
-  group_by(year) %>%
-  mutate(id = 1:n()) %>%
-  ungroup() %>%
-  gather(temp, val, count_unions, pct_pop_disabled, pct_pop_wounded, pct_pop_regout, pct_pop_soldiers,pct_pop_died, estimated_membership, has_union) %>%
-  unite(temp1, temp, year, sep = '_') %>%
-  spread(temp1, val) %>%
-  select(-id) %>%
-  as.data.frame() %>%
-  stargazer(summary.stat = c("n", "mean", "sd", "min", "median", "max"),
-            label = "tab:wctu_summary_stats",
-            title = "Summary Statistics",
-            #digits = 2,
-            covariate.labels = c("Count unions, 1882","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-                                 "Estimated membership, 1882","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-                                 "Has a union, 1882","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-                                 "Percent died","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-                                 "Percent disabled","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-                                 "Percent exited regularly","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-                                 "Percent enlisted","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-                                 "Percent wounded","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898")
-  )
-star <- gsub(x = star, pattern = ".000", replacement = "")
-star <- star[c(1:26,32,27,47,42,37,52:54)]
-cat(star, sep = "\n")
-
-# wctu_data %>%
-#   select(year, count_unions, estimated_membership, total_dues, has_union) %>%
+### summary stats table - NEEDS ADJUSTMENT FOR NEW DATA SCHEME
+# star <-
+#   wctu_data_sf %>%
+#   select(year, count_unions, estimated_membership,  pct_pop_wounded, pct_pop_regout, pct_pop_soldiers,pct_pop_died,pct_pop_disabled, has_union) %>%
 #   group_by(year) %>%
 #   mutate(id = 1:n()) %>%
 #   ungroup() %>%
-#   gather(temp, val, count_unions, total_dues, estimated_membership, has_union) %>%
+#   gather(temp, val, count_unions, pct_pop_disabled, pct_pop_wounded, pct_pop_regout, pct_pop_soldiers,pct_pop_died, estimated_membership, has_union) %>%
 #   unite(temp1, temp, year, sep = '_') %>%
 #   spread(temp1, val) %>%
 #   select(-id) %>%
 #   as.data.frame() %>%
-#   stargazer(type = "text",
-#             summary.stat = c("n", "mean", "sd", "min", "median", "max"),
+#   stargazer(summary.stat = c("n", "mean", "sd", "min", "median", "max"),
 #             label = "tab:wctu_summary_stats",
-#             title = "Summary Statistics for the Annual Treasurer's Reports of the Michigan WCTU",
+#             title = "Summary Statistics",
+#             #digits = 2,
 #             covariate.labels = c("Count unions, 1882","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
 #                                  "Estimated membership, 1882","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
 #                                  "Has a union, 1882","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
-#                                  "Dues collected, 1882","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898")
+#                                  "Percent died","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
+#                                  "Percent disabled","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
+#                                  "Percent exited regularly","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
+#                                  "Percent enlisted","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898",
+#                                  "Percent wounded","\\hspace{.5cm}1890","\\hspace{.5cm}1895","\\hspace{.5cm}1896","\\hspace{.5cm}1898")
 #   )
+# star <- gsub(x = star, pattern = ".000", replacement = "")
+# star <- star[c(1:26,32,27,47,42,37,52:54)]
+# cat(star, sep = "\n")
 
-mean(wctu_data_sf$has_union[wctu_data_sf$year == 1882], na.rm = TRUE)
 ggplot(wctu_data_sf %>% filter(!is.na(year))) + geom_sf(aes(fill = as.factor(has_union)), size = .2, color = "black") + facet_wrap(~ year, nrow = 1) + theme_void() + scale_fill_brewer(palette = "Paired") + labs(fill = "Has WCTU Union",subtitle = "") + theme(legend.position = "bottom", text = element_text(size = 12))
-ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/original_data.png", width = 8, height = 3)
+# ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/original_data.png", width = 8, height = 3)
 
 # Main table ####
 lm1.1i <- lm(has_union ~ pct_pop_disabledx100 + year , wctu_data_sf) # baseline model
 robust_se1i <- sqrt(diag(vcovHC(lm1.1i, type = "HC1"))) # calculate robust se
 
-lm1.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year , wctu_data_sf)
+lm1.2i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + year + log_totpop, wctu_data_sf)
 robust_se2i <- sqrt(diag(vcovHC(lm1.2i, type = "HC1")))
 
-lm1.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year , wctu_data_sf)
+lm1.3i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + year + log_totpop, wctu_data_sf)
 robust_se3i <- sqrt(diag(vcovHC(lm1.3i, type = "HC1")))
 
-lm1.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year , wctu_data_sf)
+lm1.4i <- lm(has_union ~ pct_pop_disabledx100 + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + year + log_totpop, wctu_data_sf)
 robust_se4i <- sqrt(diag(vcovHC(lm1.4i, type = "HC1")))
 
-lm1.5i <- lm(has_union ~ pct_pop_disabledx100 + year , wctu_data_sf)
+lm1.5i <- lm(has_union ~ pct_pop_disabledx100  + pct_pop_regoutx100 + pct_pop_woundedx100 + pct_pop_diedx100 + pct_pop_soldiersx100 + year + log_totpop, wctu_data_sf)
 robust_se5i <- sqrt(diag(vcovHC(lm1.5i, type = "HC1")))
 
 stargazer(type = "text",
