@@ -3,6 +3,7 @@
 # load libraries and settings
 library(haven) # read_dta()
 library(dplyr)
+library(readxl)
 options(scipen=999) # prevent scientific notation
 
 #### import data ####
@@ -13,7 +14,7 @@ union <- union[!is.na(union$county_icpsr), ] # remove NA county icpsr (i think s
 # county crosswalk
 crosswalk <- read.csv("~/Documents/Pitt/Projects/women_civil_war/data/ICPSR_county_crosswalk.csv")[,1:5]
 # icpsr 1860 county characteristics -- NEED TO ADD MORE YEARS THAN JUST 1860
-variables <- c("state","county","name","totpop","urb860","urb25","wmtot","wftot","farmval","homemfg","mfgestab","mfgcap","mfglabm","mfglabf","level","fips","statefip",
+variables <- c("state","county","name","totpop","urb860","urb25","wmtot","wftot","farmval","homemfg","mfgestab","mfgcap","mfglabm","mfglabf","level","fips","statefip","fbfree","acimp","acunimp","persest","fctot",
                "equipval", "homemfg","farm39","farm1019" ,"farm2049", "farm5099", "farm100","farm500","farm1000", "mfgestab" ,"mfgcap","mfgout","realest","churches", "water","rail","fbwtot","mfglabf","quaker","quakacc","germref","germracc","shaker","shakacc")
 icpsr1860 <- read_dta(file = "~/Documents/Pitt/Projects/women_civil_war/data/ICPSR_02896/DS0009/02896-0009-Data.dta")[,variables]
 icpsr1860 <- icpsr1860[icpsr1860$level == 1,] # level == 1 for county, 2 for state, and 3 for whole country
@@ -26,22 +27,28 @@ wctu_data <- read_excel("~/Documents/Pitt/Projects/women_civil_war/data/wctu_cou
 table(wctu_data$state, wctu_data$year)
 wctu_data <- wctu_data %>% filter(year %in% c(1875, 1880, 1882)) # SELECT WHICH CROSS-SECTIONS YOU WANT (earliest year available for MI, PA, IN, and OH)
 
+# WCTU 1882 county names so accurately match the ICPSR 1860 county names. Rows with name changes AFTER the WCTU cross-section are commented out, or not coded.
+# Source for changes: union_sf shapefile in 01-clean-map-data.R
+# Michigan
 wctu_data$key <- gsub("[^[:alnum:]]", "", wctu_data$county) # remove all spaces and non-alphanumeric symbols (mainly targeting "Mackinac/Michilim")
-wctu_data$key <- gsub(pattern = "Alger", replacement = "Schoolcraft", x = wctu_data$key) # Alger County was split off from Schoolcraft County in 1885
+# wctu_data$key <- gsub(pattern = "Alger", replacement = "Schoolcraft", x = wctu_data$key) # Alger County was split off from Schoolcraft County in 1885
 wctu_data$key <- gsub(pattern = "Baraga", replacement = "Houghton", x = wctu_data$key) # Baraga County was split off from Houghton County in 1875
-wctu_data$key <- gsub(pattern = "Arenac", replacement = "Bay", x = wctu_data$key) # Arenac County was split off from Bay County in 1883
+# wctu_data$key <- gsub(pattern = "Arenac", replacement = "Bay", x = wctu_data$key) # Arenac County was split off from Bay County in 1883
 wctu_data$key <- gsub(pattern = "Charlevoix", replacement = "Emmet", x = wctu_data$key) # Charlevoix County was split off from Emmet County in 1869
-wctu_data$key <- gsub(pattern = "Dickinson", replacement = "Marquette", x = wctu_data$key) # Dickinson County was split off from Marquette County in 1891
-wctu_data$key <- gsub(pattern = "Gogebic", replacement = "Ontonagon", x = wctu_data$key) # Gogebic County was split off from Ontonagon County in 1887
-wctu_data$key <- gsub(pattern = "Iron", replacement = "Marquette", x = wctu_data$key) # Iron County was split off from Marquette County in 1890
+# wctu_data$key <- gsub(pattern = "Dickinson", replacement = "Marquette", x = wctu_data$key) # Dickinson County was split off from Marquette County in 1891
+# wctu_data$key <- gsub(pattern = "Gogebic", replacement = "Ontonagon", x = wctu_data$key) # Gogebic County was split off from Ontonagon County in 1887
+# wctu_data$key <- gsub(pattern = "Iron", replacement = "Marquette", x = wctu_data$key) # Iron County was split off from Marquette County in 1890
 wctu_data$key <- gsub(pattern = "IsleRoyale", replacement = "Marquette", x = wctu_data$key) # Isle Royale County was split off from Keweenaw County in 1875 (later reincorporated in 1897)
-wctu_data$key <- gsub(pattern = "Luce", replacement = "Chippewa", x = wctu_data$key) # Luce County was split off from Chippewa County in 1887
+# wctu_data$key <- gsub(pattern = "Luce", replacement = "Chippewa", x = wctu_data$key) # Luce County was split off from Chippewa County in 1887
 wctu_data$key <- gsub(pattern = "Menominee", replacement = "Delta", x = wctu_data$key) # Menominee County was split off from Delta County in 1861 (named in 1863)
+# Pennsylvania - none
+# Indiana - none
+# Ohio - none
 
 wctu_data$count_unions[is.na(wctu_data$count_unions)] <- 0 # if no membership data, assume zero unions in this county
 
 wctu_data <- wctu_data %>%
-  group_by(year, state, key) %>%
+  group_by(year, state, key) %>% # key is county
   summarise(count_unions = sum(count_unions, na.rm = TRUE)) %>% # e.g. Alger and Schoolcraft both have WCTU data, but during the Civil War, both of these were 1 county. Sum up chapters by Civil War geography
   ungroup()
 
