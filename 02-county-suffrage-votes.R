@@ -18,7 +18,7 @@ source("~/git/women-postbellum/01-clean-map-data.R")
 union_congress_sf <- st_read("~/Documents/Pitt/Projects/women_civil_war/data/districtShapes/districts063.shp")
 #ggplot(union_congress_sf) + geom_sf()
 
-# change CRS projection to match full_data_sf
+# change CRS projection to match union_sf
 cd_1920 <- us_congressional(states = union_states, resolution = "low")
 union_congress_sf_crs <- st_transform(union_congress_sf, crs = st_crs(cd_1920)) %>% st_intersection(., cd_1920)
 # only keep union states
@@ -41,14 +41,14 @@ vote_data_sf <- vote_data_sf[!is.na(vote_data_sf$vote_binary),]
 
 ggplot() +
     geom_sf(data = vote_data_sf, aes(fill = as.factor(vote_binary)), size = .5, color = "black", linetype = "solid") +
-    geom_sf(data = full_data_sf, fill = NA, color = "black", size = .2, linetype = "dotted") +
+    geom_sf(data = union_sf, fill = NA, color = "black", size = .2, linetype = "dotted") +
     labs(fill = "Vote", title = "Congressional Votes for the 19th Amendment", subtitle = "Votes by 1920 Congressional Districts (solid) and 1865 counties (dotted)") +
     scale_fill_manual(values = c("#c6dbef", "#08519c"), labels = c("Nay or abstain", "Yea")) +
     theme_void()
 ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/suffrage_map-counties_over_cd.png", width = 8, height = 6)
 
 # for counties straddling two districts, assign a % vote for Yea between those districts based on county area contained in each:
-a1 <- st_interpolate_aw(x = st_make_valid(vote_data_sf)["vote_binary"], to = full_data_sf, extensive = FALSE)
+a1 <- st_interpolate_aw(x = st_make_valid(vote_data_sf)["vote_binary"], to = union_sf, extensive = FALSE)
 # sum(a1$vote_binary, na.rm = TRUE) / sum(simple_union_congress_sf$vote_binary, na.rm = TRUE)
 summary(a1$vote_binary)
 ggplot(a1) + geom_sf(aes(fill = vote_binary)) + theme_void() + scale_fill_viridis()
@@ -64,8 +64,8 @@ ggsave("~/Documents/Pitt/Projects/women_civil_war/figures/suffrage_map-votes_by_
 
 # again, but JUST michigan
 vote_data_sf_mi <- vote_data_sf %>% filter(STATENAME == "Michigan")
-full_data_sf_mi <- full_data_sf %>% filter(state_terr == "Michigan")
-a1_mi <- st_interpolate_aw(x = st_make_valid(vote_data_sf_mi)["vote_binary"], to = full_data_sf_mi, extensive = FALSE)
+union_sf_mi <- union_sf %>% filter(state_terr == "Michigan")
+a1_mi <- st_interpolate_aw(x = st_make_valid(vote_data_sf_mi)["vote_binary"], to = union_sf_mi, extensive = FALSE)
 ggplot(a1_mi) + geom_sf(aes(fill = vote_binary)) + theme_void() + scale_fill_viridis()
 
 wctu_mi_1895 <- wctu_data_sf %>% filter(year == 1895)
